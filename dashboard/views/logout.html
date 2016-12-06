@@ -1,0 +1,22 @@
+
+<div class="bi-login bi-logout">
+	<div>
+		<header><i class="fa fa-3x fa-sign-out"></i> {{_BI_SIGNED_OUT}}</header>
+
+		<div class="bi-form">
+            <p>
+                {{_BI_SIGNED_OUT_FROM}}
+                <span data-biz-bind="remote" style="display:none;">{{_BI_SERVER_REMOTE}}.</span>
+                <span data-biz-bind="local" style="display:none;">{{_BI_SERVER_LOCAL}}.</span>
+            </p><p>
+                {{_BI_REDIRECTION_IN}} <span data-biz-bind="count"></span>s...
+            </p>
+		</div>
+
+        <footer data-biz-bind="message">
+
+            <!--<span data-invalid="[your_alias]">[your_message]</span>-->
+
+        </footer>
+	</div>
+</div>

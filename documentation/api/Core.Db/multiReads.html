@@ -1,0 +1,39 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Db.multiReads,<br /> Bi.Core.Db.multiReadsArray</h1>
+
+<pre><code class="language-javascript">var db = new Bi.Core.Db();</code></pre>
+
+<p>Crée une instance de Db.</p>
+
+<pre><code class="language-javascript">db.multiReads(data1[, data2[, ...[, dataN [, useCache]]]]);</code></pre>
+
+<p>
+    Exécute des lots de requêtes dans différentes bases de données.<br />
+    L'intérêt de cette méthode réside dans le fait que les requêtes sont regroupées par base de données, tous lots confondus.<br />
+    Le dernier paramètre de la fonction, s'il est de type boolean, définie la valeur du paramètre <code>useCache</code> à appliquer pour tous les lots.
+</p><p>
+    Chaque paramètre <code>dataN</code> accepte plusieurs signatures, dont voici des exemples :
+</p>
+
+<pre><code class="language-javascript">'select * from BiRepo_Version' // 1 query in 'olap' database (object returned)
+['select * from BiRepo_Version'] // 1 query in 'olap' database (array of object returned)
+['select * from BiRepo_Version', 'select * from BiRepo_Culture'] // 2 queries in 'olap' database
+[{ query: 'select * from BiRepo_Version' }] // 1 query in 'olap' database
+[{ query: 'select * from BiRepo_Version', dbName: 'olap' }] // 1 query in 'olap' database
+[{ query: 'select * from BiRepo_Version' }, { query: 'select * from BiInfo', dbName: 'olapdata' }] // 2 queries in 'olap' and 'olapdata' databases
+</code></pre>
+
+<pre><code class="language-javascript">db.multiReadsArray(dataArray[, useCache]);</code></pre>
+
+<p>
+    Exécute des lots de requêtes dans différentes bases de données.<br />
+    La seule différence avec la méthode <code>.multiReads</code> est que les paramètres <code>dataN</code> doivent être renseignés à l'intérieur du tableau fourni en premier paramètre de <code>.multiReadsArray</code>. 
+</p>
+
+</div>
+
+<!-- bidoc-text -->

@@ -1,0 +1,75 @@
+
+/* tool.PivotTable.js */
+
+table.bi-pivot-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.bi-pivot-table td, .bi-pivot-table th {
+    border: 1px solid #ddd;
+    border-width: 0 0 0 1px;
+}
+.bi-pivot-table td {
+    padding: 3px; /* add border-spacing:2px; to get total padding:5px; same as <th> */
+    vertical-align: top;
+    text-align: center;
+}
+.bi-pivot-table th {
+    padding: 5px;
+    background-color: #EDF5FD;
+    font-weight: normal;
+    color: #333;
+}
+.bi-pivot-table tr.odd {
+    background-color: #eee;
+}
+.bi-pivot-table tr:hover {
+    background-color: #e0e0e0;
+}
+th.bi-pivot-table-first {
+    background-color: #e5f2fe;
+    border-bottom-width: 1px;
+    border-left-width: 0;
+}
+th.bi-pivot-table-cols {
+    border-bottom-width: 1px;
+    background: -webkit-linear-gradient(bottom, #e5f2fe, #EDF5FD);
+}
+th.bi-pivot-table-rows {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-left-width: 0;
+    background: -webkit-linear-gradient(right, #e5f2fe, #EDF5FD);
+    text-align: left;
+}
+th.bi-pivot-table-total {
+    font-style: italic;
+    color: #4478A1;
+    background-color: #eee !important;
+}
+th.bi-pivot-table-cols.bi-pivot-table-total {
+    background: -webkit-linear-gradient(right, #ddd, #eee);
+}
+th.bi-pivot-table-rows.bi-pivot-table-total {
+    background: -webkit-linear-gradient(bottom, #ddd, #eee);
+}
+.bi-pivot-table-indicator-wrapper {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+.bi-pivot-table-indicator {
+    display: table-cell;
+    vertical-align: top;
+    border: 1px solid #d5d5d5;
+    border-width: 0 1px 1px 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.bi-pivot-table-indicator-empty {
+    border: none !important;
+}

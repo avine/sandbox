@@ -1,0 +1,71 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.extendAsync,<br /> Bi.Core.extendProto,<br /> Bi.Core.extendStatic</h1>
+
+<pre><code class="language-javascript">.extendAsync({ name1: fn1[, name2: fn2[, ...]] });
+.extendAsync(name, fn);</code></pre>
+
+<p>Etend le prototype de la classe <code>Core</code> avec des méthodes asynchrones.
+	Les fonctions <code>fn</code> sont encapsulées dans la méthode <code>.then</code> et ajoutées à l'objet prototype <code>Core.prototype</code>.</p>
+
+<hr />
+
+<pre><code class="language-javascript">.extendProto({ name1: fn1[, name2: fn2[, ...]] });
+.extendProto(name, fn);</code></pre>
+
+<p>Etend le prototype de la classe <code>Core</code> avec des méthodes synchrones.
+	Les fonctions <code>fn</code> sont simplement ajoutées à l'objet prototype <code>Core.prototype</code>.</p>
+
+<hr />
+
+<pre><code class="language-javascript">.extendStatic({ name1: fn1[, name2: fn2[, ...]] });
+.extendStatic(name, fn);</code></pre>
+
+<p>Ajoute simplement les fonctions <code>fn</code> (ou tout autre type de données) comme propriétés de la classe <code>Core</code>.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".extendAsync, .extendProto, .extendStatic", function (assert) {
+
+        var _testDone = assert.async();
+
+        Bi.Core.extendAsync('testAsyncIncrease', function (count) {
+            setTimeout(function () { this.done(count + 1); }.bind(this), 1000);
+        });
+
+        Bi.Core.extendProto('testProtoIncrease', function (count) {
+            this.testResultProto = count + 1
+        });
+
+        Bi.Core.extendStatic('testStaticIncrease', function (count) {
+            return count + 1;
+        });
+
+        var testResultStatic = Bi.Core.testStaticIncrease(99);
+        
+        var core = new Bi.Core();
+
+        core.testProtoIncrease(99);
+
+        core.testAsyncIncrease(99).queue(function (testAsyncResult) {
+
+            assert.ok(
+                100 == testResultStatic &&
+                100 == this.testResultProto &&
+                100 == testAsyncResult
+            );
+            _testDone();
+        });
+
+    });
+
+</script>

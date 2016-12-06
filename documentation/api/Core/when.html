@@ -1,0 +1,55 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.when</h1>
+
+<pre><code class="language-javascript">.when(core1[, core2[, ...[, coreN]]]);</code></pre>
+
+<p>Exécute en parallèle les piles d'appels distinctes des instances <code>coreN</code>, avant de passer à la prochaine fonction de rappel enregistrée.</p>
+<p class="msg-info"><code>.when</code> doit être appelée au même niveau que la méthode <code>.then</code> ou équivalente.</p>
+<p>Techniquement, la méthode <code>.when</code> invoque immédiatement la méthode <code>.stop</code> sur chaque paramètre <code>CoreN</code>, afin de différer le début de son exécution.
+	Elle ajoute également une fonction de rappel dans la pile dont l'effet sera de lancer l'exécution des piles <code>CoreN</code> avec la méthode <code>.restart</code>.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".when", function (assert) {
+
+        var _testDone = assert.async(), _logs = [];
+
+        var c1 = new Bi.Core(),
+            c2 = new Bi.Core(),
+            c3 = new Bi.Core();
+
+        new Bi.Core().then(function () {
+            _logs.push('Begin');
+            this.done();
+            
+        }).when(
+            c1.then(function () {
+                setTimeout(function () { _logs.push('Second'); c1.done(); }, 200);
+            }),
+            c2.then(function () {
+                setTimeout(function () { _logs.push('First'); c2.done(); }, 100);
+            }),
+            c3.then(function () {
+                setTimeout(function () { _logs.push('Third'); c3.done(); }, 300);
+            })
+        ).then(function () {
+            _logs.push('End');
+            this.done();
+
+            assert.deepEqual(_logs, ['Begin', 'First', 'Second', 'Third', 'End']);
+            _testDone();
+        });
+
+    });
+
+</script>

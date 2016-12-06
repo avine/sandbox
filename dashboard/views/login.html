@@ -1,0 +1,64 @@
+
+<div class="bi-login">
+	<div>
+		<header class="bi-login-animation"><i class="fa fa-sign-in"></i> {{_BI_APPLICATION_NAME}}</header>
+
+		<form method="post" action="#" class="bi-form" data-biz-bind="form">
+			<div class="bi-login-username">
+                    
+                <label for="biz-username-local">{{_BI_USER_LOGIN}}</label>
+    			<div class="bi-form-select"><select id="biz-username-local" name="username-local" data-biz-bind="usernameLocal"></select></div>
+                
+            </div><div>
+
+                <label for="biz-username-remote">{{_BI_USER_LOGIN}}</label>
+				<input id="biz-username-remote" name="username-remote" type="text" data-biz-bind="usernameRemote" />
+
+            </div><div>
+
+				<label for="biz-password"><span class="bi-login-password-def">{{_BI_USER_PASSWORD}}</span><b class="bi-login-password-alt">{{_BI_USER_PASSWORD_OLD}}</b></label>
+				<input id="biz-password" name="password" type="password" data-biz-bind="password" />
+
+			</div><div class="bi-login-password-alt">
+
+				<label for="biz-password-new"><b>{{_BI_USER_PASSWORD_NEW}}</b></label>
+				<input id="biz-password-new" name="password-new" type="password" data-biz-bind="passwordNew" />
+
+			</div><div class="bi-login-password-alt">
+
+				<label for="biz-password-new-confirm"><b>{{_BI_USER_PASSWORD_NEW_CONFIRM}}</b></label>
+				<input id="biz-password-new-confirm" name="password-new-confirm" type="password" data-biz-bind="passwordNewConfirm" />
+
+			</div><div>
+
+				<label for="biz-language">{{_BI_LANGUAGE}}</label>
+                <div class="bi-form-select"><select id="biz-language" name="language" data-biz-bind="language"></select></div>
+
+            </div><div data-biz-bind="modeWrapper">
+
+				<label for="biz-mode">{{_BI_MODE}}</label>
+				<div class="bi-form-select"><select id="biz-mode" name="mode" data-biz-bind="mode">
+					<option value="remote" data-biz-bind="modeRemote">{{_BI_MODE_ONLINE}}</option>
+					<option value="local" data-biz-bind="modeLocal">{{_BI_MODE_OFFLINE}}</option>
+				</select></div>
+
+			</div><div>
+
+				<label for="biz-submit"></label>
+				<input id="biz-submit" name="submit" type="submit" value="{{_BI_SIGN_IN}}" data-biz-bind="submit" />
+
+			</div>
+		</form>
+
+        <div class="bi-login-password-change">
+            <a href="#" data-biz-bind="changePassword">{{_BI_USER_PASSWORD_CHANGE}} <i class="fa fa-random"></i></a>
+        </div>
+
+		<footer data-biz-bind="message">
+			<span data-invalid="connection"><i class="fa fa-warning"></i> {{_BI_INTERNET_CONNECTION_UNAVAILABLE}}</span>
+			<span data-invalid="credentials"><i class="fa fa-warning"></i> {{_BI_USER_INVALID_CREDENTIALS}}</span>
+			<span data-invalid="passwordNew"><i class="fa fa-warning"></i> {{_BI_USER_PASSWORD_NEW_MISSING}}</span>
+			<span data-invalid="passwordNewConfirm"><i class="fa fa-warning"></i> {{_BI_USER_PASSWORD_NEW_CONFIRM_NOT_MATCH}}</span>
+		</footer>
+	</div>
+</div>

@@ -1,0 +1,54 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.doneWhen</h1>
+
+<pre><code class="language-javascript">.doneWhen(core1[, core2[, ...[, coreN]]]);</code></pre>
+
+<p>Invoque la méthode <code>.done</code> une fois que toutes les piles d'appels des instances <code>coreN</code> sont vides.
+	Typiquement, cette méthode permet d'exécuter des piles d'appels distinctes en parallèle.</p>
+<p class="bidoc-tip"><code>.doneWhen</code> doit être appelée depuis une fonction de rappel et à la place de la méthode <code>.done</code> ou équivalente.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".doneWhen", function (assert) {
+
+        var _testDone = assert.async(), _logs = [];
+
+        new Bi.Core().then(function () {
+            _logs.push('Begin');
+            var c1 = new Bi.Core(),
+                c2 = new Bi.Core(),
+                c3 = new Bi.Core();
+            
+            this.doneWhen(
+                c1.then(function () {
+                    setTimeout(function () { _logs.push('Second'); c1.done(); }, 200);
+                }),
+                c2.then(function () {
+                    setTimeout(function () { _logs.push('First'); c2.done(); }, 100);
+                }),
+                c3.then(function () {
+                    setTimeout(function () { _logs.push('Third'); c3.done(); }, 300);
+                })
+            );
+
+        }).then(function () {
+            _logs.push('End');
+            this.done();
+
+            assert.deepEqual(_logs, ['Begin', 'First', 'Second', 'Third', 'End']);
+            _testDone();
+        });
+
+    });
+
+</script>

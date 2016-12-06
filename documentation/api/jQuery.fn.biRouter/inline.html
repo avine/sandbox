@@ -1,0 +1,75 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biRouter - Affichage "inline"</h1>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-pages {
+        height: auto; /* Required: for static router, no need to have a defined width */
+        margin: 20px 0;
+        padding: 20px;
+        background-color: rgba(0,0,255,.1);
+        text-align: center;
+    }
+    #demo-router { color: orange; }
+    #demo-nav { text-align: center; }
+    #demo-nav a { color: blue; }
+    #demo-nav a.demo-nav-active { color: red; }
+    #sandbox { display: none; }
+    em { padding: 0 15px; }
+</style>
+
+<div id="demo-pages">
+    <em>Before router</em>
+
+    <span id="demo-router">
+        <!-- The attribute data-router-path will be used to define the path of each page -->
+        <span data-router-path="page3">Page <b>3</b>. Sed do eiusmod tempor incididunt.</span>
+        <span data-router-path="page2">Page <b>2</b>. Consectetur adipiscing elit.</span>
+    </span>
+
+    <em>After router</em>
+</div>
+
+<div id="demo-nav">
+    Pages:
+	<a href="#" data-page="page1">Page 1</a> &nbsp;|&nbsp;
+	<a href="#" data-page="page2">Page 2</a> &nbsp;|&nbsp;
+	<a href="#" data-page="page3">Page 3</a>
+</div>
+
+<script>
+    // Init router for static inline behaviour
+	$router = jQuery('#demo-router').biRouter({ nodeName: 'span', static: true });
+
+    // Add page
+    $router.biRouter('add', 'page1', 'Page <b>1</b>. Lorem ipsum dolor sit amet.');
+
+    // Handle navigation
+	jQuery('#demo-nav').click(function (e) {
+	    if (this === e.target) return;
+	    e.preventDefault();
+
+	    var $a = jQuery(e.target), data;
+	    if (data = $a.data('page')) {
+	        $router.biRouter('goTo', data);
+	    }
+
+        // Update nav page
+        var currentPath = $router.biRouter('getPath');
+        jQuery(this).find('a[data-page]').each(function () {
+            data = jQuery(this).data('page');
+            jQuery(this)[data == currentPath ? 'addClass' : 'removeClass']('demo-nav-active');
+        });
+
+	});
+
+    // Open the browser console to see the plugin instance
+    $router.biRouter('debug');
+</script>

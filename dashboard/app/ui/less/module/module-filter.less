@@ -1,0 +1,167 @@
+
+/* module-filter */
+
+.bi-filter-wrap {
+	position: relative; // Allows the biLoader inside
+}
+
+.bi-filter-box {
+
+}
+
+.bi-filter-label {
+	
+}
+
+.bi-filter-input {
+
+}
+
+.bi-filter-input-empty {
+	display: inline-block; // Like a form input
+	margin: 0 0 @form-margin 0; // Like a form input
+}
+
+.bi-filter-hidden {
+	display: none;
+}
+
+.bi-filter-wrap .bi-loader {
+	background-color: transparent;
+}
+
+/* PB: si il y a un submitbutton on le voit pas...
+// On large screen, align .bi-filter-wrap with .bi-grid-cell
+.bi-main .bi-filter-wrap {
+	@media (min-width: @screen-breakpoint) {
+		overflow: auto;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: @grid-cell-spacing;
+		bottom: @grid-cell-spacing;
+	}
+}
+*/
+
+.bi-main .bi-filter-wrap {
+	margin-bottom: @grid-cell-spacing;
+	@media (min-width: @screen-breakpoint) {
+		// On large screen, align .bi-filter-wrap with .bi-grid-cell
+		margin-right: @grid-cell-spacing;
+	}
+}	
+
+// Debug
+
+.bi-filter-debug {
+
+	.bi-filter-debug-info {
+		display: none;
+		position: absolute;
+		z-index: 3;
+		top: 1px;
+		right: 1px;
+		border-radius: 3px;
+		padding: 2px 4px;
+		background-color: fadeout(red, 35%);
+		color: #fff;
+		text-shadow: 0 0 3px #000;
+		cursor: pointer;
+	}
+	.bi-filter-wrap:hover {
+		.bi-filter-debug-info {
+			display: block;
+			animation: biFilterDebugInfo .3s ease 3s forwards;
+		}
+	}
+	@keyframes biFilterDebugInfo {
+		0% { opacity: 1; top: 1px; }
+		99% { opacity: 0; top: 1px; }
+		100% { top: -9999px; }
+	}
+
+	// In debug mode show hidden filters
+	.bi-filter-hidden {
+		display: block;
+		opacity: .65;
+	}
+
+	// Highlight slave filter triggered by master filter
+	.bi-filter-debug-highlight {
+		border-radius: 3px;
+		animation: biFilterDebugHighlight .3s ease;
+	}
+	@keyframes biFilterDebugHighlight {
+		0% { background-color: fadeout(yellow, 10%); }
+		100% { background-color: fadeout(yellow, 100%); }
+	}
+
+}
+
+// Bookmark
+
+.bi-filter-bookmark {
+    display: flex;
+    flex-direction: row;
+	box-sizing: border-box;
+	> * {
+		overflow-wrap: break-word;
+	}
+}
+
+.bi-filter-bookmark-list {
+	min-width: 200px;
+}
+
+.bi-filter-bookmark-form {
+	min-width: 200px;
+    margin: 0 0 0 2em;
+}
+
+@media (max-width: (@screen-breakpoint - 1)) {
+    .bi-filter-bookmark {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .bi-filter-bookmark-form {
+        margin: 2em 0 0 0;
+    }
+}
+
+.bi-filter-bookmark h3 {
+    margin: 0 0 1em 0;
+}
+
+.bi-filter-bookmark-noitems {
+	display: none;
+	font-style: italic;
+	color: #aaa;
+}
+
+.bi-filter-bookmark-items {
+	> * {
+		padding: .5em 0;
+		border-bottom: 1px dotted @color4-pale-darker;
+		a {
+			padding: 0 .5em;
+		}
+		.bi-filter-bookmark-icon {
+			float: right;
+			margin-left: 1em;
+		}
+	}
+	> :last-child {
+		border-bottom: none;
+	}
+}
+
+.bi-filter-bookmark-form-msg {
+	min-height: 1.5em;
+	line-height: 1.5em;
+	font-size: 1em;
+}
+
+.bi-filter-bookmark-msg {
+	color: red;
+}

@@ -1,0 +1,113 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biWrap - Demo</h1>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-container { margin: 20px; border: 1px dotted red; }
+    /* the .bi-wrap fits its container height if defined, otherwise it have a min-height:240px; */
+    #demo-container.demo-container-height { height: 400px; }
+</style>
+
+<div id="demo-container">
+
+    <div class="bi-wrap bi-font">
+
+        <div class="bi-top">
+            <div class="bi-toggle-content">
+
+                <!-- top -->
+
+            </div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+        </div>
+
+        <div class="bi-middle">
+
+            <div class="bi-sidebar">
+                <div class="bi-toggle-content">
+
+                    <!-- sidebar -->
+
+                </div>
+                <div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+            </div>
+
+            <div class="bi-main">
+                <div class="bi-head">
+
+                    <!-- head -->
+
+                </div><div class="bi-body">
+
+<!-- body (with sample) -->
+<div class="bi-body-single-layout">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.<br />
+    <a href="#" class="bi-sidebar-switcher">Link with special class "bi-sidebar-switcher" 
+        that toggle the sidebar behavior automatically</a>
+</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bi-bottom">
+            <div class="bi-toggle-content">
+
+                <!-- bottom -->
+
+            </div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+        </div>
+
+    </div>
+    
+</div>
+
+<div class="bidoc-code-sample" id="demo-action"></div>
+
+<script>
+    var $ui = jQuery('.bi-wrap').biWrap();
+
+    var $action = $('#demo-action');
+    function demoAction(title, callback) { $('<button>' + title + '</button>').click(callback).appendTo($action); }
+
+    demoAction('Fixed main', function () { $ui.biWrap('fixedMain', true); });
+    demoAction('Fluid main', function () { $ui.biWrap('fixedMain', false); });
+    demoAction('Toggle main', function () { $ui.biWrap('toggle', 'main'); });
+    
+    $action.append('<hr />');
+
+    var $layout = $('<label> Layout <select>' +
+            '<option>top</option><option>bottom</option><option>sidebar</option><option>head</option>' +
+        '</select></label>').appendTo($action);
+
+    var $button = $('<label> Button <input type="checkbox" /></label>').appendTo($action);
+
+    function demoLayout() { return $layout.children().val(); }
+    function demoIsButton() { return $button.children().prop('checked'); }
+
+    ['hide', 'show', 'toggle'].forEach(function (action) {
+        demoAction(action, function () { $ui.biWrap(action, demoLayout(), demoIsButton()); });
+    });
+
+    $action.append('<hr />');
+
+    // Tip: Add the class ".bi-hide-wrap" at the time of UI construction
+    // When the UI is ready, simply remove this class...
+    demoAction('Hide entire UI', function () { $ui.toggleClass('bi-hide-wrap'); });
+
+    demoAction('Set container height', function () { $('#demo-container').toggleClass('demo-container-height'); });
+
+</script>

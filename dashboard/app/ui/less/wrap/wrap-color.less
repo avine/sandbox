@@ -1,0 +1,68 @@
+
+/* wrap-color */
+
+.wrap-gradient(@direction) {
+	background-image: linear-gradient(@direction,
+		rgba(255, 255, 255, 0.1) 1px,
+		rgba(0, 0, 0, 0.033) 2px,
+		rgba(0, 0, 0, 0) 9%,
+		rgba(255, 255, 255, 0) 10%,
+		rgba(255, 255, 255, 0.033) 30%,
+		rgba(255, 255, 255, 0) 50%,
+		rgba(0, 0, 0, 0) 51%,
+		rgba(0, 0, 0, 0.033) 75%,
+		rgba(0, 0, 0, 0) 100%
+	);
+}
+
+.bi-top {
+	border-color: @top-color-border;
+	background-color: @top-color-bg;
+	color: @top-color;
+	font-size: @font-size-bigger;
+	.wrap-gradient(top);
+}
+
+.bi-bottom {
+	border-color: @bottom-color-border;
+	background-color: @bottom-color-bg;
+	color: @bottom-color;
+	font-size: @font-size-bigger;
+	.wrap-gradient(bottom);
+}
+
+.bi-sidebar {
+	border-color: @color3-base-darker;
+	background-color: @color3-base;
+	color: @color3-pale;
+
+	background-image: linear-gradient(left,
+		rgba(0, 0, 0, 0.1) 0px,
+		rgba(0, 0, 0, 0) 10px // Like the following padding:10px;
+	);
+	> .bi-toggle-content {
+		padding: 10px;
+	}
+
+	.bi-loader { // Adapt the sidebar loader
+		background-color: fadeout(@color3-base, 50%) !important;
+	}
+}
+
+.bi-main { 
+	background-color: @main-color-bg; 
+}
+
+.bi-body .bi-loader { // Adapt the body loader
+	background-color: fadeout(@main-color-bg, 50%) !important;
+}
+
+.bi-head {
+	font-size: @font-size-bigger;
+}
+
+.bi-head-title {
+	color: @color2-base-darker;
+	font-size: @font-size-bigger;
+	font-weight: bold;
+}

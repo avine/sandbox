@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<!-- 
+    Info: We need to define any appcache, simply to cache this page itself!
+
+    In "debug" mode, the manifest "default.appcache" is used, but in "release" mode, the manifest "bundles.appcache" is used!!!
+    Thus, we chose the "release" mode manifest.
+
+    This manifest had to be downloaded the first time the user has opened its Safari browser.
+    So, when the Bi App is launched from iPad Desktop Icon in offline mode, we hope that this page is still cached and available in Safari. 
+-->
+<html lang="en" manifest="manifest/bundles.appcache">
+<head>
+	<title>PDF viewer</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+    <!-- Designed for iPad in "WebView" mode, force this page to be opened in "Safari" browser -->
+	<meta name="apple-mobile-web-app-capable" content="no" />
+
+	<style>
+		body { margin-top:48px; text-align:center; font:14px/21px Verdana; }
+		#log { color: lightgray; }
+        #error { color: crimson; }
+	</style>
+</head>
+<body onload="init()">
+
+	<div id="log"></div>
+
+	<script>
+	    var msg = {
+	        loading: 'Loading in progress...',
+	        maintenance: 'Maintenance operation in progress',
+	        error: 'No data available'
+	    };
+
+	    var log = document.getElementById('log');
+	    log.innerHTML = msg.loading;
+
+	    function init() {
+	        var appCache = window.applicationCache;
+
+	        appCache.addEventListener('cached', callback);
+	        appCache.addEventListener('updateready', callback);
+	        appCache.addEventListener('noupdate', callback);
+	        appCache.addEventListener('error', callback);
+
+	        appCache.addEventListener('progress', function (e) {
+	            var percent = ('loaded' in e && 'total' in e) ? parseInt(e.loaded / e.total * 100, 10) + '%' : '';
+	            log.innerHTML = msg.maintenance + ' ' + percent;
+	        });
+	    }
+
+	    function callback() {
+	        // Search data application in location hash
+	        var data = window.location.hash.replace(/^#/, '');
+	        if (!data) return log.innerHTML = '<i id="error">' + msg.error + '</i>';
+	        
+	        log.innerHTML = '';
+	        window.location.href = 'data:application/pdf;base64,' + data.replace(/^data:application\/pdf;base64,/, '');
+	    }
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+
+/* Use "gallery-" prefix for common styles */
+
+@border-radius: 3px;
+
+@padding: 2em;
+
+@main-padding: 3em;
+
+@sidebar-width: 400px; 
+
+@wall-shadow: 2px 2px 2px rgba(0,0,0,.05);
+
+@link-color: #02b6f2;
+@link-bg: rgba(240,240,240,.8);
+@link-highlight: rgba(250,250,250,.8);
+
+/* Global */
+
+html, body {
+    height: auto;
+    overflow: visible !important;
+}
+
+/* Layout */
+
+.gallery-layout() {
+    box-sizing: border-box;
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+#gallery-layout-sidebar {
+    .gallery-layout();
+    left: 0;
+    z-index: 2;
+    width: @sidebar-width;
+    padding: @padding;
+    background-color: #eee;
+    box-shadow: -10px 0 10px rgba(0,0,0,.03) inset;
+}
+#gallery-layout-main {
+    .gallery-layout();
+    right: 0;
+    z-index: 1;
+    left: @sidebar-width;
+    padding: @main-padding;
+    background-color: #fff;
+
+    &.gallery-layout-main-alt {
+        background-color: #36464e;
+        color: #ededee;
+    }
+}
+#gallery-layout-toolbox {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    right: 0;
+    left: @sidebar-width;
+    padding: 3px 0;
+    height: 1.5em;
+    line-height: 1.5em;
+    font-size: 1.2em;
+    text-align: center;
+    box-shadow: 0 1px 0 #fff inset;
+    border-top: 1px solid #e7e7e7;
+    background-color: #f7f7f7;
+
+    a {
+        padding: 0 .5em;
+        text-decoration: none !important;
+    }
+}
+// toolbox actions
+#gallery-layout-toolbox-info {
+
+}
+#gallery-layout-toolbox-switcher {
+    float: right;
+}
+
+/* Render (inside #gallery-layout-main) */
+
+#gallery-render {
+    //overflow: hidden;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    
+    &.gallery-render-alt {
+        width: 480px; // Emulate small screen
+        max-width: 100%;
+    }
+}
+#gallery-render-title { // Optional and only used for Analysis (not Filter)
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.3em;
+    line-height: @main-padding / 1.3em; // Divide by font-size
+    text-align: center;
+}
+
+/* Popup */
+
+.gallery-popup {
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.7);
+    overflow: auto;
+    
+    display: none;
+    &.gallery-popup-show { display: block; }
+
+    > * {
+        width: 50%;
+        margin: 5em auto;
+        padding: @padding;
+        box-shadow: 0 0 20px rgba(0,0,0,.8);
+        border-radius: @border-radius;
+        background-color: #fff;
+        overflow: auto;
+    }
+}
+
+/* Switcher */
+
+.gallery-switcher {
+    display: none;
+}
+.gallery-switcher-show {
+    display: block;
+} 
+
+/* form inputs */
+
+.gallery-button {
+    width: 100%;
+}
+
+/* Error message */
+
+.gallery-message {
+    padding: .5em 1em;
+    border-radius: @border-radius;
+    background-color: rgba(0,0,0,.05);
+    cursor: pointer;
+
+    &:hover { opacity: .5; }
+    &.gallery-message-info { color: #5cb85c; }
+    &.gallery-message-error { color: #d9534f; }
+}
+
+/* Wall */
+
+#gallery-wall-filter {
+    display: inline-block;
+    margin: @padding 0 0 @padding;
+}
+
+#gallery-wall {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: @padding / 2;
+    overflow: hidden;
+
+    > * {
+        position: relative;
+        box-sizing: border-box;
+        padding: @padding / 2;
+    }
+    > .gallery-wall-hide {
+        position: absolute;
+        left: -9999px;
+    }
+
+    @media (min-width: 960px) {
+        & { flex-direction: row; }
+        & > * {  width: 50%; }
+    }
+    @media (min-width: 1280px) {
+       & > * {  width: 33.33%; }
+    }
+
+    &.gallery-spaced .gallery-wall-content {
+        padding: @padding;
+    }
+}
+
+.gallery-wall-action {
+    position: absolute;
+    z-index: 999;
+    top: @padding / 2 - .5;
+    left: @padding / 2 - .5;
+    box-shadow: @wall-shadow;
+    border-radius: @border-radius;
+    border: 1px solid #ccc;
+    background-color: @link-bg;
+    overflow: hidden;
+	opacity: 0;
+	transition: opacity .15s ease .0s;
+
+    a {
+        display: inline-block;
+        padding: .5em 1em;
+        font-size: 1.2em;
+        color: @link-color;
+        &:hover {  background-color: @link-highlight; }
+    }
+}
+
+.gallery-wall:hover .gallery-wall-action {
+	opacity: 1;
+	transition: opacity .3s ease .45s;
+}
+
+.gallery-wall-content {
+    box-sizing: border-box;
+    box-shadow: @wall-shadow;
+    border-radius: @border-radius;
+    border: 1px solid #ddd;
+    padding: 0;
+    height: 240px;
+    overflow: auto; // not hidden (for filters with a lot of options...)
+}
+
+.gallery-wall-info {
+    margin: 0;
+    padding: .5em;
+    line-height: 1.5em;
+    font-size: 1em;
+
+    > b:first-child {
+        font-size: 1.2em;
+        margin-right: .25em;
+    }
+}
+
+.gallery-wall-type {
+    position: absolute;
+    z-index: 999;
+    top: @padding / 2;
+    right: @padding / 2;
+    padding: 1px 6px;
+    border-radius: 0 @border-radius;
+    background-color: #0a94c2;
+    color: #fff;
+    font-style: normal;
+}
+
+.gallery-wall-add {
+    .gallery-wall-action {
+        opacity: 0;
+    }
+    .gallery-wall-content {
+        cursor: pointer;
+        padding-top: 100px;
+        text-align: center;
+        font-size: 40px;
+        background-color: @link-bg;
+        color: @link-color;
+        &:hover { background-color: @link-highlight; }
+    }
+}
+
+/* Attributes builder */
+
+label[for="gallery-attr"] {
+    margin-bottom: 1em;
+}
+#gallery-attr {
+    margin-bottom: 15px;
+    text-align: right;
+
+    a {
+        display: inline-block;
+        margin: 0 0 9px 6px;
+        padding: 0 9px 3px 9px;
+        font-size: 14px;
+    }
+    > :first-child a[role="up"],
+    > :last-child a[role="down"] {
+        display: none;
+    }
+    a[role="edit"] {
+        float: left;
+        margin-left: 0;
+    }
+
+    input {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .gallery-popup {
+        text-align: right;
+    }
+    h3 {
+        margin: 0 0 1em 0;
+        text-align: left;
+        font-size: 1.5em;
+    }
+    textarea {
+        transition: min-height .2s ease;
+        min-height: 200px;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        font-family: Consolas, Monospace;
+        white-space: nowrap;
+    }
+}
+

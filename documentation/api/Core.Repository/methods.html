@@ -1,0 +1,45 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Repository.get,<br /> Bi.Core.Repository.synchronize</h1>
+
+<pre><code class="language-javascript">var repository = new Bi.Core.Repository();
+
+// Using one string argument
+repository.get('Module1').queue(function (result) {
+    // Do something with result.Module1 ...
+});
+
+// Using one array argument
+repository.get(['Module1', 'Module2']).queue(function (result) {
+    // Do something with result.Module1 and result.Module2 ...
+});
+
+// Using more arguments...
+repository.get('Module1', 'Module2').queue(function (result) {
+    // Do something with result.Module1 and result.Module2 ...
+});
+</code></pre>
+
+<p>
+    Récupère les données de configuration de différents modules, quel que soit le mode de navigation (online/offline).
+</p>
+
+<p class="bidoc-tip">
+    Cette méthode se base sur <code>Bi.database.run.mode()</code> pour déterminer si les données sont à récupérer sur le serveur distant ou en local.
+</p>
+
+<pre><code class="language-javascript">repository.synchronize().queue(function (success) {
+    if (success) {
+        // The repository has been synchronized for offline navigation...
+    }
+});
+</code></pre>
+
+<p>Après synchronisation, les données de configuration sont stockées dans <code>window.localStorage</code> pour une utilisation offline.</p>
+
+</div>
+
+<!-- bidoc-text -->

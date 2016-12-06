@@ -1,0 +1,58 @@
+
+/* menu-sidebar */
+
+.bi-sidebar .bi-menu {
+
+	margin-bottom: 1em;
+	overflow: auto;
+	max-height: @menu-sidebar-max-height;
+	border-radius: @border-radius-sm;
+	border: @border-width solid @menu-sidebar-border;
+	background-color: @menu-sidebar-bg;
+	font-size: 1.1em;
+
+	.bi-menu {
+		margin-bottom: auto;
+		max-height: none;
+		border-radius: 0;
+		border: none;
+		background-color: transparent;
+
+		position: absolute;
+		top: -9999px;
+		opacity: 0;
+
+		text-indent: 1.5em;
+		font-size: .9em;
+		.bi-menu {
+			text-indent: 3em;
+			font-size: 1em;
+			.bi-menu {
+				text-indent: 4.5em;
+			}
+		}
+	}
+	.fa { text-indent: 0 !important; } // Prevent inheritance
+
+	> * > :first-child {
+		height: @menu-deep-height;
+		line-height: @menu-deep-height;
+		padding: 0 @menu-padding-md;
+		color: @menu-sidebar-deep-color;
+		&:hover { background-color: @menu-sidebar-deep-bg-hover; }
+	}
+	> .bi-menu-breadcrumb > a:first-child {
+		background-color: @menu-sidebar-deep-breadcrumb-color;
+	}
+
+	&.bi-hover-wrap > :hover, > .bi-hover-jsOver {
+		> .bi-menu {
+			position: relative;
+			top: 0;
+			opacity: 1;
+			transition: opacity @menu-transition ease;
+		}
+	}
+
+	.bi-menu-arrow > :first-child:after { content: "\f107"; color: @menu-sidebar-arrow-color; }
+}

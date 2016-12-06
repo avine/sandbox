@@ -1,0 +1,55 @@
+
+/* progress */
+
+.bi-progress {
+	text-align: center;
+}
+
+.bi-progress-title {
+	margin: .5em 0;
+	font-size: 1.1em;
+}
+
+.bi-progress-bar {
+	overflow: hidden;
+	display: block;
+	margin: 1em auto;
+	border-radius: 99px;
+	border: @border-width solid @progress-border;
+	background-color: @progress-bg;
+	box-shadow: 2px 2px 1px rgba(0,0,0,.05) inset;
+
+	& > * {
+		height: .5em;
+		width: 0;
+		border-radius: inherit;
+		background-color: #B0E629;
+		box-shadow: -2px -2px 1px rgba(0,0,0,.05) inset;
+		transition:
+			width @progress-transition-width linear,
+			background-color @progress-transition-color linear;
+
+		&.bi-progress-skipTransition { transition: none; }
+	}
+}
+
+.bi-progress-details {
+	margin: .5em 0;
+	font-size: 1em;
+}
+
+// type of messages
+
+.bi-progress-error {
+	border-radius: @border-radius-xs;
+	background-color: #B42310; // red
+	color: #eee;
+}
+.bi-progress-warning {
+	text-shadow: 1px 1px 0 rgba(255,255,255,.2);
+	color: #F7CF0A; // yellow
+}
+.bi-progress-success {
+	text-shadow: 1px 1px 0 rgba(255,255,255,.2);
+	color: #B0E629;// green
+}

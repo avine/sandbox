@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!--<html lang="en" manifest="resources/manifest/default.appcache">-->
+<head>
+    <title>BI</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <!-- The Bi is jQuery dependent -->
+    <script src="plugins/jquery/jquery-2.1.4.min.js"></script>
+
+    <!-- For an unknown reason, the AmCharts plugin does NOT works properly when loaded from the Bi.Core.Require -->
+    <!-- amcharts -->
+    <script src="plugins/am/amcharts/amcharts.js"></script>
+    <script src="plugins/am/amcharts/funnel.js"></script>
+    <script src="plugins/am/amcharts/gauge.js"></script>
+    <script src="plugins/am/amcharts/pie.js"></script>
+    <script src="plugins/am/amcharts/radar.js"></script>
+    <script src="plugins/am/amcharts/serial.js"></script>
+    <script src="plugins/am/amcharts/xy.js"></script>
+    <!-- ammap -->
+    <link rel="stylesheet" href="plugins/am/ammap/ammap.css" />
+    <script src="plugins/am/ammap/ammap_amcharts_extension.js"></script>
+    <!-- amcharts export -->
+    <script src="plugins/am/amcharts/exporting/amexport.js"></script>
+    <script src="plugins/am/amcharts/exporting/rgbcolor.js"></script>
+    <script src="plugins/am/amcharts/exporting/canvg.js"></script>
+
+    <!-- Required scripts to autoload the Bi -->
+    <script src="app/bo/tool.js"></script>
+    <script src="app/bo/Core.js"></script>
+    <script src="app/bo/Core.Require.js"></script>
+    <script src="app/bo/Core.RequireComposer.js"></script>
+
+    <!-- Whatever styles of the web page that is hosting the Bi -->
+    <style>
+        html, body {
+            margin: 0;
+            background-color: #f7f7f7;
+            font-family: Verdana;
+            font-size: 11px;
+        }
+        a, a:visited {
+            text-decoration: underline;
+            color: #337ab7;
+        }
+        a:hover, a:active, a:focus {
+            text-decoration: none;
+        }
+
+        #host-wrap {
+            box-sizing: border-box;
+            max-width: 1280px;
+            margin: auto;
+            padding: 20px;
+        }
+        #host-bi-container {
+            height: 700px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+        #host-appcache-progress {
+            text-align: center;
+            line-height: 600px;
+            font-size: 18px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="host-wrap">
+
+        <h1>Bi autoload</h1>
+        <p>Known limitation: you can only load one single Bi interface per page...</p>
+
+        <!-- Bi container allowed by the host -->
+        <div id="host-bi-container">
+
+            <!-- While the Require.composer is in progress, display something just to tell the user that something amazing is about to come! -->
+            <div id="host-appcache-progress"></div>
+
+        </div>
+
+        <script>
+            // Display the appcache download progression
+            (function ($progress) {
+                if ($progress.size()) jQuery(window.applicationCache).on('progress', function (e) {
+                    $progress.text(parseInt(e.originalEvent.loaded / e.originalEvent.total * 100, 10) + '%');
+                });
+            })(jQuery('#host-appcache-progress'));
+        </script>
+
+        <script>
+            new Bi.Core.Require()/*.delay(5000)*/.composer().queue(function () {
+
+                // Remove the temporary message
+                jQuery('#host-appcache-progress').remove();
+
+                // Define the constant Bi.tool.url.ROOT
+                Bi.tool.url.root('/dashboard');
+
+                // Load Bi interface
+                Bi.Core.Factory.load({
+                    dashboardUrl: '/dashboard/autoload.html',
+                    hashPrefix: '', // like: '/demo'
+                    selector: '#host-bi-container',
+                    login: [/*username, password*/]
+                });
+
+            });
+        </script>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    </div>
+</body>
+</html>

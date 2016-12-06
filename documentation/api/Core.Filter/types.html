@@ -1,0 +1,63 @@
+﻿
+<!-- bidoc-text -->
+
+<style> tr > :first-child { width:1%; } </style>
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Filter : types de filtres et paramètrage</h1>
+
+<table>
+    <caption>Input</caption>
+
+    <tr><th>type</th><td>text (default) | number | range</td><td>Indique le type d'Input, ce qui permet d'utiliser les nouveaux Input HTML5.</td></tr>
+</table>
+
+<table>
+    <caption>Calendar</caption>
+
+    <tr><td>A noter que la date courante du calendrier se base sur la <b>VALUE</b> (et non la CAPTION) retournée par le Dataset du filtre.<br />
+        Cette date doit être de la forme <b>yyyyMMdd</b>.<br />
+        A noter que vous pouvez afficher un calendrier en utilisant le fitre de type Input.<br />
+        Mais dans ce cas, vous ne pourrez pas fixer la valeur courante du calendrier.</td></tr>
+</table>
+
+<table>
+    <caption>Radio / Checkbox</caption>
+
+    <tr><th>orientation</th><td>vertical (default) | horizontal</td><td>Indique l'orientation des options du filtre.</td></tr>
+</table>
+
+<table>
+    <caption>Select</caption>
+
+    <tr><th>size</th><td>3, 4, 5, ...</td><td>Attribut optionnel. S'il n'est pas renseigné alors le filtre est de type <b>dropDown</b>.<br />
+        Sinon, la boîte possède une <b>hauteur fixe</b> en nombre de lignes.</td></tr>
+    <tr><th>uncheckRadio</th><td>0 (default) | 1</td><td>Uniquement lorsque le filtre est de type "radio", permet de dé-sélectionner l'option sélectionnée.</td></tr>
+</table>
+
+<table>
+    <caption>ButtonGroup</caption>
+
+    <tr><th>type</th><td>radio (default) | checkbox</td><td>Renseigne le comportement du filtre.</td></tr>
+    <tr><th>uncheckRadio</th><td>0 (default) | 1</td><td>Uniquement lorsque le filtre est de type "radio", permet de dé-sélectionner l'option sélectionnée.</td></tr>
+    <tr><th>vertical</th><td>0 (default) | 1</td><td>Renseigne l'orientation des options du filtre.</td></tr>
+    <tr><th>fullWidth</th><td>1 (default) | 0</td><td>Uniquement lorsque le filtre est orienté horizontalement, indique si les boutons doivent remplir toute la largeur disponible.</td></tr>
+    <tr><th>fixedWidth</th><td>1 (default) | 0</td><td>Uniquement lorsque le filtre remplie toute la largeur disponible (fullWidth=1), indique si les boutons doivent avoir la même largeur.</td></tr>
+</table>
+
+<table>
+    <caption>TreeView</caption>
+
+    <tr><th>type</th><td>radio (default) | checkbox</td><td>Renseigne le comportement du filtre.</td></tr>
+    <tr><th>uncheckRadio</th><td>0 (default) | 1</td><td>Uniquement lorsque le filtre est de type "radio", permet de dé-sélectionner l'option sélectionnée.</td></tr>
+    <tr><th>threeStates</th><td>0 (default) | 1</td><td>Uniquement lorsque le filtre est de type "checkbox", permet de sélectionner plusieurs options à la fois.</td></tr>
+    <tr><th>dropDown</th><td>0 (default) | 1</td><td>Indique si le filtre est de type "dropDown" ou non.</td></tr>
+    <tr><th>closeButton</th><td>0 (default) | 1</td><td>Uniquement lorsque dropDown=0, permet de plier/déplier les options.</td></tr>
+    <tr><th>uncheckButton</th><td>0 (default) | 1</td><td>Uniquement lorsque le filtre est de type "checkbox", permet de sélectionner/dé-sélectionner toutes les options.</td></tr>
+    <tr><th>maxHeight</th><td>200px</td><td>Attribut optionnel. Quel que soit la valeur de <b>dropDown</b>, permet de donner au conteneur une <b>hauteur maximale</b> des options du filtre.</td></tr>
+</table>
+
+</div>
+
+<!-- bidoc-text -->

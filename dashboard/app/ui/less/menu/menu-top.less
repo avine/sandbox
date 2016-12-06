@@ -1,0 +1,139 @@
+
+/* menu-top */
+
+@media (max-width: (@screen-breakpoint - 1)) {
+	.bi-nav-menu-target {
+		border-radius: 0 0 @border-radius-md 0;
+		border: @border-width solid @menu-top-border;
+		border-top: none;
+		border-left: none;
+		background-color: @menu-top-deep-bg;
+		box-shadow: @menu-top-shadow;
+	}
+}
+
+.bi-top .bi-menu {
+
+	.bi-menu {
+		top: -9999px;
+	}
+	@media (max-width: (@screen-breakpoint - 1)) {
+		.bi-menu {
+			position: absolute;
+			top: -9999px;
+			opacity: 0;
+
+			text-indent: 1.5em;
+			font-size: .9em;
+
+			.bi-menu {
+				text-indent: 3em;
+				font-size: 1em;
+				
+			}
+		}
+		.fa { text-indent: 0 !important; } // Prevent inheritance
+		
+		& > * > :first-child {
+			height: @menu-deep-height;
+			line-height: @menu-deep-height;
+			padding: 0 @menu-padding-md;
+			color: @menu-top-deep-color;
+			&:hover { background-color: @menu-top-deep-bg-hover; }
+		}
+		& > .bi-menu-breadcrumb > a:first-child {
+			background-color: @menu-top-deep-breadcrumb-color;
+		}
+		& > :last-child > :first-child {
+			border-bottom-right-radius: @border-radius-md;
+		}
+		.bi-menu > :last-child > :first-child {
+			border-bottom-right-radius: 0;
+		}
+		&.bi-hover-wrap > :hover, & > .bi-hover-jsOver {
+			> .bi-menu {
+				position: relative;
+				top: 0;
+				opacity: 1;
+				transition: opacity @menu-transition ease;
+			}
+		}
+		.bi-menu-arrow > :first-child:after { content: "\f107"; color: @menu-top-deep-arrow-color; }
+	}
+	@media (min-width: @screen-breakpoint) {
+		& > * {
+			float: left;
+			> :first-child {
+				height: @top-height - @border-width;
+				line-height: @top-height - @border-width;
+				padding: 0 @menu-padding-md;
+				color: @menu-top-color;
+			}
+			&:hover, &.bi-hover-jsOver {
+				> :first-child { background-color: @menu-top-bg-hover; }
+			}
+		}
+		.bi-menu {
+			> * {
+				float: none;
+				> :first-child {
+					height: @menu-deep-height;
+					line-height: @menu-deep-height;
+					color: @menu-top-deep-color;
+				}
+				&:hover, &.bi-hover-jsOver {
+					> :first-child { background-color: @menu-top-deep-bg-hover; }
+				}
+			}
+			position: absolute;
+			width: @menu-deep-width;
+			box-shadow: @menu-top-shadow;
+			border: @border-width solid @menu-top-border;
+			border-top-width: 0; // Only for the first sublevel (*)
+			background-color: @menu-top-deep-bg;
+			opacity: 0;
+			transition: opacity @menu-transition ease, top 0s ease @menu-transition;
+
+			border-radius: 0 0 @border-radius-md @border-radius-md;
+			> :last-child > :first-child {
+				border-bottom-left-radius: @border-radius-md - @border-width;
+				border-bottom-right-radius: @border-radius-md - @border-width;
+			}
+			.bi-menu {
+				left: @menu-deep-width - (@menu-padding-md + @border-width) / 2;
+				border-top-width: @border-width; // Restore (*)
+				border-radius: @border-radius-md;
+				> :first-child > :first-child {
+					border-top-left-radius: @border-radius-md - @border-width;
+					border-top-right-radius: @border-radius-md - @border-width;
+				}
+				> :last-child > :first-child {
+					border-bottom-left-radius: @border-radius-md - @border-width;
+					border-bottom-right-radius: @border-radius-md - @border-width;
+				}
+			}
+		}
+		&.bi-hover-wrap > :hover, & > .bi-hover-jsOver {
+			> .bi-menu {
+				top: @top-height;
+				opacity: 1;
+				transition: opacity @menu-transition ease;
+			}
+		}
+		.bi-menu {
+			&.bi-hover-wrap > :hover, > .bi-hover-jsOver {
+				> .bi-menu {
+					top: (@menu-deep-height - @border-width) / 2;
+				}
+			}
+		}
+		& > .bi-menu-breadcrumb > :first-child {
+			background-color: @menu-top-breadcrumb-color !important;
+		}
+		.bi-menu > .bi-menu-breadcrumb > :first-child {
+			background-color: @menu-top-deep-breadcrumb-color !important;
+		}
+		.bi-menu-arrow > :first-child:after { content: "\f107"; color: @menu-top-arrow-color; }
+		.bi-menu .bi-menu-arrow > :first-child:after { content: "\f105"; color: @menu-top-deep-arrow-color; }
+	}
+}

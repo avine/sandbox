@@ -1,0 +1,40 @@
+
+<div class="bi-login">
+	<div>
+		<header><i class="fa fa-3x fa-sign-in"></i></header>
+
+		<form method="get" action="#/dashboard/login" class="bi-form" data-bi-bind="form">
+			<div>
+
+				<label for="username">Username</label>
+				<input id="username" name="username" type="text" data-bi-bind="username" />
+
+			</div><div>
+
+				<label for="password">Password</label>
+				<input id="password" name="password" type="password" data-bi-bind="password" />
+
+			</div><div>
+
+				<label for="language">Language</label>
+				<select id="language" name="language" data-bi-bind="language"></select>
+
+			</div><div>
+
+				<label for="mode">Mode</label>
+				<input id="mode" name="mode" type="checkbox" data-bi-bind="mode" />
+
+			</div><div>
+
+				<label for="submit"></label>
+				<input id="submit" name="submit" type="submit" value="Login" data-bi-bind="submit" />
+
+			</div>
+		</form>
+
+		<footer data-bi-bind="message">
+			<span data-invalid="login">Username / password invalid</span>
+			<span data-invalid="mode">Invalid mode</span>
+		</footer>
+	</div>
+</div>

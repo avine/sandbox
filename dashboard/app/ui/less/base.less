@@ -1,0 +1,88 @@
+
+/* base */
+
+@font-face {
+    font-weight: normal;
+    font-family: 'BiFontBase';
+    src: url(../fonts/Roboto/Roboto-Light.ttf);
+}
+@font-face {
+    font-weight: bold;
+    font-family: 'BiFontBase';
+    src: url(../fonts/Roboto/Roboto-Regular.ttf);
+}
+
+// This is the most external class that contains the Bi user interface
+// When the Bi is in mode OLAP only, apply this class to the <body> tag
+// Otherwise the Bi inherits the CRM font styles
+.bi-font {
+	font-size: @font-size;
+	line-height: @line-height;
+	font-family: @font-family;
+	color: @color-default;
+}
+@media (min-width: (@screen-desktop)) {
+	.bi-font {
+		font-size: @font-size-desktop;
+	}
+}
+@media (max-width: (@screen-breakpoint - 1)) {
+	.bi-font {
+		font-size: @font-size-mobile;
+	}
+}
+
+// Use this class to show/hide any content
+.bi-display-none { display: none !important; }
+
+// Use this class to hide what's behind a content
+// (this is usefull when multiples <div> are in absolute position)
+.bi-background-white { background-color: white !important; }
+
+// Blur animation
+@keyframes biBlurAnim {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+// ----- Font size -----
+
+.bi-font-size-smaller { font-size: @font-size-smaller; }
+.bi-font-size-bigger { font-size: @font-size-bigger; }
+
+// ----- Color -----
+
+.bi-color1         { color: @color1-base-darker; }
+.bi-color1-bg      { border-color: @color1-base-darker; background-color: @color1-base; color: @color1-pale; }
+.bi-color1-pale-bg { border-color: @color1-pale-darker; background-color: @color1-pale; color: @color1-base; }
+
+.bi-color2         { color: @color2-base-darker; }
+.bi-color2-bg      { border-color: @color2-base-darker; background-color: @color2-base; color: @color2-pale; }
+.bi-color2-pale-bg { border-color: @color2-pale-darker; background-color: @color2-pale; color: @color2-base; }
+
+.bi-color3         { color: @color3-base-darker; }
+.bi-color3-bg      { border-color: @color3-base-darker; background-color: @color3-base; color: @color3-pale; }
+.bi-color3-pale-bg { border-color: @color3-pale-darker; background-color: @color3-pale; color: @color3-base; }
+
+.bi-color4         { color: @color4-base-darker; }
+.bi-color4-bg      { border-color: @color4-base-darker; background-color: @color4-base; color: @color4-pale; }
+.bi-color4-pale-bg { border-color: @color4-pale-darker; background-color: @color4-pale; color: @color4-base; }
+
+// Add this class to ".bi-colorX-bg" or ".bi-colorX-pale-bg" to get a boxed content
+.bi-color-boxed {
+	padding: .5em 1em;
+	border-radius: @border-radius-xs;
+	border-width: @border-width;
+	border-style: solid;
+}
+
+// ----- HTML basics -----
+
+.bi-font {
+	hr {
+		margin: 1.5em 0;
+		border: none;
+		border-top: 1px solid rgba(0,0,0,.2);
+		border-bottom: 1px solid rgba(255,255,255,.1);
+	}
+}

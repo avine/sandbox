@@ -1,0 +1,90 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biWrap - Standalone</h1>
+
+    <p>La classe <code>.bi-standalone</code> permet d'afficher uniquement le contenu principal de l'interface 
+        (c'est-à-dire le contenu de la balise <code>.bi-body</code>).
+        <br />Dans ce cas, les régions comme <code>.bi-top</code>, <code>.bi-sidebar</code>, ... sont masquées.</p>
+
+    <p class="bidoc-tip">Cette fonctionnalité est utile lorsque vous devez intégrer le contenu principal de l'interface dans une page HTML plus globale.</p>
+
+</div>
+
+<br />
+
+<!-- bidoc-text -->
+
+<style>
+    .demo-container {
+        float: left;
+        width: 480px;
+        margin: 0 0 20px 20px;
+        box-sizing: border-box;
+    }
+    .demo-border {
+        overflow: hidden;
+        box-shadow: 0 0 05px #ccc;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<div class="demo-container demo-border">
+
+    <div class="bi-wrap bi-standalone bi-font">
+        <div class="bi-top">
+            <div class="bi-toggle-content"></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+        </div>
+        <div class="bi-middle">
+            <div class="bi-sidebar">
+                <div class="bi-toggle-content"></div>
+                <div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+            </div>
+            <div class="bi-main">
+                <div class="bi-head"></div>
+                <div class="bi-body">
+
+                    <div class="bi-body-single-layout">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        <br /><br />
+                        <a href="#" id="demo-toggle-standalone">Toggle the CSS class ".bi-standalone"</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="bi-bottom">
+            <div class="bi-toggle-content"></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+        </div>
+    </div>
+
+</div><div class="demo-container">
+
+    <h2>Hello world!</h2>
+    <p>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p><p>
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+
+</div>
+
+<script>
+    var $biWrap = jQuery('.bi-wrap').biWrap('hide', 'sidebar');
+
+    jQuery('#demo-toggle-standalone').click(function (e) {
+        e.preventDefault();
+
+        $biWrap.toggleClass('bi-standalone');
+    });
+</script>

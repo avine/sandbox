@@ -1,0 +1,409 @@
+
+/* grid */
+
+.bi-grid {
+	position: relative;
+	overflow: visible;
+}
+
+@media (max-width: (@screen-breakpoint - 1)) {
+	.bi-grid-wrap {
+		box-sizing: border-box;
+		width: 100%;
+		margin: @grid-spacing 0;
+		padding: 0 @grid-spacing;
+
+		&.bi-grid-wrap-hidden {
+			position: absolute;
+			left: -9999px;
+		}
+
+		.bi-grid-cell {
+			position: relative;
+			margin-bottom: @grid-cell-spacing;
+			min-height: @grid-cell-min-height;
+		}
+
+		// Basically, .bi-grid-cell is a child of .bi-grid
+		// But in reality, .bi-grid-cell is embedded inside .bi-router
+		// Thus, instead of :
+		//		.bi-grid > .bi-grid-cell
+		// The real structure is :
+		//		.bi-grid > .bi-router > .bi-router-container > .bi-grid-cell
+		// Because of that, we need to adapt the min-height of .bi-router
+		// accordingly with the min-height of .bi-grid-cell
+		.bi-grid > .bi-router {
+		    min-height: @grid-cell-min-height + @grid-cell-spacing + 2 * @border-width;
+		}
+	}
+}
+
+@media (min-width: @screen-breakpoint) {
+	.bi-grid-wrap {
+		position: absolute;
+		z-index: 2;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		margin: @grid-spacing;
+		margin-right: @grid-spacing - @grid-cell-spacing;
+		margin-bottom: @grid-spacing - @grid-cell-spacing;
+
+		// .bi-grid-wrap-hidden is simply based on z-index
+		// Thus to works properly the background-color of .bi-grid-wrap must be defined
+		// This color is defined in .bi-main and inherited by .bi-body
+		// (Note: in reality its not required because .bi-grid-wrap is embedded inside .bi-router which handles that issue)
+		background-color: inherit;
+
+		&.bi-grid-wrap-hidden {
+			z-index: 1;
+		}
+
+		.bi-grid-cell {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: @grid-cell-spacing;
+			bottom: @grid-cell-spacing;
+		}
+	}
+
+	.bi-grid { float: left; }
+
+	.bi-grid-clear { clear: left; }
+
+	//// Optimized sizes colection
+	//.bi-grid-w-5  { width:  5%; } .bi-grid-h-5  { height:  5%; }
+	//.bi-grid-w-10 { width: 10%; } .bi-grid-h-10 { height: 10%; }
+	//.bi-grid-w-15 { width: 15%; } .bi-grid-h-15 { height: 15%; }
+	//.bi-grid-w-20 { width: 20%; } .bi-grid-h-20 { height: 20%; }
+
+	//.bi-grid-w-25 { width: 25%; } .bi-grid-h-25 { height: 25%; }
+	//.bi-grid-w-30 { width: 30%; } .bi-grid-h-30 { height: 30%; }
+	//.bi-grid-w-35 { width: 35%; } .bi-grid-h-35 { height: 35%; }
+	//.bi-grid-w-40 { width: 40%; } .bi-grid-h-40 { height: 40%; }
+
+	//.bi-grid-w-45 { width: 45%; } .bi-grid-h-45 { height: 45%; }
+	//.bi-grid-w-50 { width: 50%; } .bi-grid-h-50 { height: 50%; }
+	//.bi-grid-w-55 { width: 55%; } .bi-grid-h-55 { height: 55%; }
+	//.bi-grid-w-60 { width: 60%; } .bi-grid-h-60 { height: 60%; }
+
+	//.bi-grid-w-65 { width: 65%; } .bi-grid-h-65 { height: 65%; }
+	//.bi-grid-w-70 { width: 70%; } .bi-grid-h-70 { height: 70%; }
+	//.bi-grid-w-75 { width: 75%; } .bi-grid-h-75 { height: 75%; }
+	//.bi-grid-w-80 { width: 80%; } .bi-grid-h-80 { height: 80%; }
+
+	//.bi-grid-w-85 { width: 85%; } .bi-grid-h-85 { height: 85%; }
+	//.bi-grid-w-90 { width: 90%; } .bi-grid-h-90 { height: 90%; }
+	//.bi-grid-w-95 { width: 95%; } .bi-grid-h-95 { height: 95%; }
+	//.bi-grid-w-100{ width:100%; } .bi-grid-h-100{ height:100%; }
+	
+	// Full sizes colection
+	.bi-grid-w-1  { width:  1%; } .bi-grid-h-1  { height:  1%; }
+	.bi-grid-w-2  { width:  2%; } .bi-grid-h-2  { height:  2%; }
+	.bi-grid-w-3  { width:  3%; } .bi-grid-h-3  { height:  3%; }
+	.bi-grid-w-4  { width:  4%; } .bi-grid-h-4  { height:  4%; }
+	.bi-grid-w-5  { width:  5%; } .bi-grid-h-5  { height:  5%; }
+	.bi-grid-w-6  { width:  6%; } .bi-grid-h-6  { height:  6%; }
+	.bi-grid-w-7  { width:  7%; } .bi-grid-h-7  { height:  7%; }
+	.bi-grid-w-8  { width:  8%; } .bi-grid-h-8  { height:  8%; }
+	.bi-grid-w-9  { width:  9%; } .bi-grid-h-9  { height:  9%; }
+	.bi-grid-w-10 { width: 10%; } .bi-grid-h-10 { height: 10%; }
+	.bi-grid-w-11 { width: 11%; } .bi-grid-h-11 { height: 11%; }
+	.bi-grid-w-12 { width: 12%; } .bi-grid-h-12 { height: 12%; }
+	.bi-grid-w-13 { width: 13%; } .bi-grid-h-13 { height: 13%; }
+	.bi-grid-w-14 { width: 14%; } .bi-grid-h-14 { height: 14%; }
+	.bi-grid-w-15 { width: 15%; } .bi-grid-h-15 { height: 15%; }
+	.bi-grid-w-16 { width: 16%; } .bi-grid-h-16 { height: 16%; }
+	.bi-grid-w-17 { width: 17%; } .bi-grid-h-17 { height: 17%; }
+	.bi-grid-w-18 { width: 18%; } .bi-grid-h-18 { height: 18%; }
+	.bi-grid-w-19 { width: 19%; } .bi-grid-h-19 { height: 19%; }
+	.bi-grid-w-20 { width: 20%; } .bi-grid-h-20 { height: 20%; }
+	.bi-grid-w-21 { width: 21%; } .bi-grid-h-21 { height: 21%; }
+	.bi-grid-w-22 { width: 22%; } .bi-grid-h-22 { height: 22%; }
+	.bi-grid-w-23 { width: 23%; } .bi-grid-h-23 { height: 23%; }
+	.bi-grid-w-24 { width: 24%; } .bi-grid-h-24 { height: 24%; }
+	.bi-grid-w-25 { width: 25%; } .bi-grid-h-25 { height: 25%; }
+	.bi-grid-w-26 { width: 26%; } .bi-grid-h-26 { height: 26%; }
+	.bi-grid-w-27 { width: 27%; } .bi-grid-h-27 { height: 27%; }
+	.bi-grid-w-28 { width: 28%; } .bi-grid-h-28 { height: 28%; }
+	.bi-grid-w-29 { width: 29%; } .bi-grid-h-29 { height: 29%; }
+	.bi-grid-w-30 { width: 30%; } .bi-grid-h-30 { height: 30%; }
+	.bi-grid-w-31 { width: 31%; } .bi-grid-h-31 { height: 31%; }
+	.bi-grid-w-32 { width: 32%; } .bi-grid-h-32 { height: 32%; }
+	.bi-grid-w-33 { width: 33%; } .bi-grid-h-33 { height: 33%; }
+	.bi-grid-w-34 { width: 34%; } .bi-grid-h-34 { height: 34%; }
+	.bi-grid-w-35 { width: 35%; } .bi-grid-h-35 { height: 35%; }
+	.bi-grid-w-36 { width: 36%; } .bi-grid-h-36 { height: 36%; }
+	.bi-grid-w-37 { width: 37%; } .bi-grid-h-37 { height: 37%; }
+	.bi-grid-w-38 { width: 38%; } .bi-grid-h-38 { height: 38%; }
+	.bi-grid-w-39 { width: 39%; } .bi-grid-h-39 { height: 39%; }
+	.bi-grid-w-40 { width: 40%; } .bi-grid-h-40 { height: 40%; }
+	.bi-grid-w-41 { width: 41%; } .bi-grid-h-41 { height: 41%; }
+	.bi-grid-w-42 { width: 42%; } .bi-grid-h-42 { height: 42%; }
+	.bi-grid-w-43 { width: 43%; } .bi-grid-h-43 { height: 43%; }
+	.bi-grid-w-44 { width: 44%; } .bi-grid-h-44 { height: 44%; }
+	.bi-grid-w-45 { width: 45%; } .bi-grid-h-45 { height: 45%; }
+	.bi-grid-w-46 { width: 46%; } .bi-grid-h-46 { height: 46%; }
+	.bi-grid-w-47 { width: 47%; } .bi-grid-h-47 { height: 47%; }
+	.bi-grid-w-48 { width: 48%; } .bi-grid-h-48 { height: 48%; }
+	.bi-grid-w-49 { width: 49%; } .bi-grid-h-49 { height: 49%; }
+	.bi-grid-w-50 { width: 50%; } .bi-grid-h-50 { height: 50%; }
+	.bi-grid-w-51 { width: 51%; } .bi-grid-h-51 { height: 51%; }
+	.bi-grid-w-52 { width: 52%; } .bi-grid-h-52 { height: 52%; }
+	.bi-grid-w-53 { width: 53%; } .bi-grid-h-53 { height: 53%; }
+	.bi-grid-w-54 { width: 54%; } .bi-grid-h-54 { height: 54%; }
+	.bi-grid-w-55 { width: 55%; } .bi-grid-h-55 { height: 55%; }
+	.bi-grid-w-56 { width: 56%; } .bi-grid-h-56 { height: 56%; }
+	.bi-grid-w-57 { width: 57%; } .bi-grid-h-57 { height: 57%; }
+	.bi-grid-w-58 { width: 58%; } .bi-grid-h-58 { height: 58%; }
+	.bi-grid-w-59 { width: 59%; } .bi-grid-h-59 { height: 59%; }
+	.bi-grid-w-60 { width: 60%; } .bi-grid-h-60 { height: 60%; }
+	.bi-grid-w-61 { width: 61%; } .bi-grid-h-61 { height: 61%; }
+	.bi-grid-w-62 { width: 62%; } .bi-grid-h-62 { height: 62%; }
+	.bi-grid-w-63 { width: 63%; } .bi-grid-h-63 { height: 63%; }
+	.bi-grid-w-64 { width: 64%; } .bi-grid-h-64 { height: 64%; }
+	.bi-grid-w-65 { width: 65%; } .bi-grid-h-65 { height: 65%; }
+	.bi-grid-w-66 { width: 66%; } .bi-grid-h-66 { height: 66%; }
+	.bi-grid-w-67 { width: 67%; } .bi-grid-h-67 { height: 67%; }
+	.bi-grid-w-68 { width: 68%; } .bi-grid-h-68 { height: 68%; }
+	.bi-grid-w-69 { width: 69%; } .bi-grid-h-69 { height: 69%; }
+	.bi-grid-w-70 { width: 70%; } .bi-grid-h-70 { height: 70%; }
+	.bi-grid-w-71 { width: 71%; } .bi-grid-h-71 { height: 71%; }
+	.bi-grid-w-72 { width: 72%; } .bi-grid-h-72 { height: 72%; }
+	.bi-grid-w-73 { width: 73%; } .bi-grid-h-73 { height: 73%; }
+	.bi-grid-w-74 { width: 74%; } .bi-grid-h-74 { height: 74%; }
+	.bi-grid-w-75 { width: 75%; } .bi-grid-h-75 { height: 75%; }
+	.bi-grid-w-76 { width: 76%; } .bi-grid-h-76 { height: 76%; }
+	.bi-grid-w-77 { width: 77%; } .bi-grid-h-77 { height: 77%; }
+	.bi-grid-w-78 { width: 78%; } .bi-grid-h-78 { height: 78%; }
+	.bi-grid-w-79 { width: 79%; } .bi-grid-h-79 { height: 79%; }
+	.bi-grid-w-80 { width: 80%; } .bi-grid-h-80 { height: 80%; }
+	.bi-grid-w-81 { width: 81%; } .bi-grid-h-81 { height: 81%; }
+	.bi-grid-w-82 { width: 82%; } .bi-grid-h-82 { height: 82%; }
+	.bi-grid-w-83 { width: 83%; } .bi-grid-h-83 { height: 83%; }
+	.bi-grid-w-84 { width: 84%; } .bi-grid-h-84 { height: 84%; }
+	.bi-grid-w-85 { width: 85%; } .bi-grid-h-85 { height: 85%; }
+	.bi-grid-w-86 { width: 86%; } .bi-grid-h-86 { height: 86%; }
+	.bi-grid-w-87 { width: 87%; } .bi-grid-h-87 { height: 87%; }
+	.bi-grid-w-88 { width: 88%; } .bi-grid-h-88 { height: 88%; }
+	.bi-grid-w-89 { width: 89%; } .bi-grid-h-89 { height: 89%; }
+	.bi-grid-w-90 { width: 90%; } .bi-grid-h-90 { height: 90%; }
+	.bi-grid-w-91 { width: 91%; } .bi-grid-h-91 { height: 91%; }
+	.bi-grid-w-92 { width: 92%; } .bi-grid-h-92 { height: 92%; }
+	.bi-grid-w-93 { width: 93%; } .bi-grid-h-93 { height: 93%; }
+	.bi-grid-w-94 { width: 94%; } .bi-grid-h-94 { height: 94%; }
+	.bi-grid-w-95 { width: 95%; } .bi-grid-h-95 { height: 95%; }
+	.bi-grid-w-96 { width: 96%; } .bi-grid-h-96 { height: 96%; }
+	.bi-grid-w-97 { width: 97%; } .bi-grid-h-97 { height: 97%; }
+	.bi-grid-w-98 { width: 98%; } .bi-grid-h-98 { height: 98%; }
+	.bi-grid-w-99 { width: 99%; } .bi-grid-h-99 { height: 99%; }
+	.bi-grid-w-100{ width:100%; } .bi-grid-h-100{ height:100%; }
+}
+
+// cell's title and content
+
+.bi-grid-cell {
+	overflow: hidden;
+	border-radius: @border-radius-sm;
+	border: @border-width solid #d5d5d5; // change color via theme-xxx files
+	background-color: #fff; // change color via theme-xxx files
+}
+.bi-grid-cell-title {
+	margin: 0;
+	padding: 0 .5em;
+	//border-top-left-radius: inherit;
+	//border-top-right-radius: inherit;
+	//border-bottom: @border-width solid #eee; // change color via theme-xxx files
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	text-align: center;
+	line-height: @grid-cell-title-height;
+	height: @grid-cell-title-height;
+	font-size: @font-size-bigger;
+	font-weight: bold;
+	color: @color2-base-darker;
+	
+	// Note: any tag inside the title area is considered as a link to action 
+	// and displayed at the right (should be tags like: <a>, <form>, ...)
+	> * {
+		float: right;
+		margin-right: @grid-cell-title-height; // because of the zoom button
+		padding: inherit; // This is exactly what we needs ! Trust me...
+		font-weight: normal;
+		& + * { margin-right: 0; }
+	}
+}
+.bi-grid-cell-content {
+	.overflow-auto-scrolling;
+	position: absolute;
+	left: 0;
+	top: 0; // if .bi-cell-title is not present in the DOM then .bi-cell-content is filling the entire .bi-grid-cell
+	right: 0;
+	bottom: 0;
+	border-radius: inherit;
+}
+.bi-grid-cell-title ~ .bi-grid-cell-content {
+	top: @grid-cell-title-height + @border-width;
+	border-top-left-radius: 0 !important;
+	border-top-right-radius: 0 !important;
+}
+
+.bi-grid-cell-content {
+	z-index: 9997;
+	& + .bi-grid-cell-content { z-index: 9998; } // > 9997
+}
+
+// cell's button
+
+.bi-grid-cell-button {
+	position: absolute;
+	z-index: 9999; // > 9998
+	bottom: -@border-width;
+	left: -@border-width;
+	.bi-grid-button;
+}
+.bi-grid-cell-button:after {
+	content: "\f013";
+}
+
+// grid zoom (button and target)
+
+.bi-grid-zoom-button {
+	position: absolute;
+	z-index: 3;	
+	.bi-grid-button;
+}
+.bi-grid-zoom-button:after {
+	content: "\f00e";
+}
+
+.bi-grid-wrap .bi-grid-zoom-button {
+	@media (max-width: (@screen-breakpoint - 1)) {
+		top: 0;
+		right: 0;
+	}
+	@media (min-width: @screen-breakpoint) {
+		top: 0;
+		right: @grid-cell-spacing;
+	}
+}
+
+.bi-grid-zoom-target {
+	position: fixed;
+	z-index: 99999;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	background-color: @blur-bg;
+	opacity: 1;
+	animation: biBlurAnim @blur-transition ease-in;
+
+	> * {
+		position: absolute;
+		top: @blur-spacing;
+		right: @blur-spacing;
+		bottom: @blur-spacing;
+		left: @blur-spacing;
+
+		// .bi-grid-cell is embedded inside .bi-router
+		> .bi-router {
+			box-shadow: @blur-shadow;
+			border-radius: @border-radius-sm;
+		}
+
+		.bi-grid-cell {
+			box-sizing: border-box;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+
+		.bi-grid-zoom-button {
+			top: 0;
+			right: 0;
+		}
+	}
+}
+
+// grid button mixin
+
+.bi-grid-button() {
+	//box-shadow: -1px -1px 2px #e5e5e5 inset; // change color via theme-xxx files
+	border-radius: 0 @border-radius-sm 0 @border-radius-sm;
+	border: @border-width solid #d5d5d5; // change color via theme-xxx files
+	background-color: #f5f5f5; // change color via theme-xxx files
+	width: @grid-cell-title-height;
+	height: @grid-cell-title-height;
+	line-height: @grid-cell-title-height;
+	font-style: normal;
+	font-size: @font-size-bigger;
+	font-family: FontAwesome;
+	text-align: center;
+	color: #b5b5b5;
+	cursor: pointer;
+	user-select: none;
+
+	transition: border-color .25s ease, color .25s ease;
+	&:hover {
+		border-color: #b5b5b5;
+		color: #959595;
+	}
+}
+
+// Debug
+
+.bi-grid-debug-info {
+	display: none;
+	position: absolute;
+	z-index: 3;
+	bottom: 1px;
+	left: 1px;
+	border-radius: 3px;
+	padding: 2px 4px;
+	background-color: fadeout(green, 35%);
+	color: #fff;
+	text-shadow: 0 0 3px #000;
+}
+.bi-grid-debug {
+	&:hover {
+		.bi-grid-debug-info {
+			display: block;
+			animation: biGridDebugInfo .3s ease 3s forwards;
+		}
+	}
+	@keyframes biGridDebugInfo {
+		0% { opacity: 1; left: 1px; }
+		99% { opacity: 0; left: 1px; }
+		100% { left: -9999px; }
+	}
+}
+
+
+
+
+/* === SOUPE CSS === */
+
+// TMP: il faudra le renommer... et le mettre à la bonne place...
+.bi-analysis-selector {
+    position: absolute;
+    z-index: 3; // more than the z-index of .bi-router-active
+
+    .bi-form-group-title {
+    	padding-left: .5em !important;
+    }
+}
+
+
+// TODO: mettre au bon endroit...
+
+.bi-bullet { 
+	border-radius: 1em; 
+	padding: 1px .5em; 
+	background-color: @color1-base-darker;
+	color: white;
+}

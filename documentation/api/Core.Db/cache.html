@@ -1,0 +1,98 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Db.setCache, <br />Bi.Core.Db.getCache, <br />Bi.Core.Db.getCacheSize, <br />Bi.Core.Db.removeCache, <br />Bi.Core.Db._export_cache_</h1>
+
+<pre><code class="language-javascript">Bi.Core.Db.setCache(cache);</code></pre>
+<p>Définie le contenu de la variable <code>cache</code> comme cache des requêtes.</p>
+
+<pre><code class="language-javascript">Bi.Core.Db.getCache();</code></pre>
+<p>Récupère le cache utilisé pour les résultats des requêtes.<br />
+    L'objet retourné possède 2 ou 3 propriétés qui sont <code>.results</code>, <code>.stats</code> et <code>.timers</code>.</p>
+
+<p class="bidoc-tip">
+    Les résultats des requêtes sont accessibles à partir de la propriété <code>.results</code>.
+    Des statistiques d'usage du cache sont disponibles à partir de la propriété <code>.stats</code>.
+    Si l'option <code>{ debug: true }</code> a été choisie à l'instanciation alors le cache contient enfin des informations sur la durée des requêtes à partir de la propriété <code>.timers</code>.
+</p>
+
+<pre><code class="language-javascript">Bi.Core.Db.getCacheSize();</code></pre>
+<p>Retourne la taille actuelle du cache.</p>
+
+<pre><code class="language-javascript">Bi.Core.Db.removeCache();</code></pre>
+<p>Détruit le cache utilisé pour les résultats des requêtes.</p>
+
+<pre><code class="language-javascript">Bi.Core.Db._export_cache_();</code></pre>
+<p>
+    Permet d'effectuer un copier/coller du cache à des fins de débogage.<br />
+    La fonction remplace le contenu de la page par un <code>&lt;textarea&gt;</code> contenant le cache au format JSON.
+</p>
+
+<p class="bidoc-tip">
+    Il peut être intéressant par exemple à des fins de tests, de stocker le cache dans un fichier sur le serveur
+    après l'avoir récupéré avec la méthode <code>._export_cache_</code>,
+    afin de pouvoir le définir ensuite comme cache des requêtes...
+</p>
+
+<pre><code class="language-javascript">var _cache_ = Bi.Core.Db._export_cache_();
+
+// ...
+// Stocker le cache dans un fichier puis le récupérer et le définir comme cache.
+// ...
+
+Bi.Core.Db.setCache(_cache_);
+</code></pre>
+
+<p class="bidoc-tip">
+    Dans la suite de cette documentation, lorsque nous aurons besoin d'accéder à la base de données, 
+    nous utiliserons un <em>bouchon</em> en fixant simplement une valeur précise au cache afin de manipuler ensuite les résultats.
+    Cette astuce nous permettra d'exécuter des requêtes sans pour autant être réellement connecté à une base de données.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+    QUnit.test("The Bi.Core.Db cache results", function (assert) {
+
+        var _testDone = assert.async();
+
+        var db = new Bi.Core.Db();
+
+        Bi.Core.Db.removeCache();
+
+        Bi.Core.Db.setCache({
+            'myDb1': {
+                'select * from techno': {
+                    columns: ['id', 'name'], data: [[1, 'javascript'], [2, 'c#']]
+                },
+                'select name from techno where id=1': {
+                    columns: ['name'], data: [['javascript']]
+                }
+            },
+            'myDb2': {
+                // ...
+            }
+        });
+
+        db.reads('select * from techno', 'myDb1').queue(function (result) {
+
+            assert.deepEqual(result.columns,
+                ['id', 'name'], "have .columns");
+
+            assert.deepEqual(result.data,
+                [[1, 'javascript'], [2, 'c#']], "have .data");
+
+            assert.deepEqual(Bi.database.format.toJson(result),
+                [{ 'id': 1, 'name': 'javascript' }, { 'id': 2, 'name': 'c#' }], "can be converted into a JSON");
+
+            _testDone();
+        });
+
+    });
+</script>

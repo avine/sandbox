@@ -1,0 +1,129 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.tool.url</h1>
+
+<pre><code class="language-javascript">var parsed = Bi.tool.url.parse([url]);</code></pre>
+
+<p>
+    Analyse l'URL <code>url</code> fournie en paramètre.<br />
+    Si le paramètre <code>url</code> n'est pas renseigné alors la fonction analyse l'URL de la page <code>window.location.href</code>.
+</p>
+<p>
+    La fonction retourne un object contenant entre autres, les propriétés intéressantes suivantes :<br />
+    <code>protocol</code>, <code>hostname</code>, <code>pathname</code>, <code>queries</code>, <code>hashPathname</code>, <code>hashQueries</code>.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.url.stringify(parsed);</code></pre>
+
+<p>
+    Génère une URL à partir d'un objet de paramètrage <code>parsed</code>.<br />
+    L'objet <code>parsed</code> supporte les mêmes propriétés que l'objet retournées par la fonction <code>Bi.tool.url.parse</code>.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.url.extend(url, map, mergeQueries);</code></pre>
+
+<p>
+    Modifie l'<code>url</code> renseignée sous forme de <b>chaîne</b>, à partir de la <code>map</code> renseignée sous forme <b>d'objet</b>.<br />
+
+    Le paramètre booléan <code>mergeQueries</code> indique si les propriétés <code>.queries</code> et <code>.hasQueries</code> de la <code>map</code>
+    doivent fusionner ou non avec les paramètres déjà présents dans l'url.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.url.root(folder[, url]); // Define the non-writable constant: Bi.tool.url.ROOT</code></pre>
+
+<p>
+    Définie le répertoire d'installation du site, en retirant <code>folder</code> et tout ce que suit, de l'<code>url</code> fournie.
+    Le paramètre <code>url</code> est optionel et vaut par défaut <code>window.location.href</code>.
+    La fonction définie la constante <code>Bi.tool.url.ROOT</code>, qui permet de construire le préfixe des URLs de l'application.
+</p><p>
+    En d'autres termes, lorsque nous avons besoin dans l'application de définir une URL, nous évrivons quelque chose comme :<br />
+    <code>var imagePath = Bi.tool.url.ROOT + '/dashboard/resources/images/logos/ireland.png';</code>
+</p>
+
+<p class="bidoc-tip">
+    La constante <code>Bi.tool.url.ROOT</code> une fois définie n'est accessible qu'en lecture seule. C'est pourquoi la fonction <code>Bi.tool.url.root</code> ne peut donc être appelée qu'une seule fois.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    var tool = Bi.tool;
+
+    QUnit.test("Bi.tool.url.parse", function (assert) {
+
+        var parse = Bi.tool.url.parse(
+            'http://site.com:24349' +
+            '/dir1/dir2/index.html' +   // real pathname
+            '?q1=1&q2=2' +              // real queries
+            '#/hashDir1/hasDir2' +      // virtual pathname (in the hash)
+            '?hq1=1&hq2=2'              // virtual queries (in the hash)
+        );
+
+        assert.equal(parse.pathname, "/dir1/dir2/index.html", "Have .pathname");
+
+        assert.equal(parse.search, "?q1=1&q2=2", "Have .search");
+
+        assert.deepEqual(parse.queries, { q1: "1", q2: "2" }, "Have .queries");
+
+        assert.equal(parse.hash, "#/hashDir1/hasDir2?hq1=1&hq2=2", "Have .hash");
+
+        assert.equal(parse.hashPathname, "/hashDir1/hasDir2", "Have .hashPathname");
+
+        assert.deepEqual(parse.hashQueries, { hq1: "1", hq2: "2" }, "Have .hashQueries");
+
+    });
+
+    QUnit.test("Bi.tool.url.stringify", function (assert) {
+
+        var url = Bi.tool.url.stringify({
+            hostname: 'site.com',
+            port: '24349',
+            pathname: '/dir1/dir2/index.html',
+            queries: { q1: "1", q2: "2" },
+            hashPathname: '/hashDir1/hasDir2',
+            hashQueries: { hq1: "1", hq2: "2" }
+        });
+
+        assert.equal(url, "http://site.com:24349/dir1/dir2/index.html?q1=1&q2=2#/hashDir1/hasDir2?hq1=1&hq2=2", "Works !");
+
+    });
+
+    QUnit.test("Bi.tool.url.extend", function (assert) {
+
+        var base = "http://site.com:24349/dir1/dir2/index.html?q1=1&q2=2#/hashDir1/hasDir2?hq1=1&hq2=2";
+
+        var url = Bi.tool.url.extend(base, {
+
+            pathname: "/dir3",
+            queries: { q3: 3 },
+            hashPathname: "/hashDir3",
+            hashQueries: { hq3: 3 }
+
+        }/*, true*/);
+
+        assert.equal(url, "http://site.com:24349/dir3?q1=1&q2=2&q3=3#/hashDir3?hq1=1&hq2=2&hq3=3",
+            "Can merge queries (default behaviour)");
+
+        var url = Bi.tool.url.extend(base, {
+
+            pathname: "/dir3",
+            queries: { q3: 3 },
+            hashPathname: "/hashDir3",
+            hashQueries: { hq3: 3 }
+
+        }, false);
+
+        assert.equal(url, "http://site.com:24349/dir3?q3=3#/hashDir3?hq3=3",
+            "Can overwrite queries");
+
+    });
+
+</script>

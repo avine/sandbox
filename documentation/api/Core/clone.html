@@ -1,0 +1,108 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.clone &nbsp;<i class="fa fa-diamond bidoc-highlight"></i></h1>
+
+<pre><code class="language-javascript">.clone([callbacks[, listeners]]);</code></pre>
+
+<p>Clone l'instance de la pile d'appels.
+	Lors du clonage, une nouvelle pile d'appels est dédiée au clone.
+	De sorte que les appels asynchrones du clone (avec la méthode <code>.then</code> par exemple) se font en parallèle de l'instance d'origine.</p>
+
+<p>Le paramètre boolean <code>callbacks</code> détermine si les fonctions enregistrées avec 
+    <code>.onFailure</code> et <code>.onComplete</code> doivent être dupliquées et ajoutées au clone.
+    Sa valeur par défaut est <code>true</code>.</p>
+
+<p>De même, le paramètre boolean <code>listeners</code> détermine si les événements enregistrés avec
+    <code>.addListener</code> doivent être dupliqués et ajoutés au clone.
+    Sa valeur par défaut est <code>true</code>.</p>
+
+<p class="bidoc-tip">Pour comprendre exactement comment fonctionne la pile d'appels d'une instance <code>Bi.Core()</code>, étudiez très en détail le test unitaire suivant.<br />
+    La méthode <code>.then</code> étant asynchrone, il ne suffit pas d'écrire <code>core.then().then()</code> pour avoir la garantie que le second <code>.then</code> 
+    sera exécuté immanquablement  après le premier, récupérant ainsi la valeur transmise par <code>this.done(result);</code> dans le premier <code>.then</code>.<br />
+    En effet, si la pile est manipulée au même moment par un autre code, un appel à <code>.then</code> peut tout à fait s'insérer au milieu (s'il est enregistré pendant l'exécution du premier <code>.then</code>).<br />
+    Vous devez toujours avoir cela en tête ou vous allez inévitablement rencontrer des <b>"problèmes d'appels concurrents"</b> qui sont difficiles à identifier.</p>
+
+<p>En conclusion, chaque fois que vous utilisez la pile dans un processus asynchrone, il est préférable de cloner l'instance au préalable.
+    Le clone possède sa propre pile d'appels dédiée de sorte que si votre code n'expose pas ce clone alors 
+    vous êtes certain que l'enchaînement des fonctions de rappels <code>.then</code> se fera exactement dans l'ordre attendu.
+    Cette notion est très importante et c'est pourquoi nous l'avons marqué d'un <i class="fa fa-diamond bidoc-highlight"></i>.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test("with .clone", function (assert) {
+
+        var _testDone = assert.async();
+
+        var core = new Bi.Core(), clone = core.clone();
+
+        core.then(function () {
+            setTimeout(function () {
+                this.done('A');
+            }.bind(this), 100);
+        }).queue(function (result) {
+            assert.ok('A' === result, "core stack is independant");
+            _testDone();
+        });
+
+        setTimeout(function () {
+            clone.then(function () {
+                this.done('B');
+            }).queue(function (result) {
+                assert.ok('B' === result, "clone stack is independant");
+            });
+        }, 50);
+
+    });
+
+    QUnit.test("without .clone", function (assert) {
+
+        var _testDone = assert.async();
+
+        var core = new Bi.Core(); // Use a single core instance !
+
+        core.then(function () {
+
+            setTimeout(function () {
+                this.done('A'); // .done is executed after 100ms!
+            }.bind(this), 100);
+
+        })
+        /* foreign callback will be inserted just between .then and .queue (#) */
+        .queue(function (result) {
+
+            // result is not equal to 'A' (#!#)
+            assert.ok('B' === result, "First competitors call problem");
+
+            _testDone();
+        });
+
+        setTimeout(function () {
+            // Using same core instance again ! :-(
+            // .then is executed just after 50ms! It means before the instruction .done('A') above!
+            core.then(function (oups) {
+
+                // This callback function has been added exactly at the break point (#) above
+                assert.ok('A' === oups, "Second competitors call problem");
+
+                // This result will be sended to the break point (#!#)
+                this.done('B');
+
+            }).queue(function (result) {
+
+                assert.ok('B' === result, "Only one stack has been corrupted");
+
+            });
+        }, 50);
+
+    });
+
+</script>

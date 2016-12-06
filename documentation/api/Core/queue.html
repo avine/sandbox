@@ -1,0 +1,53 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.queue</h1>
+
+<pre><code class="language-javascript">.queue(fn);</code></pre>
+
+<p>Enregistre la fonction synchrone <code>fn</code> dans la pile d'appels.
+	A l'intérieur de <code>fn</code>, <code>this</code> représente l'instance de la classe <code>Bi.Core</code>.
+	Contrairement à la méthode <code>.then</code>, <code>.queue</code> n'a pas besoin et ne doit pas invoquer la méthode <code>.done</code> (ou équivalente), pour rendre la main à la pile d'appels.
+	En effet, <code>.queue</code> invoque automatiquement la méthode <code>.done(this.lastResult)</code> immédiatement après l'exécution de la fonction <code>fn</code>.</p>
+
+<pre><code class="language-javascript">var core = new Bi.Core().queue(function () {
+    // Faire quelque chose d'abord...
+}).queue(function () {
+    // Faire quelque chose ensuite...
+});
+</code></pre>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".queue", function (assert) {
+
+        var _testDone = assert.async();
+
+        var core = new Bi.Core().then(function () {
+
+            this.done(999);
+
+        }).queue(function (result) {
+
+            assert.ok(result === 999, "Can access this.lastResult");
+
+        }).then(function (result) {
+
+            assert.ok(result === 999, "Propagates this.lastResult");
+
+            this.done();
+
+            _testDone();
+        });
+
+    });
+
+</script>

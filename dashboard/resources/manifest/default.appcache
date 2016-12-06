@@ -1,0 +1,191 @@
+﻿CACHE MANIFEST
+
+# Version 2.5 - 2016/09/29 16:00
+
+CACHE:
+
+# --- jqWidgets images ---
+../../plugins/jqwidgets/styles/images/metro-icon-up.png
+../../plugins/jqwidgets/styles/images/metro-icon-down.png
+../../plugins/jqwidgets/styles/images/metro-icon-left.png
+../../plugins/jqwidgets/styles/images/metro-icon-right.png
+../../plugins/jqwidgets/styles/images/loader.gif
+
+# --- analysis 16x16 images ---
+../images/analysis/16x16/arrow_down_blue.png
+../images/analysis/16x16/arrow_down_green.png
+../images/analysis/16x16/arrow_down_red.png
+../images/analysis/16x16/arrow_down_right_blue.png
+../images/analysis/16x16/arrow_down_right_green.png
+../images/analysis/16x16/arrow_down_right_red.png
+../images/analysis/16x16/arrow_right_blue.png
+../images/analysis/16x16/arrow_right_green.png
+../images/analysis/16x16/arrow_right_red.png
+../images/analysis/16x16/arrow_up_blue.png
+../images/analysis/16x16/arrow_up_green.png
+../images/analysis/16x16/arrow_up_red.png
+../images/analysis/16x16/arrow_up_right_blue.png
+../images/analysis/16x16/arrow_up_right_green.png
+../images/analysis/16x16/arrow_up_right_red.png
+../images/analysis/16x16/bullet_blue.png
+../images/analysis/16x16/bullet_green.png
+../images/analysis/16x16/bullet_red.png
+../images/analysis/16x16/bullet_yellow.png
+
+# --- analysis 24x24 images ---
+../images/analysis/24x24/arrow_down_blue.png
+../images/analysis/24x24/arrow_down_green.png
+../images/analysis/24x24/arrow_down_red.png
+../images/analysis/24x24/arrow_down_right_blue.png
+../images/analysis/24x24/arrow_down_right_green.png
+../images/analysis/24x24/arrow_down_right_red.png
+../images/analysis/24x24/arrow_right_blue.png
+../images/analysis/24x24/arrow_right_green.png
+../images/analysis/24x24/arrow_right_red.png
+../images/analysis/24x24/arrow_up_blue.png
+../images/analysis/24x24/arrow_up_green.png
+../images/analysis/24x24/arrow_up_red.png
+../images/analysis/24x24/arrow_up_right_blue.png
+../images/analysis/24x24/arrow_up_right_green.png
+../images/analysis/24x24/arrow_up_right_red.png
+../images/analysis/24x24/bullet_blue.png
+../images/analysis/24x24/bullet_green.png
+../images/analysis/24x24/bullet_red.png
+
+# --- logos ---
+../images/logos/afrdtom.png
+../images/logos/afrdtom-retina.png
+../images/logos/belgium.png
+../images/logos/belgium-retina.png
+../images/logos/brazil.png
+../images/logos/brazil-retina.png
+../images/logos/camac.png
+../images/logos/camac-retina.png
+../images/logos/cis.png
+../images/logos/cis-retina.png
+../images/logos/croatia.png
+../images/logos/croatia-retina.png
+../images/logos/domtom.png
+../images/logos/domtom-retina.png
+../images/logos/ireland.png
+../images/logos/ireland-retina.png
+../images/logos/kit-bi.png
+../images/logos/kit-bi-retina.png
+../images/logos/maroc.png
+../images/logos/maroc-retina.png
+../images/logos/serbia.png
+../images/logos/serbia-retina.png
+../images/logos/slovenia.png
+../images/logos/slovenia-retina.png
+../images/logos/southafrica.png
+../images/logos/southafrica-retina.png
+
+# --- fonts ---
+../../app/ui/fonts/Roboto/Roboto-Light.ttf
+../../app/ui/fonts/Roboto/Roboto-Regular.ttf
+../../app/ui/fonts/Roboto/Roboto-Medium.ttf
+
+# --- font-awesome ---
+../../plugins/font-awesome/css/font-awesome.min.css
+../../plugins/font-awesome/fonts/fontawesome-webfont.woff?v=4.3.0
+../../plugins/font-awesome/fonts/fontawesome-webfont.woff2?v=4.3.0
+../../plugins/font-awesome/fonts/fontawesome-webfont.eot?
+
+# --- bi css ---
+../../app/ui/css/fullpage.css
+../../app/ui/css/bi.css
+
+# --- bi views ---
+../../views/login.html
+../../views/logout.html
+../../views/main.html
+../../views/synchro.html
+../../views/tmpl/body-head.html
+../../views/tmpl/output.html
+
+# --- bi page ---
+../../unavailable.html
+
+# --- jquery ---
+../../plugins/jquery/jquery-2.1.4.min.js
+
+# --- sql.js (required for IE) ---
+#../../plugins/sql.js-master/js/sql.js
+
+# --- jqwidgets ---
+../../plugins/jqwidgets/styles/jqx.base.css
+../../plugins/jqwidgets/styles/jqx.metro.css
+../../plugins/jqwidgets/globalization/globalize.js
+../../plugins/jqwidgets/jqx-all.js
+
+# --- amcharts ---
+../../plugins/am/amcharts/amcharts.js
+../../plugins/am/amcharts/funnel.js
+../../plugins/am/amcharts/gauge.js
+../../plugins/am/amcharts/pie.js
+../../plugins/am/amcharts/radar.js
+../../plugins/am/amcharts/serial.js
+../../plugins/am/amcharts/xy.js
+
+# --- ammap ---
+../../plugins/am/ammap/ammap.css
+../../plugins/am/ammap/ammap_amcharts_extension.js
+
+# --- amcharts export ---
+../../plugins/am/amcharts/exporting/amexport.js
+../../plugins/am/amcharts/exporting/rgbcolor.js
+../../plugins/am/amcharts/exporting/canvg.js
+
+# --- cryptojs ---
+../../plugins/cryptojs/md5.js
+
+# --- bi ui ---
+../../app/ui/js/biPlugin.js
+../../app/ui/js/biScreen.js
+../../app/ui/js/biRouter.js
+../../app/ui/js/biWrap.js
+../../app/ui/js/biNavMenu.js
+../../app/ui/js/biMenu.js
+../../app/ui/js/biLoader.js
+../../app/ui/js/biForm.js
+../../app/ui/js/biFormButtonGroup.js
+../../app/ui/js/biFormTreeView.js
+../../app/ui/js/biProgress.js
+../../app/ui/js/biModal.js
+
+# --- bi bo ---
+../../app/bo/tool.js
+../../app/bo/tool.PivotTable.js
+../../app/bo/database.js
+../../app/bo/Core.js
+../../app/bo/Core.Ping.js
+../../app/bo/Core.Factory.js
+../../app/bo/Core.FactoryLoad.js
+../../app/bo/Core.Repository.js
+../../app/bo/Core.Db.js
+../../app/bo/Core.Translation.js
+../../app/bo/Core.User.js
+../../app/bo/Core.Template.js
+../../app/bo/Core.Router.js
+../../app/bo/Core.Context.js
+../../app/bo/Core.Dashboard.js
+../../app/bo/Core.Filter.js
+../../app/bo/Core.FilterProcess.js
+../../app/bo/Core.Analysis.js
+../../app/bo/Core.AnalysisDisplay.js
+../../app/bo/Core.Message.js
+../../app/bo/Core.Notification.js
+../../app/bo/Core.Log.js
+../../app/bo/Core.Synchro.js
+
+# --- bi controllers ---
+../../controllers/login.js
+../../controllers/logout.js
+../../controllers/main.js
+../../controllers/synchro.js
+
+# --- PDF viewer ---
+../ViewDataAppPdf.html
+
+NETWORK:
+*

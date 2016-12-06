@@ -1,0 +1,58 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Context</h1>
+
+<pre><code class="language-javascript">var context = new Bi.Core.Context();</code></pre>
+<p>Crée une instance de Context.</p>
+
+<pre><code class="language-javascript">query = context.replaceAll(query);</code></pre>
+<p>Analyse la requête SQL <code>query</code> et applique tous les remplacements disponibles.</p>
+
+<pre><code class="language-javascript">query = context.replaceSecurity(query);
+query = context.replaceVariable(query);
+query = context.replaceSyntax(query);
+query = context.replaceUser(query);</code></pre>
+<p>Liste détaillée des remplacements effectués par la méthode <code>.replaceAll()</code>.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+    var context = new Bi.Core.Context();
+
+    // Cross-database engine "concatenation operator" and "substring function"
+
+    QUnit.test("'BiConcat' replacement", function (assert) {
+        // Concatenation with SQL Server
+        Bi.database.run.mode("remote");
+        assert.equal(" A + B ", context.replaceSyntax("BiConcat ¤¤ A ¤ B ¤¤"), "using the symbol '+' in online mode");
+
+        // Concatenation with SQLite
+        Bi.database.run.mode("local");
+        assert.equal(" A || B ", context.replaceSyntax("BiConcat ¤¤ A ¤ B ¤¤"), "using the symbol '||' in offline mode");
+    });
+    QUnit.test("'substring' replacement", function (assert) {
+        // substring with SQL Server
+        Bi.database.run.mode("remote");
+        assert.equal(" substring() ", context.replaceSyntax(" substring() "), "using 'substring' in online mode");
+
+        // substr with SQLite
+        Bi.database.run.mode("local");
+        assert.equal(" substr() ", context.replaceSyntax(" substring() "), "using 'substr' in offline mode");
+    });
+    QUnit.test("'len' replacement", function (assert) {
+        // len with SQL Server
+        Bi.database.run.mode("remote");
+        assert.equal(" len() ", context.replaceSyntax(" len() "), "using 'len' in online mode");
+
+        // length with SQLite
+        Bi.database.run.mode("local");
+        assert.equal(" length() ", context.replaceSyntax(" len() "), "using 'length' in offline mode");
+    });
+</script>

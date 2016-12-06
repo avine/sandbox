@@ -1,0 +1,182 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biMenu</h1>
+
+<pre><code class="language-javascript">&lt;ul class="bi-menu bi-hover-wrap"&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;
+        &lt;span&gt;Item 2&lt;/span&gt;
+        &lt;ul class="bi-menu bi-hover-wrap"&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Item 2.1&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Item 2.2&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;Item 2.3&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+    ...
+&lt;/ul&gt;
+</code></pre>
+    
+    <p>Structure des menus.<br />
+        La classe <code>.bi-menu</code> doit être ajoutée à chaque menu/sous-menu.<br />
+        Par contre, le plugin <code>.biMenu()</code> doit être appelé le menu racine uniquement.</p>
+
+    <p class="bidoc-tip">La classe <code>.bi-hover-wrap</code> est optionnelle.
+        Elle permet de voir fonctionner le menu en "pure CSS" (c'est-à-dire sans Javascript).
+        Cela peut être très utile pour débogguer le fonctionnement du menu.
+        Pour plus de détails sur cette fonctionnalité, reportez-vous au commentaire en bas du fichier Less&nbsp;:
+        <code>/dashboard/app/ui/less/bi.less</code>.</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-menu-sandbox {
+        display: none;
+    }
+    #demo-container {
+        height: 400px;
+        margin: 20px;
+        border: 1px dotted red;
+    }
+</style>
+
+<div id="demo-menu-sandbox">
+
+    <div id="demo-menu-levels-1">
+        <ul class="bi-menu bi-hover-wrap">
+            <li><a href="#"><i class="fa fa-cog"></i> Item 1</a></li>
+            <li><a href="#">Item 2</a></li>
+            <li><a href="#">Item 3</a></li>
+            <li><a href="#">Item 4</a></li>
+        </ul>
+    </div>
+
+    <div id="demo-menu-levels-2">
+        <ul class="bi-menu bi-hover-wrap">
+            <li><a href="#"><i class="fa fa-home"></i> Item 1</a></li>
+            <li>
+                <span>Item 2</span>
+                <ul class="bi-menu bi-hover-wrap">
+                    <li><a href="#"><i class="fa fa-cog"></i> Item 2.1</a></li>
+                    <li><a href="#">Item 2.2</a></li>
+                    <li><a href="#">Item 2.3</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Item 3</a></li>
+            <li><a href="#">Item 4</a></li>
+        </ul>
+    </div>
+
+    <div id="demo-menu-levels-3">
+        <ul class="bi-menu bi-hover-wrap">
+            <li><a href="#"><i class="fa fa-home"></i> Item 1</a></li>
+            <li>
+                <span>Item 2</span>
+                <ul class="bi-menu bi-hover-wrap">
+                    <li><a href="#">Item 2.1</a></li>
+                    <li>
+                        <span>Item 2.2</span>
+                        <ul class="bi-menu bi-hover-wrap">
+                            <li><a href="#">Item 2.2.1</a></li>
+                            <li>
+                                <span>Item 2.2.2</span>
+                                <ul class="bi-menu bi-hover-wrap">
+                                    <li><a href="#"><i class="fa fa-cog"></i> Item 2.2.2.1</a></li>
+                                    <li><a href="#">Item 2.2.2.2</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Item 2.3</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Item 3</a></li>
+            <li><a href="#">Item 4</a></li>
+        </ul>
+    </div>
+
+</div>
+
+<div id="demo-container">
+
+    <div class="bi-wrap bi-font">
+
+        <div class="bi-top">
+            <div class="bi-toggle-content">
+
+                <div class="bi-nav-wrap">
+                    <div class="bi-nav-menu">
+                        <div class="bi-nav-menu-trigger"><i class="fa fa-bars"></i></div>
+                        <div class="bi-nav-menu-target"><!-- Top menu --></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+        </div>
+
+        <div class="bi-middle">
+
+            <div class="bi-sidebar">
+                <div class="bi-toggle-content"><!-- Sidebar menu --></div>
+                <div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+            </div>
+
+            <div class="bi-main">
+                <div class="bi-head"><!-- Head menu --></div>
+                <div class="bi-body"></div>
+            </div>
+
+        </div>
+
+        <div class="bi-bottom">
+            <div class="bi-toggle-content"><!-- Bottom menu --></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="demo-action" class="bidoc-code-sample"></div>
+
+<script>
+    var $action = $('#demo-action');
+    function demoAction(title, callback) { $('<button>' + title + '</button>').click(callback).appendTo($action); }
+
+    jQuery('.bi-wrap').biWrap();
+    jQuery('.bi-nav-menu').biNavMenu();
+
+    // Get menu from sandbox
+    function demoGet$menu(level) {
+        var menu = jQuery('#demo-menu-levels-' + level).html(), $menu = jQuery(menu);
+        $menu.find('a').attr('href', window.location.href);
+        return $menu;
+    }
+
+    // Insert menus in UI
+    var demo$menus = {
+        head:       demoGet$menu(1).appendTo('.bi-head'),
+        bottom:     demoGet$menu(2).appendTo('.bi-bottom > .bi-toggle-content'),
+        sidebar:    demoGet$menu(3).appendTo('.bi-sidebar > .bi-toggle-content'),
+        top:        demoGet$menu(3).appendTo('.bi-nav-menu-target')
+    };
+
+    // Toggle this class before enabling JS
+    demoAction('Toggle CSS class .bi-hover-wrap', function () {
+        jQuery('.bi-menu').toggleClass('bi-hover-wrap');
+    });
+
+    // Enable JS
+    demoAction('Enable jQuery plugin .biMenu', function () {
+        demo$menus.head.biMenu();
+        demo$menus.bottom.biMenu({ breadcrumbDisabled: true });
+        demo$menus.top.biMenu();
+        demo$menus.sidebar.biMenu({ closeDelay: false, breadcrumbAlwaysVisible: true });
+    });
+</script>

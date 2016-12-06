@@ -1,0 +1,83 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery plugin "button-group" - type "radio"</h1>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-get-selection { min-height: 1.5em; font-family: Consolas, monospace; font-size: 1.2em; color: green; }
+</style>
+
+<div class="bidoc-code-sample">
+    <div id="demo-form-actions"></div><hr />
+
+    <div id="demo-wrap">
+        <form method="GET" action="#" class="bi-form">
+
+            <div id="demo-get-selection"></div>
+
+            <h3>Horizontal</h3>
+            <div id="demo1"></div>
+
+            <h3>Horizontal full</h3>
+            <div id="demo2" class="bi-form-button-group-h-full"></div>
+
+            <h3>Horizontal full, fixed width</h3>
+            <div id="demo3" class="bi-form-button-group-h-full bi-form-button-group-h-fixed"></div>
+
+            <h3>Vertical</h3>
+            <div id="demo4" class="bi-form-button-group-v"></div>
+
+            <h3>Vertical uncheckable!</h3>
+            <div id="demo5" class="bi-form-button-group-v"></div>
+
+        </form>
+    </div>
+
+</div>
+
+<div id="demo-sandbox" style="display:none;">
+    <label>Radio 1 (checked)<input type="radio" checked /></label><br />
+    <label>Radio 2<input type="radio" /></label><br />
+    <label>Radio 3<input type="radio" /></label><br />
+    <label>Radio 4 (disabled)<input type="radio" disabled /></label>
+</div>
+
+<script>
+    var demoIndex = 1;
+    function demoGetSandbox(id) {
+        var $sandbox = $('#demo-sandbox').clone();
+        $sandbox.find('input').each(function (i) {
+            var item = demoIndex + '-' + (i + 1);
+            $(this).attr('name', 'sandbox' + demoIndex).attr('value', item);
+        });
+        demoIndex++;
+        return $(id).html($sandbox.html());
+    }
+    demoGetSandbox('#demo1');
+    demoGetSandbox('#demo2');
+    demoGetSandbox('#demo3');
+    demoGetSandbox('#demo4');
+    demoGetSandbox('#demo5');
+
+    window.demoFormActions()('biButtonGroup', function () {
+        $('#demo1').biButtonGroup();
+        $('#demo2').biButtonGroup();
+        $('#demo3').biButtonGroup();
+        $('#demo4').biButtonGroup();
+        $('#demo5').biButtonGroup({ uncheckRadio: true });
+    }, true);
+
+    $('body').change(function (e) {
+        var $group = $(e.target).closest('.bi-form-button-group');
+        $('#demo-get-selection').html(
+            '<b>' + $group.attr('id') + ' :</b> ' +
+            JSON.stringify($group.biButtonGroup('getSelection'))
+        );
+    });
+</script>

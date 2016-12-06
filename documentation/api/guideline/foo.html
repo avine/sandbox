@@ -1,0 +1,53 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>Foo</h1>
+
+    <pre><code class="language-javascript">function foo1() { /* ... */ }</code></pre>
+
+    <p>Description de la fonction <code>foo1</code>...</p>
+
+    <pre><code class="language-javascript">function foo2() { /* ... */ }</code></pre>
+
+    <p>Description de la fonction <code>foo2</code>...</p>
+    <hr />
+    <p>Suite de la description de <code>foo2</code>...</p>
+
+    <p class="bidoc-tip">Note sur la fonction foo2.</p>
+
+    <p>
+        Cliquer sur le bouton <code><i class="fa fa-code"></i></code> en bas à gauche, pour afficher le panel de code source.</p>
+
+    <p style="color:red">
+        <b>Les tests unitaires utilisent la librairie <em>QUnit</em>.</b><br />
+        Notez que parfois, le test unitaire ne se lance pas :-(<br />
+        Lorsque cela se produit, il suffit de recharger la page pour voir le test s'exécuter...</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    /*
+     * Seul le contenu de la page se trouvant à l'extérieur des balises de commentaire
+     *     &lt;-- bidoc-text --&gt;
+     * est affiché dans le panel de code source.
+     */
+
+    function foo1() { return 'Foo1'; }
+    function foo2() { return 'Foo2'; }
+
+    QUnit.test("function foo1", function (assert) {
+        assert.ok('Foo1' == foo1(), "returns the string 'Foo1'.");
+    });
+
+    QUnit.test("function foo2", function (assert) {
+        assert.ok('Foo2' == foo2(), "returns the string 'Foo2'.");
+    });
+
+</script>

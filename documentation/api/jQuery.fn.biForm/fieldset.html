@@ -1,0 +1,77 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>Fieldset</h1>
+
+    <p>Utilisation des balises <code>fieldset</code> et <code>legend</code> ainsi que des classes CSS <code>.bi-form-group-*</code>.</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<div class="bidoc-code-sample">
+    <div id="demo-form-actions"></div><hr />
+
+    <form method="GET" action="#" class="bi-form">
+
+        <fieldset>
+            <legend>Block form-group</legend>
+
+            <div class="bi-form-group-title">Group 1:</div>
+            <div class="bi-form-group-content">
+                <label class="bi-form-nested-inverted"><input type="checkbox" checked="checked" />Checkbox 1</label>
+                <label class="bi-form-nested-inverted"><input type="checkbox" />Checkbox 2</label>
+                <label class="bi-form-nested-inverted"><input type="checkbox" />Checkbox 3</label>
+            </div>
+
+            <div class="bi-form-group-title">Group 2:</div>
+            <div class="bi-form-group-content">
+                <label>Text 1<input type="text" /></label>
+                <label>Text 2<input type="text" /></label>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Block form-group with &lt;br /&gt;</legend>
+
+            <div class="bi-form-group-title">Group 1:</div>
+            <div class="bi-form-group-content">
+                <label class="bi-form-nested-inverted"><input type="checkbox" checked="checked" />Checkbox 1</label><br />
+                <label class="bi-form-nested-inverted"><input type="checkbox" />Checkbox 2</label><br />
+                <label class="bi-form-nested-inverted"><input type="checkbox" />Checkbox 3</label>
+            </div>
+
+            <div class="bi-form-group-title">Group 2:</div>
+            <div class="bi-form-group-content">
+                <label>Text 1<input type="text" /></label><br />
+                <label>Text 2<input type="text" /></label>
+
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Inline form-group</legend>
+
+            <div class="bi-form-group-title">Group 1:</div>
+            <div class="bi-form-group-content bi-form-group-inline">
+                <label class="bi-form-nested-inverted"><input type="checkbox" checked="checked" />Checkbox 1</label>
+                <label class="bi-form-nested-inverted"><input type="checkbox" />Checkbox 2</label>
+                <label class="bi-form-nested-inverted"><input type="checkbox" />Checkbox 3</label>
+            </div>
+
+            <br />
+
+            <div class="bi-form-group-title">Group 2:</div>
+            <div class="bi-form-group-content bi-form-group-inline">
+                <label>Text 1<input type="text" /></label>
+                <label>Text 2<input type="text" /></label>
+            </div>
+        </fieldset>
+
+    </form>
+
+</div>
+
+<script>window.demoFormActions();</script>

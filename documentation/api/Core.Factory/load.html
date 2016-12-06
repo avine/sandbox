@@ -1,0 +1,110 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Factory.load
+    &nbsp;<i class="fa fa-diamond bidoc-highlight" title='"all-in-one" static method for Web integration'></i></h1>
+
+<pre><code class="language-javascript">Bi.Core.Factory.load([settings1, [settings2]]);</code></pre>
+
+<p>
+    Charge l'application Bi dans la page web.
+    Les paramètres <code>settingsX</code> jouent le même rôle, et permettent simplement 
+    de scinder la configuration de l'application en deux si nécessaire.
+</p><p class="bidoc-tip">
+    Si vous êtes <b>intégrateur Web</b>, c'est en fin de compte la seule fonction que vous devez connaître... <i class="fa fa-smile-o"></i>
+    <br />
+    C'est pourquoi nous l'avons marqué d'un <i class="fa fa-diamond bidoc-highlight"></i>.
+</p>
+
+<p>Supposons que l'application soit disponible à l'adresse : <code>http://localhost/Bi/dashboard/index.html</code>.<br />
+    Le répertoire <code>/dashboard</code> est le <b>répertoire racine</b> contenant tous les <em>fichiers client</em> de l'application.
+    Avant d'appeler la fonction <code>Bi.Core.Factory.load</code>, vous devez en amont définir la constante <code>Bi.tool.url.ROOT</code>.
+    Cette constante renseigne le <b>chemin relatif</b> entre la racine du serveur <code>http://localhost</code> et le répertoire racine des fichiers client <code>/dashboard</code>.
+    Dans notre exemple, <code>Bi.tool.url.ROOT</code> vaut donc <code>'/Bi';</code>.
+</p><p class="bidoc-tip">
+    Pour fixer la valeur de la constante <code>Bi.tool.url.ROOT</code>, utilisez la fonction dédiée : <code>Bi.tool.url.root</code>.<br />
+    Dans notre exemple, exécuter l'instruction suivante : <code>Bi.tool.url.root('/dashboard');</code>.<br />
+    <a href="tool.html#?bidoc=tool/url">En savoir plus</a>
+</p>
+
+<pre><code class="language-javascript">var settings = {
+    
+    dashboardUrl: '',                       // Dashboards url without location hash (from tool.url.ROOT)
+    
+    hashPrefix: '',                         // Url hash prefix
+    
+    selector: 'body',                       // DOM selector where to append the main $router
+    
+    wrapOptions: undefined,                 // jQuery.fn.biWrap plugin options
+    
+    login: [/*username, password*/],        // Use hard coded credentials to sign in the user
+    
+    standalone: [/*dashboardId, pageId*/]   // Display only the requested dashboard/page
+};
+</code></pre>
+
+<p>Liste des paramètres disponibles pour configurer le chargement de l'application.</p>
+
+<ul>
+    <li>
+        <p>
+            <code>dashboardUrl</code> renseigne l'URL de la page web contenant l'application (et vaut dans notre exemple : <code>/dashboard/index.html</code>).
+            Cette URL doit être renseignée et n'est pas supposée être l'adresse de la page actuelle.
+            En effet, il est possible d'afficher dans n'importe quelle page Web, un <b>Widget</b> de l'application (par exemple, une <b>Page</b> d'un <b>Dashboard</b>).
+            Si ce Widget contient un lien d'action, nous voulons en cliquant être alors redirigés vers l'application complète.
+            C'est cette URL qui doit donc être renseignée.
+        </p>
+    </li><li>
+        <p><code>hashPrefix</code> renseigne le <em>hash</em> de l'URL qui doit préfixer toutes les URL de l'application.
+            Si <code>hashPrefix = '/home'</code> alors le <b>Router</b> de l'application va répondre à l'adresse : 
+            <code>http://localhot/Bi/dashboard/index.html#/home</code>.<br />
+            Par défaut, <code>hashPrefix</code> est fixé à une chaîne vide.<br />
+            Cette fonctionnalité permet d'intégrer l'application dans une page où un autre Framework est déjà installé (comme AngularJS par exemple).
+        </p>
+    </li><li>
+        <p>
+            La propriété <code>selector</code> renseigne le noeud du DOM dans lequel l'application doit être chargée.
+            Ce peut être un <b>HTMLElement</b>, une chaîne représentant un <b>selecteur CSS</b> ou un objet <b>jQuery</b>.
+        </p>
+    </li><li>
+        <p>
+            Le paramètre optionnel <code>wrapOptions</code> définie le paramètrage du plugin <code>jQuery.fn.biWrap</code>.
+            Ce plugin est responsable de la mise en page (<b>Layout</b>) des différents éléments fonctionnels de l'application (<b>Header, Sidebar, MainContent, ...</b>).<br />
+            <a href="jQuery.fn.biWrap.html">En savoir plus</a>
+        </p>
+    </li><li>
+        <p>
+            Le paramètre optionnel <code>login</code> renseigne le couple <b>username / password</b> de l'utilisateur de l'application.
+            Par défaut, il n'est pas renseigné et l'utilisateur est redirigé vers une page d'authentification.
+        </p>
+    </li><li>
+        <p>
+            Le paramètre optionnel <code>standalone</code> permet de définir l'instance chargée comme un <b>Widget</b>, 
+            où seul un <b>Dashboard</b> ou même une seule <b>Page</b> est chargée.<br />
+            <em>Notez que "standalone" signifie dans ce contexte <b>"isoler une partie de l'application (1 Dashboard ou 1 Page) pour l'afficher seul"</b>.</em>
+        </p>
+    </li>
+</ul>
+
+<pre><code class="language-markup">&lt;div id="the-bi-app" style="height:500px;"&gt;&lt;!-- Bi App comes here! --&gt;&lt;/div&gt;
+
+&lt;script&gt;
+    // Define the constant:
+    //      Bi.tool.url.ROOT = '/Bi'
+    Bi.tool.url.root('/dashboard');
+
+    // Load the App at the url:
+    //      http://localhot/Bi/dashboard/index.html#/home
+    Bi.Core.Factory.load({
+        dashboardUrl: '/dashboard/index.html',
+        hashPrefix: '/home',
+        selector: '#the-bi-app'
+    });
+&lt;/script&gt;
+</code></pre>
+
+</div>
+
+<!-- bidoc-text -->

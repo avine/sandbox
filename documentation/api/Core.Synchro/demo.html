@@ -1,0 +1,108 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Synchro : Demo standalone</h1>
+
+<p>Cette demo utilise éventuellement les <b>Popups</b> du navigateur.<br />
+    Si rien ne se passe, vérifiez que les Popups sont bien autorisées....</p>
+
+<p>Ouvrez la console du navigateur pour obtenir plus d'info sur la synchro.</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-progress { font-size: 35px; line-height: 40px; }
+    #demo-progress b { font-size: 25px; }
+    #demo-progress pre { font-size: 12px; line-height: 18px; }
+    #demo-icon { color: #d9534f; transition: color 1s ease; }
+    .demo-success { color: #5cb85c !important; }
+</style>
+
+<div class="bidoc-text">
+    <div class="bidoc-code-sample">
+        <h1><i id="demo-icon" class="fa fa-3x fa-database"></i></h1>
+        <div id="demo-progress"></div>
+    </div>
+</div>
+
+<script>
+    "use strict";
+
+    // This is a demo page just to be able to launch Synchro in a full standalone page... :-)
+    var $progress = jQuery('#demo-progress');
+
+    // Switch to online mode whatever...
+    Bi.database.run.mode('remote');
+
+    // Login process
+    var user = new Bi.Core.User();
+
+    // Is the user already logged ?
+    user.isLogged().queue(function (success) {
+
+        if (!success) {
+            // Try to log in the user...
+            this.login(prompt('User login'), prompt('User password')).queue(function (success) {
+                if (!success) {
+                    this.fail(); // Clear queue
+                    alert('Sorry! Login failed...');
+                    window.location.reload();
+                }
+            });
+        }
+
+        // After the login process continue here...
+        this.queue(function () {
+
+            var biRepository = new Bi.Core.Repository({ debug: false }),
+                biSynchro = new Bi.Core.Synchro({ debug: false });
+
+            biSynchro.addListener(biSynchro, function (e, details) {
+                switch (e.type) {
+                    case 'start':
+                    case 'done':
+                    case 'failure':
+                    case 'complete':
+                        return;
+                    default:
+                        var progress = this.progressValue();
+                        if (undefined !== progress) {
+                            progress = '<em>' +
+                                (!this.isRemoteCompleted() ? 'Remote' : 'Local') +
+                                ': &nbsp;' + progress + ' %</em>';
+                        }
+                        //if ('synchro.local.rename.end' == e.type) progress = '';
+
+                        $progress.html(
+                            (progress || '') + '<br />' +
+                            '<b>' + e.type + '</b><br />' +
+                            '<pre>' + (details ? Bi.tool.html.stringify(details) : '') + '</pre>'
+                        );
+
+                        console.log(e, details);
+                        break;
+                }
+
+            });
+
+            new Bi.Core().when(
+
+                biRepository.synchronize(), // Synchronize the BI20_CONFIG_* database
+                biSynchro.launch()          // Synchronize the BI20_DATA_* database
+
+            ).queue(function () {
+
+                console.log('Synchro succeeded!');
+                $progress.append('<p>Synchro succeeded!</p>');
+                $('#demo-icon').addClass('demo-success');
+
+            });
+
+        });
+
+    });
+</script>

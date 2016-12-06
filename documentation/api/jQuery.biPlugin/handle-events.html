@@ -1,0 +1,87 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>jQuery.biPlugin.isMobile,<br /> jQuery.biPlugin.namespace,<br /> jQuery.biPlugin.events</h1>
+
+<pre><code class="language-javascript">jQuery.biPlugin.isMobile;</code></pre>
+
+<p>Retourne <code>true</code> si le navigateur supporte les événements "touch" <em>(mobile)</em>, 
+    comme <code>touchstart</code> et <code>false</code> sinon <em>(desktop)</em>.</p>
+
+<pre><code class="language-javascript">jQuery.biPlugin.namespace;</code></pre>
+
+<p>Retourne l'espace de noms des événements générés par l'application Bi et vaut <code>biEvent</code>.</p>
+
+<pre><code class="language-javascript">jQuery.biPlugin.events(list);</code></pre>
+
+<p>
+    Retourne la liste des événements typés pour l'application Bi.
+    <code>list</code> peut être renseigné sous la forme d'une chaîne, où les événements sont séparés par un espace,
+    ou bien être renseigné sous la forme d'un tableau de chaînes.
+</p>
+
+<pre><code class="language-javascript">jQuery.biPlugin.events(); // = ".biEvent"
+jQuery.biPlugin.events('click'); // = "click.biEvent"
+jQuery.biPlugin.events('keydown keyup'); // = "keydown.biEvent keyup.biEvent"
+
+// On desktop device
+jQuery.biPlugin.events('mousedown'); // = "mousedown.biEvent"
+jQuery.biPlugin.events('touchstart'); // = "mousedown.biEvent"
+
+// On mobile device
+jQuery.biPlugin.events('touchstart'); // = "touchstart.biEvent"
+jQuery.biPlugin.events('mousedown'); // = "touchstart.biEvent"
+
+</code></pre>
+
+<p>Exemples d'événements typés retournés par la fonction.</p>
+
+<pre><code class="language-javascript">// Cross-device "mousedown" and "touchstart" handler...
+jQuery('body').on(jQuery.biPlugin.events('mousedown'), function (e) {
+    // e.type = "mousedown" (on desktop) or "touchstart" (on mobile)
+});</code></pre>
+
+<p>Exemple de prise en charge de l'événement <code>"mousedown"</code> cross-devices.</p>
+
+<pre><code class="language-javascript">jQuery('*').off(jQuery.biPlugin.events());</code></pre>
+
+<p>Retire du DOM tous les événements typés générés par l'application Bi, sans toucher aux autres événements éventuellement enregistrés.</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    .demo-red { color:red; margin:5px; }
+    .demo-green { color:green; margin:5px; }
+    .demo-grey { color:grey; margin:5px; }
+</style>
+
+<div class="bidoc-code-sample">
+    <div id="demo-action">
+        <button id="demo-link">Click me !</button>
+        <button id="demo-remove">Remove only click.biEvent</button>
+    </div>
+    <p id="demo-infos"></p>
+</div>
+
+<script>
+    var $infos = jQuery('#demo-infos');
+
+    var biClick = jQuery.biPlugin.events('click'); // = click.biEvent
+
+    $('#demo-link').on(biClick, function () {
+        $infos.append('<span class="demo-green">' + biClick + '</span>');
+    }).on('click', function () {
+        $infos.append('<span class="demo-grey">click (regular)</span>');
+    });
+
+    $('#demo-remove').one('click', function () {
+        $('#demo-link').off(biClick);
+
+        $infos.append('<span class="demo-red">' + biClick + ' removed!</span>');
+        $(this).remove();
+    });
+</script>

@@ -1,0 +1,149 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Router</h1>
+
+<pre><code class="language-javascript">var router = new Bi.Core.Router([{
+
+    pathPrefix: '', // Url hash prefix
+    selector: 'body', // DOM selector where to append the router main container
+    debug: false
+
+}]);</code></pre>
+
+<p>Crée une instance de Router.</p>
+
+<p>Dans une "single page application" SPA, la navigation s'effectue en modifiant le <b>hash</b> de l'URL.
+    Le paramètre <code>pathPrefix</code> renseigne le préfixe du hash pour toutes les routes de l'application.
+    En supposant que <code>pathPrefix = "/mypages"</code>, les routes seront par exemples <code>#/mypages/page1</code>, <code>#/mypages/page2</code>, ...</p>
+
+<p>Le paramètre <code>selector</code> renseigne le <code>HTMLElement</code> qui va contenir les pages de l'application.
+    Il peut représenter le <b>selecteur CSS</b> du conteneur (sous forme de chaîne), un noeud du DOM (HTMLElement), ou un objet jQuery.</p>
+
+<pre><code class="language-javascript">router.validateAll(fn);</code></pre>
+
+<p>Renseigne la fonction de validation globale <code>fn</code>, commune à toutes les routes.<br />
+    Si la fonction retourne <code>false</code> alors la route n'est pas prise en compte (le template HTML et le controller associé ne sont pas chargés).
+</p>
+
+<pre><code class="language-javascript">router.addRoute(path, [{
+
+    validateAll: true,
+    validate: function () { /* return false; */ },
+    template: path,
+    home: false,
+    reload: false
+
+}]);</code></pre>
+
+<p>Ajoute une nouvelle route à l'application.</p>
+
+<p>
+    <code>path</code> indique le chemin de la route (ex. <code>"/page1"</code>).<br />
+    <code>validateAll</code> indique sous forme de boolean si la fonction de validation globale (si elle a été définie) doit être exécutée sur cette route.<br />
+    <code>validate</code> renseigne la fonction de validation locale de la nouvelle route.<br />
+    <code>template</code> renseigne le nom du template HTML de la route, et vaut par défaut le <code>path</code> choisi, sans les <code>/</code> (ex. <code>"page1"</code>).<br />
+    <code>home</code> indique si la route est la "home page" de l'application.<br />
+    <code>reload</code> indique si le template HTML (et le controller) doivent être rechargés chaque fois que la route est demandée.
+</p>
+
+<pre><code class="language-javascript">Bi.Core.Router.controllers[path] = function () { /* ... */ };</code></pre>
+
+<p>Définie la fonction <b>controller</b> associé à la route <code>path</code> de l'application.</p>
+
+<pre><code class="language-javascript">router.enable();</code></pre>
+
+<p>Active la navigation à partir du hash de l'URL.</p>
+
+<pre><code class="language-javascript">router.disable();</code></pre>
+
+<p>Désactive la navigation à partir du hash de l'URL.</p>
+
+<hr />
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    /* This is mandatory: the main router should have an height */
+    #demo-router { height:300px; }
+
+    #demo-info b { color:blue; }
+</style>
+
+<div class="bidoc-text">
+
+    <!-- Links to Router pages -->
+    <p style="text-align:center">
+        <a href="#/mypages">Hello</a> <!-- Same effect as "#/mypages/sayhello" (because it's the home page) -->
+         &nbsp;|&nbsp;
+        <a href="#/mypages/goodbye">Goodbye</a>
+    </p>
+
+    <!-- Show data of the Router CHANGE event -->
+    <div id="demo-info" style="text-align:center">&nbsp;</div>
+
+    <!-- Router main container -->
+    <div id="demo-router" class="bidoc-code-sample"></div>
+
+</div>
+
+<script>
+
+    // Associate a controller to the template page 'goodbye.html'
+    var _counter = 0;
+    Bi.Core.Router.controllers.goodbye = function (scope, scopeData, scopeBind) {
+        // The template has defined <h3 data-biz-bind="counter">.
+        // Thus the property scope.counter contains binded HTMLElement
+        scope.counter.innerHTML = 'Counter : ' + _counter++;
+    };
+
+    // Instanciate Factory and build Template and Router modules
+    new Bi.Core.Factory({
+
+        // Template is required by Router to works properly
+        Template: [{
+            views: '/documentation/api/Core.Router/views',
+            debug: true
+        }],
+
+        Router: [{
+            pathPrefix: '/mypages', // Url hash prefix
+            selector: '#demo-router', // DOM selector
+            slide: true, // Just for fun, use some nice animation!
+            debug: true
+        }]
+
+    }).build(['Template', 'Router']).queue(function () {
+
+        // Here we go!
+        var router = this.instances.Router;
+
+        router.addRoute('/sayhello', {
+            template: 'hello', // Overwrite the default template which is 'sayhello'
+            home: true // This is the (unique) home page
+        }); 
+
+        router.addRoute('/goodbye', {
+            // template: 'goodbye', // Use the default template which is based on the route path
+            reload: true // Reload the template and the controller each time the path is requested
+        });
+
+        // Watch the URL hash...
+        router.enable();
+
+    });
+
+    // Listen to the Router CHANGE event
+    new Bi.Core().addListener(Bi.Core.Router.EVENTS.CHANGE, function (core, data) {
+        jQuery('#demo-info').html(
+            'Path: <b>' + data.path + '</b> | ' +
+            'Home: <b>' + data.home + '</b> | ' +
+            'Reload: <b>' + data.reload + '</b>'
+        );
+    });
+
+</script>

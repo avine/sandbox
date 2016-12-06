@@ -1,0 +1,47 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Factory.addSingletons</h1>
+
+<pre><code class="language-javascript">factory.addSingletons(ModuleName1[, ModuleName2[, ...]]);</code></pre>
+
+<p>Définie les modules qui seront partagés entre toutes les instances de la fabrique ayant inclus cette liste.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test("Bi.Core.Factory", function (assert) {
+
+        // Create new modules and define they builders
+        Bi.Core.module('Foo');
+        Bi.Core.module('Bar');
+
+        var factory1 = new Bi.Core.Factory(),
+            factory2 = new Bi.Core.Factory();
+            
+        // Define a singleton shared by factory1 and factory2
+        factory1.addSingletons(['Bar']);
+        factory2.addSingletons('Bar');
+
+        factory1.build();
+        factory2.build();
+
+        assert.ok(factory1.instances.Foo !== factory2.instances.Foo, "Each factory instance can contain its own modules instances.");
+
+        assert.ok(factory1.instances.Bar === factory2.instances.Bar, "All factories instances can share modules singletons.");
+
+        // Create factory3 with no singleton
+        var factory3 = new Bi.Core.Factory();
+        factory3.build();
+
+        assert.ok(factory3.instances.Bar !== factory2.instances.Bar, "Factory instance can continue to have a non singleton module.");
+    });
+
+</script>

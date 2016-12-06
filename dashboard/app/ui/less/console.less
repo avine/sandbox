@@ -1,0 +1,123 @@
+
+/* console */
+
+@console-transition: .3s ease-in-out;
+
+#bi-console {
+	position: fixed;
+	z-index: 999999;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0,0,0,.9);
+	text-shadow: -1px -1px 0 rgba(0,0,0,.8);
+	transition: bottom @console-transition;
+}
+
+#bi-console-clear,
+#bi-console-toggle {
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	width: 32px;
+	height: 28px;
+	line-height: 28px;
+	font-size: 22px;
+	font-family: FontAwesome;
+	text-align: center;
+	color: rgba(255,255,255,.5);
+	cursor: pointer;
+	border-radius: 0 0 3px 3px;
+	background-color: rgba(0,0,0,.8);
+}
+#bi-console-clear {
+	transition: top @console-transition;
+	left: 6px;
+	&:after { content: "\f014"; }
+}
+#bi-console-toggle {
+	transition: color @console-transition, background-color @console-transition, text-shadow @console-transition;
+	right: 6px;
+	&:after { content: "\f085"; }
+}
+
+#bi-console-content {
+	position: absolute;
+	z-index: 1;
+	box-sizing: border-box;
+	width: 100%;
+	max-height: 100%;
+	padding: 32px 0;
+
+	overflow: auto;
+	.overflow-auto-scrolling();
+
+	line-height: 2em;
+	letter-spacing: 1px;
+	//word-spacing: 1px;
+
+	> * {
+		position: relative;
+		padding: 1em 2em;
+		border-top: 1px solid rgba(255,255,255,.1);
+		border-bottom: 2px solid rgba(0,0,0,.8);
+
+		background-image: linear-gradient(top,
+			rgba(255,255,255, .025) 0,
+			rgba(255,255,255, 0) 1em
+		);
+		
+		white-space: pre;
+
+		//overflow: hidden;
+		//max-height: 20em;
+		//&:hover { max-height: none; }
+
+		//&:first-child { border-top: none; }
+		//&:last-child { border-bottom: none; }
+	}
+
+	hr {
+		margin: 1em 0;
+		border: none;
+		border-top: 1px dashed rgba(255,255,255,.1);
+	}
+}
+
+.bi-console-collapse {
+
+	&#bi-console { bottom: 100%; }
+
+	#bi-console-clear { top: -28px; }
+
+	#bi-console-toggle {
+		box-shadow: 0 0 3px rgba(0,0,0,.3);
+		background-color: rgba(220,220,220,.4);
+		text-shadow: none;
+		color: rgba(0,0,0,.9);
+	}
+
+	#bi-console-content { display: none; }
+}
+
+.bi-console-log {
+	color: hsla(0, 0%, 67%, 1); // #aaa
+}
+.bi-console-warn {
+	background-color: hsla(60, 75%, 67%, .1);
+	color: hsla(60, 50%, 67%, 1);
+}
+.bi-console-error {
+	background-color: hsla(0, 75%, 67%, .1);
+	color: hsla(0, 50%, 67%, 1);
+}
+
+.bi-console-warn:after,
+.bi-console-error:after { 
+	font-family: FontAwesome;
+	content: "\f071";
+	position: absolute;
+	left: .5em;
+	top: 1em;
+}

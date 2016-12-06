@@ -1,0 +1,79 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.addListener,<br /> Bi.Core.removeListener,<br /> Bi.Core.triggerEvent</h1>
+
+<pre><code class="language-javascript">Bi.Core.addListener([core, ][events, ]fn[, once]);</code></pre>
+
+<p>Assigne à l'instance le gestionnaire d'événements <code>fn</code>.
+	Le paramètre <code>core</code> permet de renseigner l'instance écoutée par le gestionnaire.
+	Le paramètre <code>events</code> permet de lister le ou les événements concernés, sous forme de chaîne (en utilisant la virgule comme séparateur) ou de tableau.</p>
+<p>Pour que le gestionnaire ne soit invoqué qu'une seule fois, il faut renseigner le paramètre boolean <code>once</code> à <code>true</code>.</p>
+<p class="bidoc-tip">En fait, à l'exeption de <code>fn</code>, tous les paramètres sont optionnels.
+	Par exemple, si <code>core</code> et <code>events</code> sont omis, alors le gestionnaire est à l'écoute de toutes les instances, tous événements confondus.</p>
+<p>La fonction de rappel est définie de la manière suivante <code>function fn(event, data) { this; }</code>.
+	<code>event.core</code> et <code>event.type</code> renseignent respectivement sur l'instance qui a déclenché l'événement et le type d'événement concerné.
+	Le paramètre <code>data</code> contient les données éventuellement transmises par le déclencheur.
+	A l'intérieur de la fonction de rappel <code>this</code> représente l'instance à l'écoute de l'événement.</p>
+
+<hr />
+
+<pre><code class="language-javascript">Bi.Core.removeListener([core, ][events, ]fn);</code></pre>
+
+<p>Retire de l'instance le gestionnaire d'événements <code>fn</code>.
+	Le paramètre <code>core</code> permet de renseigner l'instance concernée.
+	Le paramètre <code>events</code> permet de lister le ou les événements concernés, sous forme de chaîne (en utilisant la virgule comme séparateur) ou de tableau.</p>
+<p class="bidoc-tip">Ici également, à l'exeption de <code>fn</code>, tous les paramètres sont optionnels.
+	Par exemple, si <code>core</code> et <code>events</code> sont omis, alors tous les gestionnaires de l'instance sont retirés.</p>
+
+<hr />
+
+<pre><code class="language-javascript">Bi.Core.triggerEvent(event[, data]);</code></pre>
+
+<p>Permet à l'instance de déclencher l'événement <code>event</code>.
+	Le paramètre <code>data</code> permet de transmettre des données au gestionnaire (en second paramètre).</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test("Events", function (assert) {
+
+        var _testDone = assert.async();
+
+        var listen = new Bi.Core();
+        listen.whoAmI = 'Listen';
+
+        var trigger = new Bi.Core();
+        trigger.whoAmI = 'Trigger';
+
+        var myEvent = 'SomeEvent';
+
+        listen.addListener(trigger, myEvent, function (event, data) {
+
+            assert.ok(
+                'Listen' == this.whoAmI &&
+                'Trigger' == event.core.whoAmI &&
+                'SomeEvent' == event.type &&
+                'SomeData' == data
+            );
+
+            _testDone();
+        });
+
+        trigger.triggerEvent(myEvent, 'SomeData');
+
+        listen.removeListener(trigger, myEvent);
+
+        // Will not be listened by listen
+        trigger.triggerEvent(myEvent, 'SomeOtherData');
+
+    });
+
+</script>

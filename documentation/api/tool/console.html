@@ -1,0 +1,90 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.tool.console</h1>
+
+<p>Affiche des messages dans la console du navigateur (window) ou directement dans la page HTML (document).</p>
+
+<pre><code class="language-javascript">Bi.tool.console.log([arg1[, arg2[, ...]]]);
+Bi.tool.console.warn([arg1[, arg2[, ...]]]);
+Bi.tool.console.error([arg1[, arg2[, ...]]]);
+</code></pre>
+
+<p>Affiche des messages dans la console courante.</p>
+
+<pre><code class="language-javascript">Bi.tool.console.type(["window"|"document"]);</code></pre>
+
+<p>
+    Retourne le type de la console courante : <code>"window"</code> ou <code>"document"</code>.<br />
+    La fonction accepte un paramètre et permet de modifier le statut de la console courante.
+</p>
+<p>
+    Si la console courante est <code>"window"</code> alors la fonction <code>Bi.tool.console.log</code> (et similaires) accepte jusqu'à 5 arguments.<br />
+    Sinon le nombre d'arguments est illimité.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.consoleWindow.log(); // .log, .warn or .error
+Bi.tool.consoleDocument.log(); // .log, .warn or .error</code></pre>
+
+<p>Force l'affichage dans la console spécifiée, quel que soit le statut de la console courante.</p>
+
+<hr />
+
+</div>
+
+<!-- bidoc-text -->
+
+<div class="bidoc-text demo-console">
+    <h2>Exemple :</h2>
+
+    <a href="#switch">Switch console.type</a> &nbsp;
+    <span id="demo-message" style="color:red;"></span><br />
+    <br />
+    <a href="#log">console.log</a> &nbsp;
+    <a href="#warn">console.warn</a> &nbsp;
+    <a href="#error">console.error</a><br />
+    <br />
+    <a href="#window">Force window console</a> &nbsp;
+    <a href="#document">Force document console</a>
+
+</div>
+
+<script>
+
+    $('.demo-console').click(function (e) {
+        e.preventDefault();
+
+        var param = ($(e.target).attr('href') || "").substr(1);
+        switch (param) {
+
+            case 'log': case 'warn': case 'error':
+                Bi.tool.console[param]("Message", [{ a: 1, b: 2 }]);
+                break;
+
+            case 'switch':
+                Bi.tool.console.type('window' == Bi.tool.console.type() ? 'document' : 'window');
+                demoMessage();
+                break;
+
+            case 'window':
+                Bi.tool.consoleWindow.log('Force to log in window');
+                break;
+
+            case 'document':
+                Bi.tool.consoleDocument.log('Force to log in document');
+                break;
+        }
+
+    });
+
+    function demoMessage() {
+        $('#demo-message').text('window' == Bi.tool.console.type() ?
+            '(Open the window console to view messages)' :
+            '(Click on the top-right button to open the document console - available after the first message)'
+        );
+    }
+    demoMessage();
+
+</script>

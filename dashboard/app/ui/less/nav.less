@@ -1,0 +1,98 @@
+
+/* nav */
+
+.bi-nav-wrap {
+	height: inherit;
+	width: 100%;
+	position: relative;
+	display: table;
+	table-layout: auto;
+	border-collapse: collapse;
+	> * {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	@media (min-width: @screen-breakpoint) {
+		// On "large" screen the top menu is displayed inside the .bi-nav-menu container
+		// In this case, the .bi-menu should start from the "top" of the container (not the "middle")
+		& > .bi-nav-menu { vertical-align: top; }
+	}
+}
+
+// wrap's children
+
+.bi-nav-menu {
+	&.bi-nav-menu-disabled { visibility: hidden; } // Disable menu
+}
+.bi-nav-title { width: 99%; text-align: center; display: none; } // On large screen, page title appears in .bi-head-title
+.bi-nav-brand { width: 1%; text-align: right; padding: 0 @menu-padding-sm; white-space: nowrap; }
+
+// Brand text and icon
+.bi-nav-brand {
+	> span {
+		font-size: @font-size-bigger;
+		border-radius: @border-radius-xs; 
+		padding: 2px 6px;
+		box-shadow: 2px 2px 1px rgba(0,0,0,.15) inset;
+		text-shadow: 2px 2px 1px rgba(0,0,0,.45);
+		border: @border-width solid lighten(@color2-base, 7%);
+		background-color: @color2-base-darker;
+		> .fa {
+			color: @color2-base;
+			animation: biNavBrand 10s ease infinite;
+		}
+	}
+}
+
+@keyframes biNavBrand {
+	80% { color: @color2-base; text-shadow: 2px 2px 1px rgba(0,0,0,.45); }
+	90% { color: lighten(@color2-base, 20%); text-shadow: -2px -2px 1px rgba(0,0,0,.45); }
+	100% { color: @color2-base; text-shadow: 2px 2px 1px rgba(0,0,0,.45); }
+}
+
+// menu's children
+
+.bi-nav-menu-trigger {
+	cursor: pointer;
+	user-select: none;
+	padding: 0 @menu-padding-md;
+	display: none;
+	
+	// Adapt the trigger size (which is displayed inside the .bi-top layout)
+	font-size: @top-height * 2 / 4;
+}
+.bi-nav-menu-target {
+	top: -9999px;
+}
+
+@media (max-width: (@screen-breakpoint - 1)) {
+	.bi-nav-menu, .bi-nav-brand {
+		width: 30%;
+	}
+	.bi-nav-title {
+		width: auto;
+		display: table-cell;
+		font-size: @font-size-bigger;
+		font-weight: bold;
+	}
+	.bi-nav-menu-trigger {
+		display: block;
+	}
+	.bi-nav-menu-target {
+		position: absolute;
+		left: -@menu-deep-width; // Comment this line if the 'left' animation don't fit your needs...
+		width: 100%;
+		max-width: @menu-deep-width;
+		box-sizing: border-box;
+		opacity: 0;
+		transition: opacity @menu-transition ease, left @menu-transition ease, top 0s ease @menu-transition;
+
+		//max-height: 500px; overflow: auto; // uncomment to handle the target max-height
+	}
+	.bi-nav-menu-active > .bi-nav-menu-target {
+		top: 100%;
+		left: 0;
+		opacity: 1;
+		transition: opacity @menu-transition ease, left @menu-transition ease;
+	}
+}

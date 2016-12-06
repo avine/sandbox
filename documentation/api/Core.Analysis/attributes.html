@@ -1,0 +1,68 @@
+﻿
+<!-- bidoc-text -->
+
+<style> tr > :first-child { width:1%; } </style>
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Analysis : les attributs de base</h1>
+
+<table>
+    <caption>Base</caption>
+
+    <tr><th>Title</th><td>Renseigne le titre de l'analyse.</td></tr>
+    <tr><th>Zoom</th><td>Affiche un bouton pour zoomer l'analyse.</td></tr>
+    <tr><th>Refresh</th><td>Indique si l'analyse peut être automatiquement rafraîchie (par exemple lorsque la taille de la fenêtre a changé).</td></tr>
+</table>
+
+<table>
+    <caption>Choix et jointure de Dataset</caption>
+      
+    <tr><th>Dataset</th><td>Nom du Dataset sur lequel est basé l'analyse.</td></tr>
+    <tr><th>DatasetJoin</th><td>Lorsqu'une analyse est basée sur plusieurs Dataset, indique la manière de lier ces Datasets.</td></tr>
+    <tr><th>GroupRender</th><td>...sert actuellement à afficher des Sparkline...</td></tr>
+</table>
+
+<table>
+    <caption>Manipulation du Dataset</caption>
+     
+    <tr><th>DatasetSort</th><td>Tri les lignes du Dataset</td></tr>
+    <tr><th>DatasetFormat</th><td>Applique un formatage basé sur les colonnes du Dataset.<br />
+        On suppose dans ce cas que les colonnes choisies possèdent une valeur unique.</td></tr>
+</table>
+
+<table>
+    <caption>Prep-rocessing global</caption>
+
+    <tr><th>ColumnExpressionBeforeRowSplitter</th><td>Ajoute des colonnes au Dataset, basées sur un calcul. Cette étape est réalisée <b>avant</b> le <em>RowSplitter</em>.</td></tr>
+    <tr><th>RowSplitter</th><td>Transorme des colonnes spéciales (qui contiennent plusieurs données distinctes) en lignes.</td></tr>
+    <tr><th>RowSplitterLimit</th><td>Applique une limite inférieure et supérieure lors du <em>RowSplitter</em>.</td></tr>
+    <tr><th>ColumnExpression</th><td>Ajoute des colonnes au Dataset, basées sur un calcul. Cette étape est réalisée <b>après</b> le <em>RowSplitter</em>.</td></tr>
+    <tr><th>RemoveEmptyRows</th><td>Retire du Dataset des lignes considérées comme ne contenant pas de données pertinante.</td></tr>
+</table>
+
+<table>
+    <caption>Prep-rocessing des Charts</caption>
+
+    <tr><th>PivotGraphsColorsFromDataSource</th><td>Détermine la couleur des graphes en se basant sur un calcul dynamique.</td></tr>
+    <tr><th>AxisX</th><td>Colonne sur laquelle est basé l'axe X du graphe.</td></tr>
+    <tr><th>AxisXTitle</th><td>Titre de l'axe X.</td></tr>
+    <tr><th>AxisY</th><td>Liste des colonnes du Dataset à afficher dans le graphe sur l'axe Y.</td></tr>
+    <tr><th>AxisYTitle</th><td>Titre de charque graphe sur l'axe Y.</td></tr>
+    <tr><th>PivotY</th><td>Remplace <em>AxisY</em> et indique que les données doivent être pivotées.</td></tr>
+    <tr><th>PivotIndicators</th><td>Renseigne les indicateurs qui serviront de graphes à afficher sur l'axe Y.</td></tr>
+</table>
+
+</div>
+
+<!-- bidoc-text -->
+
+
+
+
+
+
+
+
+
+

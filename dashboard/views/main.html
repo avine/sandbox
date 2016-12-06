@@ -1,0 +1,52 @@
+
+<div class="bi-wrap bi-hide-wrap bi-form">
+
+	<div class="bi-top">
+		<div class="bi-toggle-content">
+
+			<div class="bi-nav-wrap">
+
+				<div class="bi-nav-menu">
+					<div class="bi-nav-menu-trigger"><i class="fa fa-bars"></i></div>
+					<div class="bi-nav-menu-target" data-biz-bind="topMenu"></div>
+				</div>
+
+				<div class="bi-nav-title" data-biz-bind="topTitle"></div>
+
+				<div class="bi-nav-brand"><span>{{_BI_APPLICATION_NAME}} <i class="fa fa-line-chart"></i></span></div>
+
+			</div>
+
+		</div>
+		<div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+	</div>
+
+	<div class="bi-middle">
+
+		<div class="bi-sidebar">
+			<div class="bi-toggle-content" data-biz-bind="sidebar">
+				<div data-biz-bind="sidebarMenu"></div>
+			</div>
+			<div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+		</div>
+
+		<div class="bi-main" data-biz-bind="main">
+            <div class="bi-version"></div>
+		</div>
+
+	</div>
+
+	<div class="bi-bottom">
+
+		<div class="bi-toggle-content" data-biz-bind="bottom">
+            <div class="bi-bottom-altlink">
+                <a href="#" data-biz-bind="adminDebugLink"><i class="fa fa-ellipsis-v"></i></a>
+                <span><em data-biz-bind="username"></em></span>
+            </div>
+            <!--<div class="bi-version"></div>-->
+		</div>
+		<div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+	
+    </div>
+
+</div>

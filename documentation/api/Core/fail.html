@@ -1,0 +1,56 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.fail</h1>
+
+<pre><code class="language-javascript">.fail([data]);</code></pre>
+
+<p>Efface de la pile toutes les fonctions enregistrées encore en attente et propage le paramètre <code>data</code> aux fonctions de rappels enregistrées avec la méthode <code>.onFailure</code>.
+	Cette méthode permet d'intérrompre l'exécution de la pile quand quelque chose d'imprévu s'est passé.</p>
+<p>Elle doit être appelée depuis l'intérieur d'une fonction de la pile, c'est-à-dire enregistrée par exemple avec la méthode <code>.then</code>, et en remplacement de la méthode <code>.done</code>.</p>
+
+<pre><code class="language-javascript">var core = new Bi.Core().then(function () {
+    // Faire quelque chose...
+
+    this.fail("oups!"); // Invoquer la méthode .fail à la place de .done
+});
+</code></pre>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".fail", function (assert) {
+
+        var _testDone = assert.async();
+
+        new Bi.Core().then(function () {
+            assert.ok(true, 'Step 1/3');
+            this.done();
+
+        }).then(function () {
+            assert.ok(true, 'Step 2/3');
+            this.fail('Stop!');
+
+        }).then(function () {
+            assert.ok(false, 'Step 3/3'); // Never executed !
+            this.done();
+
+        }).onFailure(function (data) {
+            assert.ok(true, 'onFailure1: ' + data);
+
+        }).onFailure(function (data) {
+            assert.ok(true, 'onFailure2: ' + data);
+
+            _testDone();
+        });
+
+    });
+
+</script>

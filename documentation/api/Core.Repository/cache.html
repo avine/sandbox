@@ -1,0 +1,114 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Repository.updateCache,<br /> 
+    Bi.Core.Repository.getCache,<br />
+    Bi.Core.Repository.updateStorage,<br /> 
+    Bi.Core.Repository.getStorage<br />
+    Bi.Core.Repository._export_cache_
+</h1>
+
+<p>Méthodes principales de gestion du cache des données de configuration.</p>
+
+<pre><code class="language-javascript">Bi.Core.Repository.updateCache();
+Bi.Core.Repository.getCache();</code></pre>
+<p>
+    La méthode <code>updateCache</code> stocke les données de configuration dans <code>window.sessionStorage</code>.
+    Lorsque l'application travaille "online", ces données ne sont récupérées depuis le serveur SQL qu'une seule fois.
+    Elles sont alors stockées dans <code>window.sessionStorage</code> à l'aide de la méthode <code>updateCache</code>.
+    Ensuite, chaque fois que les données sont demandées (en rechargeant la page exemple), la méthode <code>getCache</code> qui retourne les données stockées, est appelée.
+</p>
+    
+<pre><code class="language-javascript">Bi.Core.Repository.updateStorage();
+Bi.Core.Repository.getStorage();</code></pre>
+<p>
+    Au moment de la synchronisation des données de configuration en vue d'une utilisation "offline", 
+    les données sont stockées dans <code>window.localStorage</code> à l'aide de la méthode <code>updateStorage</code>.
+    Lorsque l'application travaille "offline", la méthode <code>getStorage</code> qui retourne les données stockées, est appelée.
+</p>
+
+<pre><code class="language-javascript">Bi.Core.Repository._export_cache_();</code></pre>
+<p>
+    Permet d'effectuer un copier/coller du cache "online" (retourné par la méthode <code>getCache</code>) à des fins de débogage.<br />
+    La fonction remplace le contenu de la page par un <code>&lt;textarea&gt;</code> contenant le cache au format JSON.
+</p>
+
+<pre><code class="language-javascript">var _cache_ = Bi.Core.Repository._export_cache_();
+
+// ...
+// Stocker le cache dans un fichier puis le récupérer et le définir comme cache.
+// ...
+
+Bi.Core.Repository.updateCache(_cache_);
+</code></pre>
+
+<p class="bidoc-tip">
+    Dans la suite de cette documentation, lorsque nous aurons besoin d'accéder aux données de configuration, 
+    nous utiliserons un <em>bouchon</em> en fixant simplement une valeur précise au cache afin de manipuler ensuite les résultats.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+    QUnit.test("Use .updateCache() manually to emulate the procees of retrieving configuration data", function (assert) {
+
+        var _testDone = assert.async();
+
+        // Emulate the data we can retrieve from the Repository for some module called MyModule
+        Bi.Core.Repository.updateCache({
+            MyModule: [
+                // Some SQL query like: "select product, sales from MyModuleSales"
+                { columns: ['product', 'sales'], data: [['Procoralan', 300], ['Valdoxan', 250]] },
+                // Some SQL query like: "select last_month from MyModulesMonth"
+                { columns: ['last_month'], data: [['Janvier'], ['Fevrier']] }
+            ]
+        });
+
+        // Create MyModule module
+        Bi.Core.module('MyModule').extendProto({
+
+            // Define the special method .initRepository
+            initRepository: function (results) {
+                // Store the retrieved data in the instance
+                this.db = { sales: results[0], lastMonth: results[1] };
+            },
+
+            // Define some method that use the stored data
+            getSales: function () {
+                var o = {};
+                this.db.sales.data.forEach(function (item) {
+                    o[item[0]] = item[1]; // like: o['Procoralan'] = 300;
+                });
+                return o;
+            }
+
+        });
+
+        // Instanciate MyModule
+        var myModule = new Bi.Core.MyModule();
+
+        // Instanciate Repository
+        var repository = new Bi.Core.Repository();
+
+        // Retrieve configuration data for MyModule
+        repository.get('MyModule').queue(function (result) {
+
+            // Propagate the result to the special method
+            myModule.initRepository(result.MyModule);
+
+            // Use the retrieved data
+            var sales = myModule.getSales();
+
+            assert.ok(300 === sales['Procoralan'] && 250 === sales['Valdoxan']);
+
+            _testDone();
+        });
+
+    });
+</script>

@@ -1,0 +1,91 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.database.format</h1>
+
+<p>Fonctions utilitaires de manipulation des données des requêtes.</p>
+
+<pre><code class="language-javascript">Bi.database.format.toJson(result);</code></pre>
+<p>
+    Convertie le résultat d'une requête au format JSON.<br />
+    Le résultat des requêtes est de la forme <code>{ columns: [], data: [] }</code>
+    où la propriété <code>data</code> est un tableau de tableaux correspondants aux lignes retournée par le requête.
+</p>
+
+<pre><code class="language-javascript">Bi.database.format.fromJson(json);</code></pre>
+<p>
+    Effectue la convesion inverse de <code>.toJson</code>.<br />
+</p>
+
+<pre><code class="language-javascript">Bi.database.format.jsonToMap(json, keyIndex);</code></pre>
+<p>
+    Convertie un JSON, c'est-à-dire un <b>tableau</b> d'objets, en <b>object</b> d'objets.
+    Les propriétés de l'objet retourné sont pour chaque ligne, les valeurs de la colonne <code>keyIndex</code>.
+</p>
+
+<pre><code class="language-javascript">Bi.database.format.toSqlValue(jsValue[, quote]);</code></pre>
+<p>
+    Convertie une variable Javascript en sa valeur SQL équivalente, pour une insertion dans une requête.
+    Si le paramètre <code>quote</code> n'est pas renseigné alors la fonction détecte automatiquement le type de <code>jsValue</code> et détermine s'il faut ou non mettre la valeur retournée entre guillemets.
+    Si <code>quote=true</code> alors la fonction force l'ajout guillements.
+    Si <code>quote=false</code> alors la fonction tente de convertir <code>jsValue</code> en nombre pour ne pas ajouter les guillemets.
+    Si la conversion est échoue alors une erreur est affichée dans la console et la fonction ajoute quand même les guillements.
+</p>
+<p class="bidoc-tip">La valeur retournée est toujours contient toujours un espace à gauche et à droite, afin de faciliter la concaténation.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    var data = {
+        columns: ['col1', 'col2'],
+        data: [
+            ['val1.1', 'val1.2'],
+            ['val2.1', 'val2.2']
+        ]
+    };
+
+    var json = [
+        { col1: 'val1.1', col2: 'val1.2' },
+        { col1: 'val2.1', col2: 'val2.2' }
+    ];
+
+    var mapByCol1 = {
+        'val1.1': { col1: 'val1.1', col2: 'val1.2' },
+        'val2.1': { col1: 'val2.1', col2: 'val2.2' }
+    };
+
+    QUnit.test("Bi.database.format", function (assert) {
+
+        assert.deepEqual(Bi.database.format.toJson(data), json, ".toJson");
+
+        assert.deepEqual(Bi.database.format.fromJson(json), data, ".fromJson");
+
+        assert.deepEqual(Bi.database.format.jsonToMap(json, 'col1'), mapByCol1, ".jsonToMap");
+
+    });
+
+    QUnit.test("Bi.database.format.toSqlValue", function (assert) {
+
+        assert.propEqual(Bi.database.format.toSqlValue(null), " NULL ", "null returns ' NULL ' ");
+        assert.propEqual(Bi.database.format.toSqlValue(undefined), " NULL ", "undefined returns ' NULL ' ");
+
+        assert.propEqual(Bi.database.format.toSqlValue(1), " 1 ", "A number is not quoted...");
+        assert.propEqual(Bi.database.format.toSqlValue(1, true), " '1' ", "...unless quote=true");
+
+        assert.propEqual(Bi.database.format.toSqlValue("1"), " '1' ", "A string is quoted...");
+        assert.propEqual(Bi.database.format.toSqlValue("1", false), " 1 ", "...unless quote=false (and the conversion is possible)");
+
+        assert.propEqual(Bi.database.format.toSqlValue(""), " '' ", "Empty string is supported");
+
+        assert.propEqual(Bi.database.format.toSqlValue("That's it!"), " 'That''s it!' ", "A string is well escaped");
+
+    });
+
+</script>

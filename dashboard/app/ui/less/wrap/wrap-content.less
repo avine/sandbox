@@ -1,0 +1,38 @@
+
+/* wrap-content */
+
+// loader
+
+.bi-sidebar .bi-loader {
+	background-color: fadeout(@color3-base, 50%) !important;
+}
+
+.bi-body .bi-loader {
+	background-color: fadeout(@main-color-bg, 50%) !important;
+}
+
+// version
+
+.bi-version {
+	position: absolute;
+	z-index: 99;
+	line-height: 1.5em;
+	font-size: 10px;
+}
+.bi-main .bi-version {
+	transform: rotate(90deg);
+	bottom: 5.25em;
+	right: -5em;
+	width: 10em;
+	height: 0em;
+	text-align: right;
+	color: #aaa;
+}
+.bi-bottom .bi-version {
+	bottom: .5em;
+	right: .5em;
+	height: 1em;
+	color: #999;
+}
+
+.bi-hide-version .bi-version { display: none; }

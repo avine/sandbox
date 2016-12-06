@@ -1,0 +1,136 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Template</h1>
+
+<pre><code class="language-javascript">var template = new Bi.Core.Template([{
+    views: '/dashboard/views',
+	extension: 'html',
+    useCache: true,
+	dataBindAttr: 'biz-bind',
+	debug: false
+}]);</code></pre>
+
+<p>
+    Crée une instance de Template.
+    L'option <code>views</code> définie le chemin de base des templates sur le serveur.
+    L'option <code>extension</code> définie l'extension des fichiers contenant les templates.
+    Si l'option <code>useCache</code> est activée alors les templates sont mis en cache.
+    Si le mode <code>debug</code> est actif alors le cache des templates est désactivé quel que soit la valeur de <code>useCache</code>.
+</p>
+<p>
+    <code>dataBindAttr</code> définie le suffixe des attributs <code>data-*</code> qui seront recherchés dans le template.<br />
+    Par exemple, si le template contient une balise <code>&lt;p data-biz-bind="myScopeItem"&gt;&lt;/p&gt;</code>
+    alors cette balise sera accessible directement dans <code>scope.myScopeItem</code> (nous parlerons du scope en détail plus loin).
+</p>
+
+<p class="bidoc-tip">
+    Par défaut le suffixe <b>dataBindAttr</b> vaut l'étrange valeur "<code>biz-bind</code>".
+    En fait, "biz" signifie "<b>Bizness</b>" (lol) et a la bonne idée de commencer par les lettres "bi" qui signifie bien sûr "<b>Business Intelligence</b>"...<br />
+    Dans l'ensemble de l'application, nous avons utilisé le préfixe "bi", comme par exemple dans les feuilles de styles CSS où toutes les règles commencent tous par "<b>bi-</b>".<br />
+    Lorsque d'un point de vu métier (Business Object) nous avons attribué un ID à un HTMLElement comme par exemple dans la page de login avec <code>&lt;input id="biz-password" type="password" data-biz-bind="password" /&gt;</code>,
+    nous avons utilisé le préfixe "biz", car aucune règle CSS particulière n'est appliquée à cet élément et l'ID est purement fonctionnel.
+</p>
+
+<pre><code class="language-javascript">template.load(viewName).queue(function (html) {
+    // Faire quelque chose avec la chaîne html...
+});</code></pre>
+
+<p>Charge le contenu du template sous forme de chaîne et le met à disposition dans la variable <code>html</code>.
+    Le paramètre <code>viewName</code> renseigne le nom du template sans l'extension.
+</p>
+
+<pre><code class="language-javascript">template.process(viewName).queue(function (tmpl) {
+    // Faire quelque chose avec l'objet tmpl...
+});</code></pre>
+
+<p>Charge le contenu du template sous forme d'objet.</p>
+
+<ul>
+    <li><code>tmpl.$html</code> est un objet jQuery contenant le template.
+    <li><code>tmpl.scope</code> est un objet JS contenant les <code>HTMLElement</code> identifiés dans le template, par leurs attributs <code>data-biz-bind</code>.</li>
+</ul>
+
+<p>L'objet retourné contient également les propriétés <code>.data</code> et <code>.bind</code> permettant d'implémenter un <b>"one way data binding"</b> :</p>
+
+<ul>
+    <li><code>tmpl.data</code> est un objet contenant des valeurs JS associées à chaque élement du <code>tmpl.scope</code>.
+    <li><code>tmpl.bind</code> est un objet contenant des fonctions JS qui sont appelées chaque fois que la données correspondantes sont modifiées.</li>
+</ul>
+
+
+</div>
+
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+    <div class="bidoc-code-sample" id="view-my-template"></div>
+</div>
+
+<script>
+    
+    var template = new Bi.Core.Template({
+
+        /*
+            Template content
+            ----------------
+            <h1 data-biz-bind="title"></h1>
+            <p>Enter a new integer: <input data-biz-bind="input" size="2" /></p>
+            <p data-biz-bind="counter1"></p>
+            <p data-biz-bind="counter2"></p>
+        */
+        views: '/documentation/api/Core.Template/views',
+
+        // Match the data-biz-bind="..." attributes in the template
+        dataBindAttr: 'biz-bind' // (in fact it's the default value)
+
+    }).process('view1').queue(function (tmpl) {
+
+        // Insert the template in the DOM
+        tmpl.$html.appendTo('#view-my-template');
+
+        // Change directly the title using jQuery on its scope
+        jQuery(tmpl.scope.title).text('A simple demo!');
+
+        // One-way data binding (from javascript-data to user-interface):
+        // Each time the tmpl.data.input value is modified, the tmpl.bind.input function is called
+        tmpl.bind.input = function (value) {
+            jQuery(this).val(value); // this === tmpl.scope.input
+        };
+
+        // Handle two-way data binding manually (from user-interface to javascript-data):
+        jQuery(tmpl.scope.input).on('keyup', function () {
+            var newValue = parseFloat(jQuery(this).val());
+            // Update the tmpl.data.input value
+            if (!isNaN(newValue)) tmpl.data.input = newValue;
+        });
+
+        // One-way data binding:
+        // Each time the tmpl.data.counter2 value is modified, the tmpl.bind.counter2 function is called
+        tmpl.bind.counter2 = function (value) {
+            jQuery(this).text(value); // this === tmpl.scope.counter2
+        };
+
+        setInterval(function () {
+            // Change the tmpl.data.input value (causing the tmpl.bind.input function to be called)
+            tmpl.data.input = (tmpl.data.input || 0) + 1;
+
+            // First method:
+            // Change directly the counter1 using jQuery on its scope
+            jQuery(tmpl.scope.counter1).text('First counter value: ' + tmpl.data.input);
+
+            // Second method (same result);
+            // Change the tmpl.data.counter2 value (causing the tmpl.bind.counter2 function to be called)
+            tmpl.data.counter2 = 'Second counter value: ' + tmpl.data.input;
+
+        }, 2000);
+
+        // Open the console and inspect the tmpl variable
+        console.log(tmpl);
+        window.tmpl = tmpl;
+
+    });
+
+</script>

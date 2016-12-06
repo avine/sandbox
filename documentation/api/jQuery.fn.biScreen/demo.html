@@ -1,0 +1,46 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biScreen - Demo</h1>
+    <p>Modifier la largeur de la fenêtre pour voir le plugin en action...</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+	.demo-text { display: none; text-align: center; padding: 50px; font-size: 16px; }
+	.bi-screen-large #demo-text-large { display: block; color: blue; }
+	.bi-screen-small #demo-text-small { display: block; color: red; }
+
+	#demo-icon { text-align: center; transition: font-size .5s ease; }
+	.bi-screen-large #demo-icon { font-size: 100px; }
+	.bi-screen-small #demo-icon { font-size: 50px; }
+</style>
+
+<div class="bidoc-code-sample">
+
+    <div class="demo-text" id="demo-text-large">Large screen</div>
+    <div class="demo-text" id="demo-text-small">Small screen</div>
+
+    <div id="demo-icon"><i class="fa fa-desktop"></i></div>
+
+</div>
+
+<script>
+    $('body').biScreen({
+
+        // Handle status using callback option
+        callback: function (e, status) {
+            console.log(this, 'callback status:', status);
+        }
+
+    }).on($.biPlugin.events('screen'), function (e, status) {
+
+        // Handle status using event listener
+        console.log(this, 'listener status:', status);
+
+    });
+</script>

@@ -1,0 +1,47 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+	<h1>Bi.tool.signature</h1>
+
+	<pre><code class="language-javascript">Bi.tool.signature(args, types);</code></pre>
+
+	<p>
+        Met en concordance le tableau d'arguments <code>args</code> avec la liste des types attendus <code>types</code>.<br />
+        Cette fonction permet de faciliter la gestion des signatures multiples dans le corps des fonctions.
+	</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    var tool = Bi.tool;
+
+    QUnit.test("Signature", function (assert) {
+
+        assert.deepEqual(
+            tool.signature([1], [tool.is.number, tool.is.boolean]),
+            [1, undefined],
+            "Match first argument"
+        );
+
+        assert.deepEqual(
+            tool.signature([true], [tool.is.number, tool.is.boolean]),
+            [undefined, true],
+            "Match second argument"
+        );
+
+        assert.deepEqual(
+            tool.signature([1, true], [tool.is.number, tool.is.boolean]),
+            [1, true],
+            "Match all arguments"
+        );
+
+    });
+
+</script>

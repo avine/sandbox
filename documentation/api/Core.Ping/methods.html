@@ -1,0 +1,54 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Ping</h1>
+
+<pre><code class="language-javascript">var ping = new Bi.Core.Ping([{
+    remoteUrl: '/api/bi/alive',
+    timeout: 5000
+}]);</code></pre>
+
+<p>Crée une instance de Ping.</p>
+
+<pre><code class="language-javascript">ping.remote().queue(function (success) { /* ... */ });</code></pre>
+
+<p>Tente d'accéder au server web distant en récupérant une ressource à l'adresse <code>ping.options.remoteUrl</code>.</p>
+
+<pre><code class="language-javascript">ping.local(userLogin).queue(function (success) { /* ... */ });</code></pre>
+
+<p>Vérifie s'il existe une date de synchronisation de la base locale pour l'utilisateur <code>userLogin</code>.<br />
+    Cette vérification utilise la méthode <code>Bi.Core.Synchro.getSynchroTime</code>.</p>
+
+<pre><code class="language-javascript">ping.all(userLogin).queue(function (resp) { /* Check the boolean resp.remote and resp.local */ });</code></pre>
+
+<p>Vérifie les deux connexions, distante et locale.<br />
+    Pour vérifier la connexion locale, il faut renseigner le paramètre <code>userLogin</code>.</p>
+
+<pre><code class="language-javascript">ping.check(server[, userLogin]).queue(function (success) { /* ... */ });</code></pre>
+
+<p>Vérifie la connexion au <code>server</code> dont les valeurs possibles sont <code>"remote"</code> ou  <code>"local"</code>.<br />
+    Pour vérifier la connexion locale, il faut renseigner le paramètre <code>userLogin</code>.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+    QUnit.test("Bi.Core.Ping", function (assert) {
+
+        var _testDone = assert.async();
+
+        new Bi.Core.Ping().all('Some user login').queue(function (response) {
+
+            assert.ok(true, 'Live connection status: ' +
+                'remote = ' + response.remote + ' / local = ' + response.local);
+
+            _testDone();
+        });
+        
+    });
+</script>

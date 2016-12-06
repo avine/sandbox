@@ -1,0 +1,103 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biNavMenu</h1>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-container {
+        height: 400px;
+        margin: 20px;
+        border: 1px dotted red;
+    }
+</style>
+
+<div id="demo-container">
+
+    <div class="bi-wrap bi-font">
+
+        <div class="bi-top">
+            <div class="bi-toggle-content">
+
+                <div class="bi-nav-wrap">
+                    <div class="bi-nav-menu">
+                        <div class="bi-nav-menu-trigger"><i class="fa fa-bars"></i></div>
+                        <div class="bi-nav-menu-target">
+
+                            <ul class="bi-menu bi-hover-wrap">
+                                <li><a href="#"><i class="fa fa-home"></i> Item 1</a></li>
+                                <li>
+                                    <span>Item 2</span>
+                                    <ul class="bi-menu bi-hover-wrap">
+                                        <li><a href="#">Item 2.1</a></li>
+                                        <li>
+                                            <span>Item 2.2</span>
+                                            <ul class="bi-menu bi-hover-wrap">
+                                                <li><a href="#">Item 2.2.1</a></li>
+                                                <li>
+                                                    <span>Item 2.2.2</span>
+                                                    <ul class="bi-menu bi-hover-wrap">
+                                                        <li><a href="#"><i class="fa fa-cog"></i> Item 2.2.2.1</a></li>
+                                                        <li><a href="#">Item 2.2.2.2</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Item 3</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="bi-nav-title">Title</div>
+                    <div class="bi-nav-brand">Brand</div>
+                </div>
+
+            </div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+        </div>
+
+        <div class="bi-middle">
+
+            <div class="bi-sidebar">
+                <div class="bi-toggle-content"></div>
+                <div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+            </div>
+
+            <div class="bi-main">
+                <div class="bi-head"></div>
+                <div class="bi-body"></div>
+            </div>
+
+        </div>
+
+        <div class="bi-bottom">
+            <div class="bi-toggle-content"></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+        </div>
+
+    </div>
+
+</div>
+
+<div style="margin:20px;">
+    <button onclick="demoEnableJs(this)">Enable JS</button>
+</div>
+
+<script>
+    jQuery('.bi-menu').find('a').attr('href', window.location.href);
+
+    function demoEnableJs(button) {
+        jQuery(button).remove();
+
+        jQuery('.bi-wrap').biWrap();
+        jQuery('.bi-nav-menu').biNavMenu();
+        jQuery('.bi-nav-menu-target > .bi-menu').biMenu();
+    }
+</script>

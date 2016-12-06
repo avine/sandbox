@@ -1,0 +1,158 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.tool.html</h1>
+
+<pre><code class="language-javascript">Bi.tool.html.entities(str[, quotes]);</code></pre>
+
+<p>
+    Remplace dans la chaîne <code>str</code> les caractères spéciaux HTML par leurs entités équivalentes.<br />
+    Par exemple <code>&gt;</code> est remplacé par <code>&amp;gt;</code>.
+</p><p>
+    Le paramètre <code>quotes</code> indique s'il faut ou non échapper les guillemets simples et/ou doubles.<br />
+    Par défaut, <code>quotes</code> vaut <code>['"', "'"]</code> et indique qu'il faut remplacer tous les guillemets.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.html.obj2Attr(obj[, prefix]);</code></pre>
+
+<p>
+    Convertie <code>obj</code> en attributs HTML.<br />
+    Le paramètre <code>prefix</code> permet éventuellement d'ajouter un préfixe à chaque attribut.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.html.tag(name[, attr[, content[, entities]]]);</code></pre>
+
+<p>
+    Génère un chaîne de caractères représentant une balise HTML.<br />
+    <code>attr</code> definie sous forme d'object les attributs de la balise.<br />
+    <code>content</code> definie sous forme de chaîne le contenu de la balise.
+</p><p>
+    Par défaut, <code>entities</code> vaut <code>false</code> et indique que le paramètre <code>content</code> accepte du <b>balisage HTML.</b><br />
+    De cette manière, <code>content</code> peut lui-même être une chaîne retournée par la fonction <code>Bi.tool.html.tag</code>, qui est alors imbriquée.
+</p><p>
+    Par contre, si <code>entities</code> vaut <code>true</code> alors <code>content</code> n'accepte que du <b>contenu textuel</b>.<br />
+    Les éventuels caractères spéciaux qu'il contient seront remplacées par leurs entités équivalentes
+    (exemple: <code>&gt;</code> par <code>&amp;gt;</code>).
+</p><p>
+    Si le paramètre <code>content</code> a la valeur <code>null</code> alors la balise générée est auto-fermante (comme la balise <code>&lt;img /&gt;</code>).
+</p>
+
+<pre><code class="language-javascript">Bi.tool.html.table({
+    className: '',
+    style: '',
+    caption: '',
+    cols: [],
+    rows: [],
+    stringify: false,
+    entities: false
+});</code></pre>
+
+<p>
+    Retourne une chaîne de caractère représentant un tableau HTML.<br />
+    Le tableau de chaînes <code>cols</code> renseigne les colonnes du tableau.<br />
+    Le tableau de tableaux de chaînes <code>rows</code> renseigne les lignes du tableau.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.html.stringify(data[, compactArray[, indent]]);</code></pre>
+
+<p>
+    Retourne une chaîne de caractères représentant la donnée <code>data</code> quel que soit son type.
+    Cette méthode est équivalente à <code>JSON.stringify</code> à la différence que la chaîne retournée est "bien" indentée.
+</p><p>
+    Le paramètre optionel <code>compactArray</code> dont la valeur par défaut est <code>true</code> indique que les tableaux doivent être représentés sur une seule ligne.<br />
+    Le paramètre optionel <code>indent</code> dont la valeur par défaut est <code>0</code> indique l'indentation du premier niveau.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    var tool = Bi.tool;
+
+    QUnit.test("Bi.tool.html.obj2Attr", function (assert) {
+
+        assert.propEqual(
+            tool.html.obj2Attr({ id: 'foo', class: 'bar' }),
+            ' id="foo" class="bar"', "Works"
+        );
+        assert.propEqual(
+            tool.html.obj2Attr({ title: 'It\'s "good"!' }),
+            ' title="It\'s \\"good\\"!"', "Works with quotes"
+        );
+        assert.propEqual(
+            tool.html.obj2Attr({ role: 'link', type: 'external' }, 'data-'),
+            ' data-role="link" data-type="external"', "Works with prefix"
+        );
+
+    });
+
+    QUnit.test("Bi.tool.html.tag", function (assert) {
+
+        assert.propEqual(
+            tool.html.tag('div'),
+            '<div></div>', "Create tag"
+        );
+        
+        assert.propEqual(
+            tool.html.tag('div', { id: 'foo', class: 'bar' }),
+            '<div id="foo" class="bar"></div>', "Create tag with attributes"
+        );
+
+        assert.propEqual(
+            tool.html.tag('img', { src: "image.png" }, null),
+            '<img src="image.png" />', "Create self closed tag"
+        );
+
+        // By default, the content accepts HTML tags.
+        assert.propEqual(
+            tool.html.tag('div', {}, '<em></em>'/*, false*/),
+            '<div><em></em></div>', "Create tag with content tags"
+        );
+        // Which is equivalent to the following example:
+        assert.propEqual(
+            tool.html.tag('div', {}, tool.html.tag('em')/*, false*/),
+            '<div><em></em></div>', "Create nested tags"
+        );
+
+        // When paramter entities=true, HTML specials characters that are presents in the content are replaced by they entities.
+        // In this example: ">" is replaced by "&amp;gt;"
+        assert.propEqual(
+            tool.html.tag('div', {}, 'The greater symbol is >', true),
+            '<div>The greater symbol is &gt;</div>', "Create tag with content text"
+        );
+
+    });
+
+    QUnit.test("Bi.tool.html.table", function (assert) {
+
+        assert.equal(
+
+            Bi.tool.html.table({
+                className: 'myClassName',
+                style: 'color:red;',
+                caption: 'My Table',
+                cols: ['A', 'B', 'C'],
+                rows: [[1, 2, 3], [4, 5, 6]]
+            }),
+
+            '<div class="bi-table myClassName" style="color:red;">' +
+                '<table>' +
+                    '<caption>My Table</caption>' +
+                    '<tr><th>A</th><th>B</th><th>C</th></tr>' +
+                    '<tr><td>1</td><td>2</td><td>3</td></tr>' +
+                    '<tr><td>4</td><td>5</td><td>6</td></tr>' +
+                '</table>' +
+            '</div>',
+
+            "Works!"
+        );
+
+    });
+
+</script>

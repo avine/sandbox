@@ -1,0 +1,33 @@
+
+<div class="bi-synchro-wrapper bi-form">
+    
+    <div class="bi-synchro-step1" data-biz-bind="step1">
+        <div class="bi-synchro-title"><i class="fa fa-cloud-download"></i></div>
+
+        <div class="bi-synchro-progress" data-biz-bind="progress"></div>
+
+        <div class="bi-synchro-detail">
+            <div class="bi-synchro-detail-table" data-biz-bind="table"></div>
+            <div class="bi-synchro-detail-rows" data-biz-bind="rows"></div>
+            <div class="bi-synchro-detail-duration" data-biz-bind="duration"></div>
+        </div>  
+
+        <input class="bi-synchro-button" type="submit" data-biz-bind="button" />
+
+        <div class="bi-synchro-disabled-message">
+            <p><i class="fa fa-exclamation-triangle"></i> {{_BI_INTERNET_CONNECTION_UNAVAILABLE}}</p>
+            <a href="#" data-biz-bind="retry">{{_BI_SYNCHRO_RETRY}}</a>
+        </div>
+    </div>
+
+    <div class="bi-synchro-step2" data-biz-bind="step2">
+        <div class="bi-synchro-title"><i class="fa fa-database"></i></div>
+
+        <div class="bi-synchro-message" data-biz-bind="message"></div>
+
+        <button class="bi-synchro-reload" data-biz-bind="reload">{{_BI_SYNCHRO_VIEW_SYNCHRONIZED_DATA}}</button>
+    </div>
+
+    <a class="bi-synchro-back" data-biz-bind="back" href="#"><i class="fa fa-3x fa-chevron-circle-left"></i></a>
+
+</div>

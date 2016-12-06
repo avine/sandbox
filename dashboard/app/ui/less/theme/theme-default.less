@@ -1,0 +1,109 @@
+
+/* theme-default */
+
+.theme-shadow(@h, @v, @blur) {
+	box-shadow: @h @v @blur rgba(0,0,0,.05);
+}
+
+.theme-gradient(@direction) {
+	background-color: @color2-base;
+	background-image: linear-gradient(@direction,
+		rgba(255, 255, 255, 0.1) 1px,
+		rgba(0, 0, 0, 0.033) 2px,
+		rgba(0, 0, 0, 0) 9%,
+		rgba(255, 255, 255, 0) 10%,
+		rgba(255, 255, 255, 0.033) 30%,
+		rgba(255, 255, 255, 0) 50%,
+		rgba(0, 0, 0, 0) 51%,
+		rgba(0, 0, 0, 0.033) 75%,
+		rgba(0, 0, 0, 0) 100%
+	);
+}
+
+// top, bottom, sidebar and head
+
+.bi-top {
+	border-color: @color2-base-darker;
+	background-color: #fff;
+	color: #000;
+	//text-shadow: 1px 1px 0 rgba(255,255,255,.33);
+	.theme-shadow(0, 1px, 1px);
+	.theme-gradient(top);
+}
+.bi-bottom {
+	border-color: #aaa;
+	background-color: #ccc;
+	color: #000;
+	//text-shadow: 1px 1px 0 rgba(255,255,255,.33);
+	.theme-shadow(0, -2px, 2px);
+	.theme-gradient(bottom);
+}
+
+.bi-sidebar {
+	border-color: #bbb;
+	background-color: #e5e5e5;
+	color: #000;
+	.theme-shadow(2px, 0, 2px);
+	> .bi-toggle-content {
+		padding: 10px;
+	}
+}
+
+.bi-nav-menu-trigger, .bi-nav-brand { font-size: @font-size-bigger; }
+
+.bi-head-title, .bi-nav-title {
+	color: @color2-base-darker;
+	font-size: @font-size-bigger;
+}
+
+// grid
+
+.bi-grid-cell {
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+	border-color: #d5d5d5;
+	background-color: #fff;
+}
+
+.bi-grid-cell-title {
+
+	box-sizing: border-box;
+/*
+	border: 1px solid  #777 !important;
+	border-color: @color2-base-darker;
+	background-color: #888;
+	color: #fff;
+*/
+
+	// TODO: il faut assombrir ce bleu !
+
+	border: 1px solid  darken(@color2-base-darker, 5%) !important;
+	border-color: darken(@color2-base-darker, 5%);
+	background-color: darken(@color2-base, 5%); // fadeout(desaturate(@color2-base-darker, 15%), 90%); // #f6f6f6;
+	//background: linear-gradient(top, #fff 0%, #f8f8f8 100%);
+	//text-shadow: 1px 1px 0#fff;
+	color: @color2-pale; // desaturate(@color2-base-darker, 35%);
+
+
+	font-weight: normal;
+	
+	font-size: 1.15em;
+	> a { font-size: .869em; }
+}
+
+// Overwrite here any defined values in the file variable.less to fit your needs
+
+//@screen-breakpoint: 64px; // just an example...
+
+@standalone-shift: 3px;
+
+
+
+
+.bi-nav-brand { color: #fff; }
+
+/*
+.bi-main {
+	background: url(../images/ticks_@2X.png) repeat #e1e1e1;
+	background-size: 200px 200px;
+}
+*/

@@ -1,0 +1,89 @@
+
+/* module-message */
+
+.bi-message-wrapper {
+	position: relative;
+	overflow: auto;
+	margin: 0;
+	padding: 0;
+	border-radius: @border-radius-sm;
+	border: @border-width solid transparent;
+	text-align: justify;
+
+	@media (max-width: (@screen-breakpoint - 1)) {
+		& {
+			margin-bottom: @grid-cell-spacing;
+		}
+	}
+	@media (min-width: @screen-breakpoint) {
+		& {
+			position: absolute;
+			top: 0px; 
+			right: @grid-cell-spacing; 
+			bottom: @grid-cell-spacing; 
+			left: 0px;
+		}
+	}
+}
+
+// wrapper
+
+.bi-message-type(@type, @color) {
+	.bi-message-@{type} {
+		padding: 10px 10px 4px 10px;
+		box-shadow: 1px 1px 1px rgba(255,255,255,.3) inset, -1px -1px 1px rgba(0,0,0,.1) inset;
+		border-color: darken(@color, @color-x);
+		background-color: @color;
+		color: #fff;
+
+		.bi-message-title { color: @color; }
+	}
+}
+
+.bi-message-type(tips, @message-tips);
+.bi-message-type(success, @message-success);
+.bi-message-type(info, @message-info);
+.bi-message-type(warning, @message-warning);
+.bi-message-type(danger, @message-danger);
+
+// content
+
+.bi-message-title,
+.bi-message-subtitle,
+.bi-message-intro,
+.bi-message-link,
+.bi-message-main {
+	margin: 0 0 6px 0;
+	padding: 0;
+}
+
+.bi-message-title {
+
+}
+.bi-message-subtitle {
+	font-weight: normal;
+}
+
+.bi-message-image {
+	float: left;
+	margin: 3px 9px 6px 0;
+}
+
+.bi-message-intro {
+
+}
+
+.bi-message-link {
+	display: block;
+	.fa { margin-right: 3px; }
+}
+.bi-message-link-active {
+	.fa { transform: rotate(90deg); }
+}
+
+.bi-message-main {
+
+}
+.bi-message-main-hidden {
+	display: none;
+}

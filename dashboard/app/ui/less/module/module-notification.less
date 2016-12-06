@@ -1,0 +1,90 @@
+
+/* module-notification */
+
+@notification-shift: 1.5 * round(@notification-close-size * 2/3);
+
+.bi-notification {
+	position: absolute;
+	z-index: 99;
+
+	overflow-x: hidden;
+	overflow-y: auto;
+	top: 0;
+	right: 0;
+
+	padding: 0 @notification-shift;
+
+	max-height: 100%;
+
+	box-sizing: content-box;
+	width: @notification-width;
+	@media (max-width: (@screen-breakpoint - 1)) {
+		width: @notification-width-mobile;
+		max-width: 50%;
+	}
+
+	> * {
+		position: absolute;
+		top: -9999px;		
+		left: 100%; // approximative
+		
+		box-sizing: border-box;
+		margin: @notification-shift 0;
+		padding: 1em 1.5em;
+		box-shadow: 2px 4px 8px rgba(0,0,0,.4);
+		border-radius: 5px;
+		border: @border-width solid #999;
+		background-color: #444;
+		animation: biNotificationAnim .3s ease; // For the first time the container is added in the DOM
+	}
+	> .bi-notification-active {
+		position: relative;
+		top: auto;
+		left: 0%;
+		transition: opacity .3s ease, left .3s ease;
+
+		&.bi-notification-hidden { // When a notification is active but not visible in some page or context...
+			position: absolute;
+			top: -9999px;		
+			left: 100%; // approximative
+		}
+	}
+}
+
+.bi-notification-content {
+	overflow: auto;
+	position: relative;
+	z-index: 1;
+	text-shadow: -1px -1px 0 #222;
+	color: #eee;
+}
+
+.bi-notification-close {
+	position: absolute;
+	z-index: 2;
+	width: @notification-close-size;
+	height: @notification-close-size;
+	top: round(-@notification-close-size /2);
+	right: round(-@notification-close-size /2);
+	cursor: pointer;
+	user-select: none;
+
+	font-family: FontAwesome;
+	font-size: @notification-close-size - 6px;
+	line-height: @notification-close-size;
+	text-align: center;
+
+	box-shadow: -1px 1px 1px rgba(0,0,0,.25);
+	border-radius: @notification-close-size;
+	border: @border-width solid @color1-base;
+	background-color: #333;
+	color: @color1-base;
+}
+.bi-notification-close:after {
+	content: "\f00d";
+}
+
+@keyframes biNotificationAnim {
+	0% { opacity: 0; left: 150%; }
+	100% { opacity: 1; left: 0%; }
+}

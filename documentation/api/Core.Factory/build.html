@@ -1,0 +1,149 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Factory.build</h1>
+
+<pre><code class="language-javascript">var factory = new Bi.Core.Factory([options]);</code></pre>
+
+<p>
+    Crée une instance de Factory.
+</p>
+
+<pre><code class="language-javascript">var options = {
+    Foo: [/* arguments given to Foo module builder */],
+    Bar: [/* arguments given to Bar module builder */"]
+};</code></pre>
+
+<p>
+    Le paramètre optionnel <code>options</code> permet de fournir des paramètres au constructeur de chaque module instancié.
+</p>
+
+<hr />
+
+<pre><code class="language-javascript">// Create module
+Bi.Core.module('Foo');
+// Add module constructor
+Bi.Core.Foo.extendProto('builder', function () { /* ... */ });
+</code></pre>
+
+<p>
+    Crèe un module et définie son constructeur.
+</p><p class="bidoc-tip">
+    Pour rappel, un module est une classe, qui a été créée avec la méthode <code>Bi.Core.module</code>.<br />
+    Et le constructeur d'un module est la méthode prototype nommée <code>.builder</code>.<br />
+    <a href="Core.html#?bidoc=Core/module">En savoir plus</a>
+</p>
+
+<hr />
+
+<pre><code class="language-javascript">factory.build(modules[, skipInitRepository]); // modules = ['Foo', 'Bar', ...];</code></pre>
+
+<p>
+    Instancie les modules listés dans le tableau de chaînes <code>modules</code>.<br />
+    Si le paramètre <code>modules</code> n'est pas renseigné alors tous les modules disponibles sont instanciés.
+</p><p>
+    La méthode <code>.build</code> est <b>synchrone</b>.
+    Cependant, elle invoque la méthode privée <b>asynchrone</b> <code>._initRepository</code>,
+    qui vérifie si les modules à instancier possèdent ou non une méthode particulière nommée <code>.initRepository</code>.
+    <br />
+    La présence de cette méthode indique à la fabrique que le module en question (par exemple <code>Bi.Core.Foo</code>) a besoin de données de configuration pour fonctionner.
+    <br />
+    Si tel est le cas alors la fabrique invoque la méthode <code>Bi.Core.Repository.get('Foo')</code> et injecte le résultat dans la méthode <code>.initRepository</code>.
+    Ainsi, le module instancié par la fabrique est totalement prêt à être utilisé.
+    <br />
+    Le paramètre <code>skipInitRepository</code> permet de ne pas exécuter cette tâche d'initialisation.
+</p><p class="bidoc-tip">
+    Pour rappel, le module <code>Bi.Core.Repository</code> se charge de récupèrer les données 
+    de configuration nécessaires au bon fonctionnement de chaque module de l'application.<br />
+    <a href="Core.Repository.html#?bidoc=Core.Repository/initRepository">En savoir plus</a>
+</p>
+
+<pre><code class="language-javascript">var foo = factory.instances.Foo;
+var bar = factory.instances.Bar;</code></pre>
+
+<p>Les modules instanciés sont disponibles dans la propriété d'instance de la fabrique <code>.instances</code>.</p>
+
+<pre><code class="language-javascript">var bar2 = foo.factory.has('Bar') ? foo.factory.get('Bar') : undefined; // bar2 === bar;</code></pre>
+
+<p>
+    Lorsque la fabrique instancie un module, elle lui ajoute la propriété <code>.factory</code>.<br />
+    Cette propriété permet aux différentes instances de communiquer entres elles.
+</p><p>
+    La méthode <code>.factory.has</code> permet à une instance de vérifier la disponibilité d'une autre instance.
+    <br />
+    La méthode <code>.factory.get</code> permet à une instance de récupérer le <b>clone</b> d'une autre instance.
+</p>
+
+<pre><code class="language-javascript">var myBarItem = foo.factory.has('Bar') ? foo.factory.export('Bar', 'myBarItem') : undefined;</code></pre>
+
+<p>
+    La méthode <code>.factory.export</code> permet à une instance d'exporter les propriétés d'une autre instance.
+    <br />
+    Contrairement à <code>.factory.get</code> qui clone l'instance, <code>.factory.export</code> se contente simplement d'exposer les propriétés demandées.
+</p><p class="bidoc-tip">
+    En savoir plus sur le <a href="Core.html#?bidoc=Core/clone">clonage</a> d'une instance de <code>Bi.Core</code>.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test("Bi.Core.Factory", function (assert) {
+
+        // Create new modules and define they builders
+        Bi.Core.module('Foo').extendProto('builder', function (param) {
+            this.fooParam = param;
+        });
+        Bi.Core.module('Bar').extendProto('builder', function (param1, param2) {
+            this.barParam1 = param1;
+            this.barParam2 = param2;
+        });
+
+        // Create another module...
+        Bi.Core.module('Baz');
+
+        // Get the list of availables modules
+        assert.deepEqual(Bi.Core.module.list, ['Factory', 'Foo', 'Bar', 'Baz'], 'Bi.Core.module.list contains the modules list');
+        
+        // Create a new factory with options that defines the arguments given to each module builder
+        var factory = new Bi.Core.Factory({
+            Foo: [{ data: "fooParam" }],
+            Bar: ["barParam1", "barParam2"]
+        });
+
+        // Build modules Foo and Bar (but not Baz)
+        var build = factory.build(['Foo', 'Bar']);
+
+        // Each module instance is available in the property .instances
+        var foo = build.instances.Foo,
+            bar = build.instances.Bar;
+
+        assert.ok(
+            "fooParam" == foo.fooParam.data &&
+            "barParam1" == bar.barParam1 &&
+            "barParam2" == bar.barParam2,
+        'Each module builder is receiving its factory options');
+
+        assert.ok(foo.factory.has('Bar') && bar.factory.has('Foo'),
+            'Each instance can check the others instances availability');
+
+        assert.ok(bar.factory.get('Foo').fooParam === foo.fooParam,
+            'Each instance can access a clone of the others');
+
+        assert.ok(foo.factory.export('Bar', 'barParam1') === bar.barParam1,
+            'Each instance can access an other instance property');
+
+        assert.deepEqual(
+            foo.factory.export('Bar', ['barParam1', 'barParam2']),
+            { barParam1: 'barParam1', barParam2: 'barParam2' },
+           'Each instance can access an other instance properties');
+
+    });
+
+</script>

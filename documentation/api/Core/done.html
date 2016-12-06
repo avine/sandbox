@@ -1,0 +1,81 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.done</h1>
+
+<pre><code class="language-javascript">.done([result]);</code></pre>
+
+<p>Permet à la fonction en cours d'exécution d'indiquer que son traitement est terminé.
+	La pile reprend alors la main et peut exécuter si elle existe, la fonction suivante toujours en attente.
+	En d'autres termes, chaque fonction enregistrée dans la pile avec la méthode <code>.then</code> doit respecter la contrainte de ne pas briser la chaine des appels, en invoquant toujours la méthode <code>.done</code> au moment qu'elle juge opportun.</p>
+<p>La fonction courante peut si besoin propager un résultat <code>result</code> à la fonction suivante, qui sera accessible via son premier argument ou via la propriété temporaire <code>this.lastResult</code>.
+	Si la fonction enregistrée est exécutée plusieurs fois via son paramètre <code>argsStack</code>, le dernier résultat n'est alors accessible qu'à partir de la propriété temporaire.</p>
+
+<pre><code class="language-javascript">var core = new Bi.Core().then(function () {
+    // Faire quelque chose...
+
+    this.done(); // Invoquer la méthode .done à la fin du traitement
+
+    // Atention: Si vous écrivez du code ici, il sera exécuté après la prochaine fonction de la pile ! 
+});
+</code></pre>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".done", function (assert) {
+
+        var _testDone = assert.async();
+
+        var core = new Bi.Core().then(function () {
+
+            this.done(999);
+
+        }).then(function (result) {
+
+            assert.ok(result === 999, "Access last result as argument");
+
+            assert.ok(result === this.lastResult, "Access last result as property");
+
+            this.done();
+
+            _testDone();
+        });
+
+    });
+
+    QUnit.test("Testing unapropriate use of .done", function (assert) {
+
+        var _testDone = assert.async();
+
+        var _logs = [];
+
+        var core = new Bi.Core().then(function () {
+
+            _logs.push('1.1) ok');
+
+            this.done(); // Invoke the next function in the stack
+
+            _logs.push('1.2) oups!'); // Warning: This code will be executed after the step '2'!
+
+            assert.deepEqual(_logs, ['1.1) ok', '2) ok', '1.2) oups!'], "Unexpected order!");
+            _testDone();
+
+        }).then(function () {
+
+            _logs.push('2) ok');
+
+            this.done();
+
+        });
+
+    });
+
+</script>

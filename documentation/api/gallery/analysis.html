@@ -1,0 +1,34 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bi-form">
+    <select id="gallery-wall-filter"></select>
+    <div id="gallery-wall"></div>
+</div>
+
+<script>
+    (function ($) {
+        "use strict";
+
+        // Gallery helper
+        var gallery = window.biDoc.gallery;
+
+        // Display wall
+        gallery.bo.displayWall({
+
+            wallUrl: Bi.tool.url.ROOT + '/api/bigallery/analysis',
+
+            buildUrl: Bi.tool.url.ROOT + '/documentation/gallery.html#?bidoc=gallery/analysis-builder',
+
+            storageKey: 'analysisBuilder',
+
+            renderFn: function (node, item) {
+                if (item.Data) gallery.bi.renderAnalysis(node, item.Type, item.Data.data, item.Data.attributes);
+            }
+
+        });
+
+    })(jQuery);
+</script>
+
+<!-- bidoc-text -->

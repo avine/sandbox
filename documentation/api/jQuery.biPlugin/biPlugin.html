@@ -1,0 +1,160 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>jQuery.biPlugin</h1>
+
+<pre><code class="language-javascript">jQuery.biPlugin(name, settings, prototype, methods);</code></pre>
+
+<p>
+    Crée le plugin jQuery <code>name</code> et l'ajoute en tant que propriété <code>jQuery.fn[name]</code>.
+    L'objet <code>settings</code> renseigne la configuration par défaut de chaque instance du plugin.
+    L'objet <code>prototype</code> définie les méthodes privées de l'instance.
+    L'objet <code>methods</code> définie les méthodes publiques de l'instance.
+</p>
+
+<p class="bidoc-tip">
+    L'avantage de cette fonction générateur est qu'elle travaille sur des instances.<br />
+    L'intance du plugin associée à un noeud du DOM est ainsi récupérée chaque fois que vous appliquez le plugin sur ce même noeud.
+</p>
+
+<pre><code class="language-javascript">jQuery.biPlugin('doSometing', {
+    // Settings
+    mySetting1: 1,
+    mySetting2: 2
+}, {
+    // Prototype
+    init: function () {
+        // Special prototype function invoked when the plugin instance is created
+
+        this.$element; // Contains the DOM element matched by the jQuery selector
+        this.options; // Contains the instance settings
+    },
+    wakeup: function () {
+        // Special prototype function invoked each time the plugin instance is used
+    }
+}, {
+    // Methods
+    myMethod: function (myParam) { /* ... */ }
+});</code></pre>
+
+<p>Exemple de création du plugin <code>doSometing</code>.</p>
+
+<pre><code class="language-javascript">jQuery('body').doSometing(); // Create instance with default settings
+jQuery('body').doSometing({ mySetting1: 3 }); // Get created instance and update settings
+jQuery('body').doSometing('myMethod', 4); // Call method myMethod with myParam = 4</code></pre>
+
+<p>Exemple d'utilisation du plugin <code>doSometing</code>.</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<script>
+    /* Create a new plugin named: jQuery.fn.changeColor */
+    jQuery.biPlugin('changeColor', {
+
+        /* Settings */
+        color: 'red',
+        infosSelector: undefined,
+        defaultMethod: 'callMeEachTime' // Special settings property
+
+    }, {
+
+        /* Prototype */
+        init: function () {
+            // Special prototype function .init, called the first time the instance is created
+            console.log('.init prototype called !');
+            this.$element.css('color', '#fff');
+        },
+        wakeup: function () {
+            // Special prototype function .wakeup, called each time the instance is touched
+            // (this.$element contains the DOM element wrapped in a jQuery object)
+            this.$element.css('background-color', this.options.color);
+
+            this.updateInfos();
+        },
+        updateInfos: function () {
+            // Regular prototype function .updateInfos, called on demand
+            if (this.options.infosSelector) jQuery(this.options.infosSelector).html(
+                'this.isInit: <b>' + this.isInit + '</b><br />' +
+                'this.optionsHasChanged: <b>' + this.optionsHasChanged + '</b><br />' +
+                'this.options.color:  <b>' + this.callMethod('getColor') + '</b>'
+            );
+        }
+
+    }, {
+
+        /* Methods */
+        callMeEachTime: function () {
+            console.log('.callMeEachTime called (default method) !');
+        },
+        changeSize: function (newSize) {
+            // You can add any JS property to the instance
+            this.defaultSize = this.defaultSize || this.$element.css('font-size');
+            this.$element.css('font-size', newSize);
+        },
+        restoreSize: function () {
+            this.$element.css('font-size', this.defaultSize);
+        },
+        getColor: function () {
+            // this.options contains the current instance settings
+            return this.options.color;
+        },
+        destroyInstance: function () {
+            // The destroy prototype function is available for all plugins
+            // The next time you call the plugin on the same DOM element,
+            // a new plugin instance will be created...
+            this.destroy();
+
+            // Use the special method .callMethod when you need
+            // to call a method from another (or from a protptype)
+            this.callMethod('alert', 'Instance destroyed!');
+        },
+        alert: function (msg) {
+            alert(msg);
+        }
+
+    });
+</script>
+
+<style> #demo-infos > b { color:blue; } </style>
+
+<div class="bidoc-code-sample">
+    <h3 id="demo-change-me">Hello world!</h3>
+    <p id="demo-action"></p>
+    <p id="demo-infos"></p>
+    <em style="color:red;">(open the browser console to see the logs)</em>
+</div>
+
+<script>
+    var $action = $('#demo-action');
+    function demoAction(title, callback) {
+        $('<button>' + title + '</button>').click(callback).appendTo($action);
+    }
+
+    // Use now the created plugin...
+    demoAction('Touch instance', function () {
+        jQuery('#demo-change-me').changeColor({ infosSelector: '#demo-infos' });
+    });
+    var colors = ['blue', 'green', 'orange'], i = 0;
+    demoAction('Change color', function () {
+        // Call the plugin and update the settings
+        jQuery('#demo-change-me').changeColor({ color: colors[i++ % colors.length] });
+    });
+    demoAction('Change size', function () {
+        // Call the plugin method with a parameter
+        jQuery('#demo-change-me').changeColor('changeSize', '25px');
+    });
+    demoAction('Restore size', function () {
+        jQuery('#demo-change-me').changeColor('restoreSize');
+    });
+    demoAction('Destroy instance', function () {
+        jQuery('#demo-change-me').changeColor('destroyInstance');
+    });
+    demoAction('Debug in console', function () {
+        // The debug method is available for all plugins
+        jQuery('#demo-change-me').changeColor('debug');
+    });
+</script>

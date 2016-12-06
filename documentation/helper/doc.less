@@ -1,0 +1,489 @@
+
+@doc-width:         400px;
+
+@doc-padding:       15px;
+
+@border-width:      2px;
+
+@toggle-height:     40px;
+
+@toggle-width:      22px;
+
+@content-margin:    15px;
+
+@content-padding:   5px;
+
+@content-shift:     30px;
+
+@content-title:     #83ae47;    // color
+
+@item-shift:        .5em;       // em
+
+@prism-bg:          #f5f2f0;    // color
+
+@transition:        .5s;        // duration
+
+@opacity-blur:      .75;
+
+@text-margin:       20px;
+
+@max-width:         960px;
+
+/* Base */
+
+body {
+    margin: 0;
+}
+
+/* Index */
+
+#bidoc-index {
+    &, > * {
+        box-sizing: border-box;
+        transition: all ease @transition;
+    }
+
+}
+
+#bidoc-index {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: @doc-width;
+    border-left: @border-width solid #ccc;
+    background-color: #eee;
+}
+
+#bidoc-title {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    left: -@border-width;
+    padding: 0 @doc-padding 0 (@doc-padding + @border-width);
+    border-radius: 0;
+    border-width: 0 0 @border-width @border-width;
+    border-style: solid;
+    border-color: #000;
+    background-color: #222;
+    color: #eee;
+    height: @toggle-height;
+    line-height: @toggle-height;
+    font-size: 20px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    user-select: none;
+
+    &:after {
+        font-size: @toggle-width / 2;
+        font-family: FontAwesome;
+        content: "\f0c9";
+        position: absolute;
+        left: @toggle-width / 4 - @border-width;
+        opacity: 0;
+        transition: opacity ease @transition;
+    }
+}
+
+#bidoc-anchor {
+    position: absolute;
+    right: 0;
+    padding: 0 .5em;
+    height: @toggle-height;
+    line-height: @toggle-height;
+    font-size: 20px;
+    color: #777;
+    text-shadow: -1px -1px 0 #222;
+    background-color: #444;
+    transition: all ease .25s;
+}
+
+.bidoc-anchor #bidoc-anchor {
+    color: #02b6f2;
+}
+
+.bidoc-hide {
+
+    &#bidoc-index {
+        right: -@doc-width;
+        opacity: @opacity-blur;
+    }
+
+    & > #bidoc-title {
+        left: -@toggle-width;
+        padding-left: @doc-padding + @toggle-width;
+        border-radius: 0 0 0 5px;
+
+        &:after {
+            opacity: 1;
+        }
+    }
+
+}
+
+#bidoc-content {
+    position: absolute;
+    z-index: 1;
+    top: @toggle-height;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    padding: @doc-padding;
+    line-height: 18px;
+    font-size: 12px;
+
+    h3, ul {
+        margin: @content-margin 0 0 @content-shift;
+    }
+    > h3, > ul {
+        margin-left: 0;
+    }
+    h3 {
+        position: relative;
+        padding: @content-padding;
+        padding-left: @item-shift + 1em;
+        border-bottom: 1px solid lighten(@content-title, 20%);
+        color: @content-title;
+        line-height: 18px;
+        font-size: 15px;
+        cursor: pointer;
+        user-select: none;
+
+        &:after {
+            font-family: FontAwesome;
+            content: "\f103";
+            position: absolute;
+            left: @item-shift;
+        }
+    }
+    ul {
+        padding: 0;
+        list-style: none;
+    }
+    h3 + ul {
+        margin-top: 0;
+    }
+
+    h3.bidoc-content-hide {
+        margin-bottom: @content-margin;
+
+        &:after {
+            content: "\f101";
+        }
+
+        & + ul {
+            display: none;
+        }
+    }
+
+    li {
+        border-bottom: 1px dotted #ccc;
+
+        &:last-child {
+            border-bottom-color: transparent;
+        }
+
+    }
+
+    a {
+        position: relative;
+        display: block;
+        margin-bottom: -1px;
+        padding: @content-padding;
+        border-bottom: 1px solid transparent;
+        background-color: transparent !important;
+        color: #666 !important;
+        text-decoration: none !important;
+
+        &:hover {
+            border-bottom-color: #ddd;
+            background-color: #e6e6e6 !important;
+            color: #111 !important;
+        }
+        &.bidoc-active {
+            padding-left: @item-shift + 1em;
+            border-bottom-color: #ddd;
+            background-color: #f6f6f6 !important;
+            color: #111 !important;
+            font-weight: bold;
+
+            &:after {
+                font-family: FontAwesome;
+                content: "\f105";
+                position: absolute;
+                left: @item-shift;
+            }
+        }
+    }
+
+}
+
+/* Index: special links */
+
+.bidoc-link-home {
+    padding-left: 2em !important; //padding-left: @item-shift + 1em !important;
+    &:before {
+        position: absolute;
+        left: @item-shift;
+        font-family: FontAwesome;
+        content: "\f015";
+    }
+}
+
+.bidoc-link-current {
+    
+}
+
+/* Code */
+
+#bidoc-code {
+    position: fixed;
+    z-index: 998;
+    width: @max-width;
+    max-width: 100%;
+    height: 80%;
+    bottom: -80%;
+    opacity: @opacity-blur;
+    border-radius: 0 5px 0 0;
+    box-sizing: border-box;
+    border-width: @border-width @border-width 0 0;
+    border-style: solid;
+    border-color: darken(@prism-bg, 10%);
+    background-color: @prism-bg;
+    transition: bottom ease @transition, opacity ease @transition;
+
+    &.bidoc-code-show {
+        bottom: 0;
+        opacity: 1;
+    }
+
+    h1 {
+        margin: 0 15px;
+        padding: 0;
+        box-sizing: border-box;
+        border-bottom: @border-width solid darken(@prism-bg, 10%);
+        height: 30px;
+        line-height: 30px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    pre {
+        position: absolute;
+        top: 30px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0 !important;
+        overflow: auto;
+    }
+}
+
+@media (max-width: @max-width) {
+    #bidoc-code {
+        border-radius: 0;
+        border-right-width: 0;
+    }
+}
+
+#bidoc-code-toggle {
+    position: absolute;
+    left: 0;
+    top: -@toggle-width;
+    width: @toggle-height;
+    height: @toggle-width;
+    line-height: @toggle-width - @border-width * 2;
+    border-radius: 0 5px 0 0;
+    box-sizing: border-box;
+    border: inherit;
+    border-width: @border-width @border-width 0 0;
+    border-color: #000;
+    background-color: #222;
+    color: #eee;
+    text-align: center;
+    text-decoration: none !important;
+    font-size: 14px;
+    transition: border-color ease .5s, background-color ease .5s, color ease .5s;
+
+    &:after {
+        font-family: FontAwesome;
+        content: "\f121";
+    }
+}
+
+.bidoc-code-show #bidoc-code-toggle {
+    border-color: inherit;
+    background-color: inherit;
+    color: #000;
+}
+
+// Use this optional container to highlight the area of your code sample
+.bidoc-code-sample {
+    margin: (@text-margin * 1.5) @text-margin;
+    padding: @text-margin;
+    box-shadow: 1px 1px 4px rgba(0,0,0,.1);
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    position: relative;
+    &:after {
+        content: "Demo";
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 0 2px 0 3px; // 2px = 3px (border radius) - 1px (border width)
+        border: inherit;
+        border-width: 0 0 1px 1px;
+        background-color: #ddd;
+        text-shadow: 1px 1px 0 #eee;
+        color: #888;
+        padding: 2px 6px;
+        font-size: 12px;
+    }
+
+    // Use buttons for user action inside your code sample
+    button { margin: .5em; }
+}
+
+/* Intro & Text */
+
+#bidoc-intro, .bidoc-text {
+
+    font-size: 14px;
+    line-height: 1.5em;
+
+    margin: @text-margin 0;
+    padding: 0 @text-margin;
+    max-width: @max-width;
+    box-sizing: border-box;
+
+    h1, h2, h3 {
+        line-height: 1.2em;
+    }
+
+    code {
+        border-radius: 3px;
+        border: 1px solid rgba(0,0,0,.1);
+        background-color: rgba(0,0,0,.04);
+        padding: 0 3px;
+    }
+    pre code {
+        border-radius: 0;
+        border: none;
+        background-color: transparent;
+        padding: 0;
+    }
+
+    hr {
+        margin: 1.5em auto;
+        width: 33%;
+        border: none;
+        border-top: 1px solid lighten(@content-title, 20%);
+    }
+
+    table {
+        width: 100%;
+        margin: 1.5em 0;
+        border-collapse: collapse;
+        background-color: #fafafa;
+        text-align: left;
+    }
+    caption {
+        padding: .25em .5em;
+        font-size: 1.25em;
+        font-weight: bold;
+        text-align: left;
+    }
+    th {
+        background-color: #eaeaea;
+    }
+    th, td {
+        border: 1px solid #ccc;
+        padding: .25em .5em;
+    }
+    tr:nth-child(odd) {
+        background: #f2f2f2;
+    }
+}
+
+.bidoc-tip, .bidoc-warning {
+    position: relative;
+    margin: 1.5em 0;
+    padding: .75em 1.25em .75em 2.2em;
+    border-radius: 3px;
+    border: 1px solid #e3e3e3;
+    background-color: #f3f3f3;
+
+    &:after {
+        position: absolute;
+        left: .5em;
+        top: 50%;
+        height: 1em;
+        line-height: 1em;
+        margin-top: -.5em;
+        font-size: 1.2em;
+        font-family: FontAwesome;
+    }
+}
+.bidoc-tip:after {
+    color: @content-title;
+    content: "\f05a";
+}
+.bidoc-warning {
+    color: #d9534f;
+    &:after { content: "\f06a"; }
+}
+
+.bidoc-highlight {
+	color: @content-title;
+}
+
+/* Overwrite QUnit default css */
+
+#qunit {
+    margin: (@text-margin * 2) 0 @text-margin 0;
+    padding: 0 @text-margin;
+    max-width: @max-width;
+    box-sizing: border-box;
+
+    #qunit-header,
+    #qunit-testrunner-toolbar,
+    #qunit-userAgent,
+    a, // Hide the "Rerun" link
+    .qunit-source {
+        display: none;
+    }
+
+}
+
+/* Overwrite Prism default css */
+
+// Tip: always describe a feature after its code like this: 
+// ----
+// <pre> <!-- Code --> </pre>
+// <p> <!-- Description --> </p>
+
+pre[class*="language-"] {
+    margin-top: 3em;  
+    margin-bottom: 1em;
+}
+
+// It's time to say goodbye Bi... :-)
+.bidoc-bye-bi {
+    display: inline-block;
+    overflow: hidden;
+    color:#ddd;
+    line-height: 300px;
+    font-size: 200px;
+    animation: bidocByeBi 1.5s ease-out 1.5s; 
+}
+@keyframes bidocByeBi {
+	0% { opacity: 1; font-size: 300px; }
+	90% { opacity: 0; font-size: 600px; }
+	100% { opacity: 1; font-size: 200px; }
+}

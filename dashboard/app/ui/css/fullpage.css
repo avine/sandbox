@@ -1,0 +1,14 @@
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+a, a:visited {
+    text-decoration: underline;
+    color: #337ab7;
+}
+a:hover, a:active, a:focus {
+    text-decoration: none;
+}

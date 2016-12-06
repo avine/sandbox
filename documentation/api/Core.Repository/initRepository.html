@@ -1,0 +1,151 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>Bi.Core.*.initRepository</h1>
+
+    <p>
+        Chaque module de l'application peut définir une méthode prototype dont le nom reservé est <code>initRepository</code>. 
+        Sa présence indique que le module attend des données de la base de configuration pour fonctionner correctement.
+    </p>
+
+<pre><code class="language-javascript">// Create a new module
+var MyModule = Bi.Core.module('MyModule');
+
+// Define the special method
+MyModule.extendProto('initRepository', function (result) {
+    this.myConfigData = result;
+});
+
+// Instanciate MyModule
+var myModuleInstance = new MyModule();
+
+// Instanciate Repository
+var repository = new Bi.Core.Repository();
+
+// Retrieve configuration data for MyModule
+repository.get('MyModule').queue(function (result) {
+
+    // Just normalize the dataset columns in upper case...
+    result.MyModule = Bi.database.format.normalizeDataset(result.MyModule);
+
+    // Propagate the result to the special method
+    myModuleInstance.initRepository(result.MyModule);
+
+    // Ready to use the configured module :-)
+    myModuleInstance.myConfigData ...
+});
+</code></pre>
+
+    <p>
+        Cet exemple montre l'utilisation de la méthode <code>initRepository</code>.
+    </p>
+    
+    <p class="bidoc-tip">
+        Notez que dans l'exemple précédent, la méthode <code>initRepository</code> aurait pu s'appeler autrement, puisque nous l'avons invoqué manuellement...
+        L'intérêt d'utiliser ce nom réside dans le fait que le module <code>Bi.Core.Factory</code>, 
+        responsable de créer des instances de modules, va automatiser ce processus pour vous s'il trouve une méthode portant exactement ce nom.
+    </p>
+
+    <p class="bidoc-tip">
+        Consultez le script C# <code>/Models/Db.Repository.cs</code> et la méthode <code>Bi.Models.Db.repositoryQueries</code> 
+        pour découvrir les liste des requêtes SQL nécessaires à la configuration de l'application.
+    </p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+    QUnit.test("initRepository with fake data and module", function (assert) {
+
+        var _testDone = assert.async();
+
+        // Emulate the data we can retrieve from the Repository for some module called MyModule
+        Bi.Core.Repository.updateCache({
+            MyModule: [
+                // Some SQL query like: "select product, sales from MyModuleSales"
+                { columns: ['product', 'sales'], data: [['Procoralan', 300], ['Valdoxan', 250]] },
+                // Some SQL query like: "select last_month from MyModulesMonth"
+                { columns: ['last_month'], data: [['Janvier'], ['Fevrier']] }
+            ]
+        });
+
+        // Create MyModule
+        Bi.Core.module('MyModule').extendProto({
+
+            // Define the special method .initRepository
+            initRepository: function (results) {
+                // Store the retrieved data in the instance
+                this.db = { sales: results[0], lastMonth: results[1] };
+            },
+
+            // Define some method that use the stored data
+            getSales: function () {
+                var o = {};
+                this.db.sales.data.forEach(function (item) {
+                    o[item[0]] = item[1]; // like: o['Procoralan'] = 300;
+                });
+                return o;
+            }
+
+        });
+
+        // Instanciate MyModule
+        var myModule = new Bi.Core.MyModule();
+
+        // Instanciate Repository
+        var repository = new Bi.Core.Repository();
+
+        // Retrieve configuration data for MyModule
+        repository.get('MyModule').queue(function (result) {
+
+            // Propagate the result to the special method
+            myModule.initRepository(result.MyModule);
+
+            var sales = myModule.getSales();
+
+            assert.ok(300 === sales['Procoralan'] && 250 === sales['Valdoxan']);
+
+            _testDone();
+        });
+
+    });
+
+    QUnit.test("initRepository with real data for the Translation module", function (assert) {
+
+        var _testDone = assert.async();
+
+        // Instanciate Translation
+        var translation = new Bi.Core.Translation();
+
+        assert.ok(translation.db == undefined,
+            '.db property is undefined before the method .initRepository is called.');
+
+        // Instanciate Repository
+        var repository = new Bi.Core.Repository();
+
+        // Retrieve configuration data for Translation
+        repository.get('Translation').queue(function (result) {
+
+            // Just normalize the dataset columns in upper case...
+            result.Translation = Bi.database.format.normalizeDataset(result.Translation);
+
+            // Propagate the result to the special method
+            translation.initRepository(result.Translation);
+
+            // Verify that the .initRepository method has defined .db.culture and .db.translation properties
+            // (see its source code for more details...)
+            assert.ok(translation.db.culture && translation.db.translation,
+                '.db property is defined after the method .initRepository is called.');
+
+            console.log('Configuration data of the Translation module', translation.db);
+
+            _testDone();
+        });
+
+    });
+</script>

@@ -1,0 +1,66 @@
+
+@import "variables";
+
+@import "mixins";
+
+@import "console";
+
+@import "base";
+@import "table";
+
+@import "router";
+
+@import "wrap/wrap";
+@import "wrap/wrap-color";
+@import "wrap/wrap-content";
+
+@import "toggle/toggle";
+@import "toggle/toggle-transition";
+
+@import "grid";
+
+@import "standalone";
+
+@import "nav";
+
+@import "menu/menu";
+@import "menu/menu-top";
+@import "menu/menu-bottom";
+@import "menu/menu-sidebar";
+@import "menu/menu-head";
+
+@import "screen";
+
+@import "loader";
+
+@import "modal";
+
+@import "progress";
+
+@import "pivot-table";
+
+@import "form/form";
+@import "form/form-button-group";
+@import "form/form-tree-view";
+
+@import "view/view-login";
+@import "view/view-logout";
+@import "view/view-synchro";
+
+@import "module/module-dashboard";
+@import "module/module-filter";
+@import "module/module-analysis";
+@import "module/module-message";
+@import "module/module-notification";
+
+//@import "theme/theme-default"; // comment this file to see the default behavior...
+
+// When you need to handle the :hover pseudo-class in both CSS and Javascript, use the following pattern:
+// Attach :hover to .bi-hover or to the children of .bi-hover-wrap.
+// Thus, you can develop and check that your CSS are working as expected without Javascript.
+// Then, use Javascript to dynamically remove the classes .bi-hover and .bi-hover-wrap.
+// At this point, your CSS are not working anymore...
+// Then manage dynamically the classes .bi-hover-jsOut and .bi-hover-jsOver to emulate the original the :hover behavior.
+.bi-hover-wrap > *, .bi-hover, .bi-hover-jsOut {}
+.bi-hover-jsOut:hover {} // Middle state
+.bi-hover-wrap > :hover, .bi-hover:hover, .bi-hover-jsOver {}

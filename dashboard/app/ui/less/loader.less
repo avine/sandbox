@@ -1,0 +1,69 @@
+
+/* loader */
+
+.bi-loader {
+	position: absolute;
+	z-index: 5;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: inherit;
+	background-color: rgba(255,255,255, .9);
+	color: #ccc;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+
+	left: 0;
+	opacity: 1;
+	transition: opacity @loader-transition ease-out;
+	animation: biLoaderAnim @loader-transition ease-out;
+	> * {
+		position: relative;
+		left: 0;
+		opacity: 1;
+		transition: inherit;
+		&.bi-loader-progress {
+			transition: opacity @loader-progress-transition ease-out @loader-progress-delay;
+			&.bi-loader-init {
+				transition: none;
+				opacity: 0;
+				animation: biLoaderAnim @loader-progress-transition ease-out;
+				animation-delay: @loader-progress-delay;
+				animation-fill-mode: forwards;
+			}
+		}
+	}
+}
+
+@keyframes biLoaderAnim {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+.bi-loader-hidden {
+	left: -9999px;
+	opacity: 0;
+	transition: opacity @loader-transition ease-out, left 0s linear @loader-transition;
+}
+
+// themes
+
+.bi-loader-theme-grey-light {
+	background-color: #fff;
+	background-image: radial-gradient(center,
+		rgba(255, 255, 255,   .5)   0%,
+		rgba(255, 255, 255,    0)  60%,
+		rgba(0  , 0  , 0  ,    0)  60%,
+		rgba(0  , 0  , 0  , .025) 100%
+	);
+	box-shadow: 3px 3px 3px rgba(0,0,0, .025) inset;
+	color: #ddd;
+	font-style: italic;
+}
+
+.bi-loader-theme-transparent {
+	background-color: transparent;
+}

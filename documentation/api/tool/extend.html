@@ -1,0 +1,70 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.tool.extend</h1>
+
+<pre><code class="language-javascript">Bi.tool.extend(data[, addon1, addon2, ...]);</code></pre>
+
+<p>
+    Fusionne les paramètres <code>addon1, addon2, ...</code> avec le premier paramètre fourni <code>data</code>.<br />
+    La fonction modifie et retourne le paramètre <code>data</code>.<br />
+    Si <code>data</code> n'est pas défini alors le type retourné par la fonction dépend du type du second paramètre <code>addon1</code>.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+var tool = Bi.tool;
+
+QUnit.test("Extend Object", function(assert) {
+
+    var data = { a: 0 };
+
+    var _data = tool.extend(data, { b: 1 });
+
+    assert.strictEqual(_data, data, "Returns the first given argument" );
+
+    tool.extend(data, { c: 2 }, { d: 3 });
+
+    assert.deepEqual(data, { a: 0, b: 1, c: 2, d: 3 }, "Accepts multiple aguments" );
+
+    tool.extend(data, ["a", "b"]);
+
+    assert.deepEqual(data, { a: 0, b: 1, c: 2, d: 3, 0: "a", 1: "b" }, "Works with array" );
+
+});
+
+QUnit.test("Extend Array", function(assert) {
+
+    var data = [0];
+
+    var _data = tool.extend(data, [1]);
+
+    assert.strictEqual(_data, data, "Returns the first given argument" );
+
+    tool.extend(data, [2], [3]);
+
+    assert.deepEqual(data, [0, 1, 2, 3], "Accepts multiple aguments" );
+
+    tool.extend(data, { a: "a", b: "b" });
+
+    assert.ok("a" == data.a && "b" == data.b, "Works with object by adding properties to the array (not items)");
+
+});
+
+QUnit.test("Works with undefined as first argument", function(assert) {
+
+    assert.deepEqual(tool.extend(undefined, { a: 0 }, { b: 1 }), { a: 0, b: 1 }, "And objects" );
+
+    assert.deepEqual(tool.extend(undefined, [0], [1]), [0, 1], "And arrays" );
+
+});
+
+</script>

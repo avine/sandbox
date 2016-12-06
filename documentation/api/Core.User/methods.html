@@ -1,0 +1,90 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.User</h1>
+
+<pre><code class="language-javascript">var user = new Bi.Core.User();</code></pre>
+
+<p>Crée une instance de User.</p>
+
+<pre><code class="language-javascript">user.login(login, password).queue(function (success) {
+    // Do something...
+});</code></pre>
+
+<p>Tente d'authentifier l'utilisateur avec les paramètres <code>login</code> et <code>password</code> fournis.</p>
+
+<p>En mode <b>"online"</b> l'authentification fait appel à un service Web.
+    Si les paramètres fournis sont correctes, alors le service Web retourne un <b>token de session</b>, qui est stocké côté client dans la clé <code>biCoreUser.sessionToken</code>.</p>
+
+<p>En mode <b>"offline"</b> l'authentification consiste à exécuter une requête sur la base locale synchronisée.<br />
+    A noter que le password stocké dans la base local est crypté avec la librairie <b>CryptoJS.MD5</b>.</p>
+
+<pre><code class="language-javascript">user.autoLogin(clientName).queue(function (success) {
+    // Do something...
+});</code></pre>
+
+<p>Utilise l'authentification AD (<b>Active Directory</b>) de l'utilisateur <code>WinNTLoggedUserName</code> connecté à la machine.<br />
+    Si le paramètre optionnel <code>clientName</code> est renseigné alors l'authentification AD réussira uniquement si l'utilisateur connecté à ce nom.</p>
+
+<p class="bidoc-tip">Pour activer cette fonctionnalité, vous devez renseigner à 1 la clé <code>Bi.EnableAutoLogin</code> dans le fichier <b>Web.config</b>.
+    Cette fonctionnalité n'a de sens que si les noms d'utilisateurs définis dans la table <code>BiRepo_User.UserLogin</code> correspondent aux utilisateurs AD.</p>
+
+<pre><code class="language-javascript">Bi.Core.User.sessionToken([token]);</code></pre>
+
+<p>Retourne le <b>token de session</b> actuel.
+    Le paramètre optionnel <code>token</code> permet de fixer une nouvelle valeur à ce token.</p>
+
+<pre><code class="language-javascript">user.logout().queue(function (result) {
+    result.mode; // = "remote" or "local"
+    result.success; // Did the logout succeed ?
+});</code></pre>
+
+<p>Termine à coup sûr la session utilisateur <b>côté client</b> et tente de contacter le serveur Web pour terminer la session <b>coté serveur</b>.</p>
+
+<p>Le paramètre <code>result</code> indique la manière dont la session a pu être terminée :</p>
+<ul>
+    <li>
+        <code>{ mode: "remote", success: true }</code>
+        Quel que soit le mode de l'application ("online" ou "offline"), la session est bien terminée, même côté serveur.</li>
+    <li>
+        <code>{ mode: "remote", success: false }</code>
+        L'application est en mode "online" mais que la session n'a pu être terminée côté serveur (à cause d'une coupure de connexion internet, par exemple).
+        Quoi qu'il en soit, la session est bien terminée côté client.
+    </li>
+    <li>
+        <code>{ mode: "local", success: true }</code>
+        L'application est en mode "offline" et la session a pu être terminée côté client uniquement.
+    </li>
+</ul>
+
+<pre><code class="language-javascript">user.isLogged().queue(function (result) {
+    // result = true or false
+});</code></pre>
+
+<p>Vérifie que la session de l'utilisateur authentifié est toujours disponible côté serveur.</p>
+
+<pre><code class="language-javascript">Bi.Core.User.login([login[, storeLastLogin]]);</code></pre>
+
+<p>
+    Méthode statique permettant de récupérer ou modifier le <code>login</code> de l'utilisateur authentifié.
+</p>
+<p>
+    Si <code>login === null</code> alors la méthode effectue un <em>logout</em> de l'utilisateur.
+    Dans ce cas, le paramètre boolean optionnel <code>storeLastLogin</code> dont la valeur par défaut est <code>true</code>, renseigne s'il faut ou non stocker la valeur du <code>login</code>.
+    Cela est utile par exemple, pour préremplir le nom de l'utilisateur lors de la prochaine authentification.
+</p>
+<p class="bidoc-warning">
+    Cette méthode présente une faille de sécurité évidente  :-(<br />
+    Il suffit de remplacer à la volée la valeur du login par celui d'un autre utilisateur pour voir ses données...<br />
+    TODO: envoyer le <em>userLogin</em> courant dans les requêtes <em>XMLHttpRequest</em> et le comparer à celui qui est stocké en session côté serveur.
+</p>
+
+<pre><code class="language-javascript">Bi.Core.User.lastLogin();</code></pre>
+
+<p>Méthode statique qui retourne la dernière valeur connue du <code>login</code>.</p>
+
+</div>
+
+<!-- bidoc-text -->

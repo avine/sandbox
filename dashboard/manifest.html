@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<!-- ########################################################################################### -->
+<!-- This page is just a copy of "index.html" with manifest always enabled available for testing -->
+<html lang="en" manifest="resources/manifest/default.appcache">
+<!-- ########################################################################################### -->
+<head>
+    <title>BI</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="stylesheet" href="app/ui/css/fullpage.css" />
+    <link rel="stylesheet" href="app/ui/css/bi.css" />
+    <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css" />
+
+    <script src="plugins/jquery/jquery-2.1.4.min.js"></script>
+
+    <!-- Add the following script to make possible the use of SQL.js library -->
+    <!--<script src="plugins/sql.js-master/js/sql.js"></script>-->
+
+    <!-- jqwidgets -->
+    <link rel="stylesheet" href="plugins/jqwidgets/styles/jqx.base.css" />
+    <link rel="stylesheet" href="plugins/jqwidgets/styles/jqx.metro.css" />
+    <script src="plugins/jqwidgets/globalization/globalize.js"></script>
+    <script src="plugins/jqwidgets/jqx-all.js"></script>
+
+    <!-- amcharts -->
+    <script src="plugins/am/amcharts/amcharts.js"></script>
+    <script src="plugins/am/amcharts/funnel.js"></script>
+    <script src="plugins/am/amcharts/gauge.js"></script>
+    <script src="plugins/am/amcharts/pie.js"></script>
+    <script src="plugins/am/amcharts/radar.js"></script>
+    <script src="plugins/am/amcharts/serial.js"></script>
+    <script src="plugins/am/amcharts/xy.js"></script>
+    <!-- ammap -->
+    <link rel="stylesheet" href="plugins/am/ammap/ammap.css" />
+    <script src="plugins/am/ammap/ammap_amcharts_extension.js"></script>
+    <!-- amcharts export -->
+    <script src="plugins/am/amcharts/exporting/amexport.js"></script>
+    <script src="plugins/am/amcharts/exporting/rgbcolor.js"></script>
+    <script src="plugins/am/amcharts/exporting/canvg.js"></script>
+
+    <!-- cryptojs -->
+    <script src="plugins/cryptojs/md5.js"></script>
+
+    <!-- Bi ui -->
+    <script src="app/ui/js/biPlugin.js"></script>
+    <script src="app/ui/js/biScreen.js"></script>
+    <script src="app/ui/js/biRouter.js"></script>
+    <script src="app/ui/js/biWrap.js"></script>
+    <script src="app/ui/js/biNavMenu.js"></script>
+    <script src="app/ui/js/biMenu.js"></script>
+    <script src="app/ui/js/biLoader.js"></script>
+    <script src="app/ui/js/biForm.js"></script>
+    <script src="app/ui/js/biFormButtonGroup.js"></script>
+    <script src="app/ui/js/biFormTreeView.js"></script>
+    <script src="app/ui/js/biProgress.js"></script>
+    <script src="app/ui/js/biModal.js"></script>
+    <!-- Bi bo -->
+    <script src="app/bo/tool.js"></script>
+    <script src="app/bo/tool.PivotTable.js"></script>
+    <script src="app/bo/database.js"></script>
+    <script src="app/bo/Core.js"></script>
+    <script src="app/bo/Core.Ping.js"></script>
+    <script src="app/bo/Core.Factory.js"></script>
+    <script src="app/bo/Core.FactoryLoad.js"></script>
+    <script src="app/bo/Core.Repository.js"></script>
+    <script src="app/bo/Core.Db.js"></script>
+    <script src="app/bo/Core.Translation.js"></script>
+    <script src="app/bo/Core.User.js"></script>
+    <script src="app/bo/Core.Template.js"></script>
+    <script src="app/bo/Core.Router.js"></script>
+    <script src="app/bo/Core.Context.js"></script>
+    <script src="app/bo/Core.Dashboard.js"></script>
+    <script src="app/bo/Core.Filter.js"></script>
+    <script src="app/bo/Core.FilterProcess.js"></script>
+    <script src="app/bo/Core.Analysis.js"></script>
+    <script src="app/bo/Core.AnalysisDisplay.js"></script>
+    <script src="app/bo/Core.Message.js"></script>
+    <script src="app/bo/Core.Notification.js"></script>
+    <script src="app/bo/Core.Log.js"></script>
+    <script src="app/bo/Core.Synchro.js"></script>
+    <!-- Bi controllers -->
+    <script src="controllers/login.js"></script>
+    <script src="controllers/logout.js"></script>
+    <script src="controllers/main.js"></script>
+    <script src="controllers/synchro.js"></script>
+</head>
+<body class="bi-font">
+
+    <script>
+
+        (function () {
+            "use strict";
+
+            //// Uncomment to debug without database cache
+            //Bi.Core.User.cleanAllData();
+
+            //// Uncomment to debug events
+            //new Bi.Core().addListener(function (event, data) {
+            //    console.log('Bi.Core event triggered: ', event.type, data);
+            //});
+
+            // Define the constant Bi.tool.url.ROOT
+            Bi.tool.url.root('/dashboard');
+
+            // Load Bi interface
+            Bi.Core.Factory.load({
+                dashboardUrl: '/dashboard/manifest.html',
+                hashPrefix: '', // like: '/demo'
+                selector: 'body'
+            });
+
+            // Set favicon and apple-touch-icon according to website country
+            Bi.Core.Dashboard.setCountryIcons();
+        })();
+
+    </script>
+
+</body>
+</html>

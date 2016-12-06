@@ -1,0 +1,93 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.onFailure, Bi.Core.onComplete</h1>
+
+<pre><code class="language-javascript">.onFailure(fn[, once]);</code></pre>
+
+<p>Enregistre la fonction de rappel <code>fn</code> et l'exécute chaque fois que la pile d'appels est vide.
+	Les fonctions enregistrées avec cette méthode sont exécutées uniquement si la méthode <code>.fail</code> a été invoquée.</p>
+<p>Si le paramètre boolean <code>once</code> vaut <code>true</code> alors la fonction n'est exécutée qu'une seule fois.</p>
+
+<pre><code class="language-javascript">.onComplete(fn[, once]);</code></pre>
+
+<p>Enregistre la fonction de rappel <code>fn</code> et l'exécute chaque fois que que la pile d'appels est vide.
+	Les fonctions enregistrées avec cette méthode sont toujours exécutée.</p>
+<p>Si le paramètre boolean <code>once</code> vaut <code>true</code> alors la fonction n'est exécutée qu'une seule fois.</p>
+
+<p class="bidoc-tip">Les fonctions enregistrées avec <code>.onFailure</code> sont exécutées <b>avant</b> les fonctions enregistrées avec <code>.onComplete</code>.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".onFailure, .onComplete", function (assert) {
+
+        var _testDone = assert.async();
+
+        new Bi.Core().then(function () {
+
+            this.fail();
+
+        }).then(function () {
+
+            assert.ok(false, 'OUPS!'); // Not executed
+            this.done();
+
+        }).onFailure(function () {
+
+            assert.ok(true, 'onFailure 1');
+
+        }).onFailure(function () {
+
+            assert.ok(true, 'onFailure 2');
+
+        }).onComplete(function () {
+
+            assert.ok(true, 'Complete 1');
+
+        }).onComplete(function () {
+
+            assert.ok(true, 'Complete 2');
+
+            _testDone();
+        });
+
+    });
+
+    QUnit.test(".onComplete", function (assert) {
+
+        var _testDone = assert.async();
+
+        new Bi.Core().then(function () {
+
+            this.done();
+
+        }).onFailure(function () {
+
+            assert.ok(false, 'OUPS!'); // Not executed
+
+        }).onFailure(function () {
+
+            assert.ok(false, 'OUPS!'); // Not executed
+
+        }).onComplete(function () {
+
+            assert.ok(true, 'Complete 1');
+
+        }).onComplete(function () {
+
+            assert.ok(true, 'Complete 2');
+
+            _testDone();
+        });
+
+    });
+
+</script>

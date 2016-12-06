@@ -1,0 +1,80 @@
+﻿<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biNavMenu</h1>
+
+    <p>Modifier la largeur de la fenêtre pour voir le plugin en action...</p>
+
+    <p class="bidoc-tip">Consulter le code source de la démo pour connaître le balisage attendu des conteneurs enveloppant le menu
+        (<code>#demo-top</code> et <code>#demo-top > *</code>).</p>
+
+    <p>Le titre de la page (<code>.bi-nav-title</code>) s'affiche uniquement pour les écrans "small", lorsque le menu est rétractable.
+        Pour les écrans "large", vous devez afficher le titre de la page ailleurs dans l'interface (et le cacher éventuellement pour les écrans "small").</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-wrap {
+        margin: 0 auto;
+        max-width: 1280px;
+        border: 1px solid #ddd;
+    }
+    #demo-top {
+        /* mandatory rule */
+        box-sizing: border-box;
+        /* mandatory: set desired height */
+        height: 40px;
+        /* optional border-bottom (but mandatory: do NOT define any other border) */
+        border-bottom: 1px solid #ddd;
+        background-color: #eee;
+    }
+    #demo-top > * {
+        /* mandatory rule */
+        height: inherit;
+    }
+</style>
+
+<div id="demo-wrap">
+
+    <div id="demo-top">
+        <div>
+
+            <div class="bi-nav-wrap">
+                <div class="bi-nav-menu">
+                    <div class="bi-nav-menu-trigger"><i class="fa fa-bars"></i></div>
+                    <div class="bi-nav-menu-target">
+
+                        Menu... Menu... Menu... Menu... Menu... Menu... Menu... Menu... Menu...
+                        Menu... Menu... Menu... Menu... Menu... Menu... Menu... Menu... Menu...
+                        Menu... Menu... Menu... Menu... Menu... Menu... Menu... Menu... Menu...
+
+                    </div>
+                </div>
+                <div class="bi-nav-title">Page title</div>
+                <div class="bi-nav-brand" style="color:red;">App brand</div>
+            </div><!-- /bi-nav-wrap -->
+
+        </div>
+    </div><!-- /demo-top -->
+
+    <div style="padding:15px;">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <br />
+        <a href="#" id="demo-enable-js">Click to enable JS</a>
+    </div>
+
+</div>
+
+<script>
+    jQuery('#demo-enable-js').click(function (e) {
+        e.preventDefault();
+
+        jQuery('.bi-nav-menu').biNavMenu();
+    });
+</script>

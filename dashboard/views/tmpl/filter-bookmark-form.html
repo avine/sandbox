@@ -1,0 +1,22 @@
+
+<div class="bi-filter-bookmark">
+
+    <div class="bi-filter-bookmark-list" data-biz-bind="list">
+        <h3>{{_BI_FILTER_BOOKMARK_LIST}}</h3>
+
+        <div class="bi-filter-bookmark-noitems" data-biz-bind="listNoItems">{{_BI_NO_DATA}}</div>
+        <div class="bi-filter-bookmark-items" data-biz-bind="listItems"></div>
+    </div>
+
+    <div class="bi-filter-bookmark-form bi-form bi-color4-pale-bg bi-color-boxed" data-biz-bind="form">
+        <h3>{{_BI_FILTER_BOOKMARK_FORM}}</h3>
+
+        <label>{{_BI_FILTER_BOOKMARK_NEW_NAME}}<br /><input type="text" data-biz-bind="formTitle" /></label>
+
+        <p>{{_BI_FILTER_BOOKMARK_NEW_FILTERS}}</p>
+        <div data-biz-bind="formItems"></div>
+        <input type="submit" value="{{_BI_FILTER_BOOKMARK_NEW_SUBMIT}}" data-biz-bind="formSubmit" />
+        <div class="bi-filter-bookmark-form-msg" data-biz-bind="formMsg"></div>
+    </div>
+
+</div>

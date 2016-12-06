@@ -1,0 +1,55 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.setter</h1>
+
+<pre><code class="language-javascript">.setter(key[, value]);</code></pre>
+
+<p>Ajoute à l'instance <b>"maître"</b> la propriété <code>key</code> avec <code>value</code> comme valeur.<br />
+    Si <code>value</code> n'est pas renseigné alors la propriété <code>key</code> est effacée de l'instance <b>"maître"</b>.</p>
+
+<p>Si vous travaillez sur une instance maître, c'est-à-dire non clonée, alors cette méthode n'a que peu d'intérêt.<br />
+    Elle revient simplement à exécuter l'instruction : <code>core[key] = value;</code>.</p>
+
+<p>Par contre, si votre instance est un clone, retourné par la méthode <code>.clone</code>,
+    alors la méthode affecte la propriété à l'instance maître (et par héritage au clone également).</p>
+
+<p class="bidoc-tip">Cette méthode est donc utile, lorsque vous avez cloné une instance uniquement pour effectuer un processus asynchrone, 
+    mais que vous souhaiter modifier l'instance de départ avec les résultats obtenus.</p>
+
+<p class="bidoc-tip">Même si l'instance est un "clone de clone", la méthode <code>.setter</code> affecte l'instance maître "grand-parent"
+    (à savoir celle n'est pas un clone).</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".setter", function (assert) {
+
+        var core = new Bi.Core(), clone = core.clone();
+
+        core._coreProp = { whoAmI: 'Core' }; // Add core property
+
+        clone._cloneProp = { whoAmI: 'Clone' }; // Add clone property
+
+        clone.setter('_cloneSetted', { whoAmI: 'CoreAgain' }); // Add core property !
+
+        assert.ok(core._coreProp === clone._coreProp, "clone instance inherits core instance properties");
+
+        assert.ok(core._cloneProp === undefined, "core instance can not view clone instance properties");
+
+        assert.ok(core._cloneSetted === clone._cloneSetted, "clone instance can modify core instance properties using .setter");
+
+        // Add property to the clone which already exists in the core
+        clone._coreProp = { whoAmI: 'CloneAgain' };
+        assert.ok(core._coreProp.whoAmI === 'Core', 'core properties not affected by clone properties when NOT using .setter');
+
+    });
+
+</script>

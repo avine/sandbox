@@ -1,0 +1,96 @@
+
+/* router */
+
+.bi-router {
+	overflow: hidden;
+	position: relative;
+	height: 100%; // The default router must be added into a element that have a defined height
+}
+
+// Default behaviour
+
+.bi-router-container {
+	overflow: auto;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	opacity: 0;
+	left: 100%;
+	transition: opacity @router-transition-opacity ease-in, left 0s ease-in @router-transition-opacity;
+	animation: biRouterOpacity @router-transition-opacity ease-out; // For the first time the container is added in the DOM
+}
+.bi-router-active {
+	z-index: 2;
+	opacity: 1;
+	left: 0%;
+	transition: opacity @router-transition-opacity ease-out;
+}
+
+// "slide" behaviour
+
+.bi-router.bi-router-slide {
+	> .bi-router-container {
+		transition: opacity @router-transition-slide ease-in, left @router-transition-slide ease-in;
+		animation: biRouterSlide @router-transition-slide ease-out;
+	}
+	> .bi-router-active {
+		transition: opacity @router-transition-slide ease-out, left @router-transition-slide ease-out;
+	}
+}
+
+// Add background-color
+
+.bi-router.bi-router-background {
+	background-color: @router-container-bg;
+	&.bi-router-slide {
+		background-color: @router-bg;
+	}
+	> .bi-router-container {
+		box-shadow: @router-container-shadow;
+		background-color: @router-container-bg;
+	}
+}
+
+// Animations
+
+@keyframes biRouterOpacity {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@keyframes biRouterSlide {
+	0% { opacity: 0; left: 100%; }
+	100% { opacity: 1; left: 0%; }
+}
+
+// Skip animations and keep only transitions
+
+.bi-router-skipAnimation > .bi-router-container {
+	animation: none !important;
+}
+
+// "static" behaviour
+// Use simple display:block/none to show/hide the containers (without transition and animation)
+
+.bi-router-static {
+	&.bi-router, .bi-router { // Inside .bi-router-static, nested .bi-router are also -static
+		overflow: visible;
+		position: static;
+		height: auto; // The static router don't need to be added into a element that have a defined height
+	}
+	.bi-router-container {
+		overflow: visible;
+		position: static;
+		display: none;
+		transition: none !important;
+		animation: none !important;
+	}
+
+	// Adapt the router behaviour according to the plugin settings.nodeName value
+	div.bi-router-active {
+		display: block;
+	}
+	span.bi-router-active {
+		display: inline;
+	}
+}

@@ -1,0 +1,152 @@
+
+/* module-analysis */
+
+// nodata
+.bi-analysis-nodata {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+    justify-content: center;
+    align-items: center;
+	text-align: center;
+	color: #eaeaea;
+}
+
+// Column formatting
+
+// ----- "css" -----
+
+// Font color
+.bi-analysis-formatting-css-grey { color: #999 !important; }
+.bi-analysis-formatting-css-green { color: #5cb85c !important; }
+.bi-analysis-formatting-css-blue { color: #5bc0de !important; }
+.bi-analysis-formatting-css-yellow { color: #f0ad4e !important; }
+.bi-analysis-formatting-css-red { color: #d9534f !important; }
+
+// Background color
+.bi-analysis-formatting-css-bg-grey { background-color: #eee !important; }
+.bi-analysis-formatting-css-bg-green { background-color: #dff0d8 !important; }
+.bi-analysis-formatting-css-bg-blue { background-color: #d9edf7 !important; }
+.bi-analysis-formatting-css-bg-yellow { background-color: #fcf8e3 !important; }
+.bi-analysis-formatting-css-bg-red { background-color: #f2dede !important; }
+
+// ----- "icon" and "image" -----
+
+.bi-analysis-formatting-icon i.fa,
+.bi-analysis-formatting-image img {
+    margin: 0 .5em;
+    vertical-align: middle;
+}
+
+// ----- "stackedChart" ----- (designed for Bi.Core.Analysis.simpleStackedChart)
+
+.bi-analysis-stacked-chart {
+    // Container
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,.15);
+    // Cell
+    > * {
+        display: flex;
+        align-items: center;
+        box-shadow: -1px -1px 2px rgba(0,0,0,.15) inset;
+        // Text
+        > * {
+            width: 100%;
+            height: 1.5em;
+            line-height: 1.5em;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-align: center;
+            font-style: normal;
+            font-size: 1em;
+            color: #000;
+        }
+    }
+}
+
+// ----- "analysisFilter" -----
+
+.bi-analysis-formatting-analysisFilter {
+    display: block;
+    min-height: 16px;
+    padding-right: 20px;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
+
+// ----- "sparkline" -----
+
+.bi-analysis-formatting-sparkline {
+    display: block;
+}
+
+// ----- "links" ----- (just the popup appearance is defined bellow)
+
+.bi-analysis-output-links {
+    position: fixed;
+    z-index: 999999;
+    border: 1px solid #aaa;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+.bi-analysis-output-links .bi-analysis-output-links-item {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #5D9DD1;
+}
+.bi-analysis-output-links .bi-analysis-output-links-item:hover {
+    background-color: #eee;
+}
+.bi-analysis-output-links .bi-analysis-output-links-item + .bi-analysis-output-links-item {
+    border-top: 1px solid #bbb;
+}
+.bi-analysis-output-links .bi-analysis-output-links-close {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    top: -10px;
+    right: -10px;
+    background-color: #F16C63;
+    border-radius: 100%;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+////////
+// Hacks: 
+
+// the .amChartsLegend does not appears because it's a child of the main
+// map container <div style="position:relative;"> which have no height.
+.bi-analysis-ammap-hack > * {
+    height: 100% !important;
+}
+
+// Overwrite jqWidgets style
+.jqx-grid * { font-family: BiFontBase; }
+.jqx-grid-column-header { background-color: #e5f2fe !important; font-weight: bold !important; color: #555 !important; }
+.jqx-grid-column-menubutton { background-color: lighten(#e5f2fe, 2%) !important; }
+.jqx-grid-groups-header { background-color: rgba(210, 210, 0, 0.15) !important; }
+
+/// Restore the jqxGrid cell behaviour
+.jqx-grid-cell-selected {
+    &, .bi-analysis-formatting {
+        background-color: #1faeff !important; // from jqWidget metro theme
+        color: #fff !important; // from jqWidget metro theme
+    }
+}
+
+// end of hacks
+///////////////

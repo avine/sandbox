@@ -1,0 +1,73 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biWrap - Multi</h1>
+
+    <p>Affichage de plusieurs interfaces indépendantes dans la même page.</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    .demo-container {
+        max-width: 480px;
+        margin: 20px;
+        box-sizing: border-box;
+        border: 1px dotted red;
+    }
+</style>
+
+<div class="demo-container">
+
+    <!-- UI (1) -->
+    <div class="bi-wrap bi-font">
+        <div class="bi-top">
+            <div class="bi-toggle-content"></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+        </div>
+        <div class="bi-middle">
+            <div class="bi-sidebar">
+                <div class="bi-toggle-content"></div>
+                <div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+            </div>
+            <div class="bi-main">
+                <div class="bi-head"></div>
+                <div class="bi-body"></div>
+            </div>
+        </div>
+        <div class="bi-bottom">
+            <div class="bi-toggle-content"></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+        </div>
+    </div>
+    
+</div><div class="demo-container">
+
+    <!-- UI (2) -->
+    <div class="bi-wrap bi-font">
+        <div class="bi-top">
+            <div class="bi-toggle-content"></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+        </div>
+        <div class="bi-middle">
+            <div class="bi-sidebar">
+                <div class="bi-toggle-content"></div>
+                <div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+            </div>
+            <div class="bi-main">
+                <div class="bi-head"></div>
+                <div class="bi-body"></div>
+            </div>
+        </div>
+        <div class="bi-bottom">
+            <div class="bi-toggle-content"></div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+        </div>
+    </div>
+
+</div>
+
+<script> jQuery('.bi-wrap').biWrap(); </script>

@@ -1,0 +1,46 @@
+
+/* menu */
+
+.bi-menu {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	user-select: none;
+	
+	box-sizing: content-box; // Remove side(effect of Bootstrap CSS: *{box-sizing:border-box;}
+
+	> * {
+		margin: 0;
+		padding: 0;
+		position: relative;
+
+		> :first-child {
+			cursor: default;
+			display: block;
+			overflow: hidden;
+			text-decoration: none;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			transition:
+				box-shadow @menu-transition ease,
+				border @menu-transition ease,
+				background-color @menu-transition ease,
+				color @menu-transition ease;
+		}
+		> a:first-child {
+			cursor: pointer;
+		}
+		
+		&.bi-hover-jsOut { z-index: 1; }
+		&.bi-hover-jsOver { z-index: 2; }
+	}
+}
+
+.bi-menu-arrow > :first-child:after {
+	font-family: FontAwesome;
+	margin-left: 8px;
+}
+
+.bi-menu-icon {
+	margin-right: .5em;
+}

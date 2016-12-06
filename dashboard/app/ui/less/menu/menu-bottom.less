@@ -1,0 +1,95 @@
+
+/* menu-bottom */
+
+.bi-bottom .bi-menu {
+
+	> * {
+		float: left;
+		> :first-child {
+			height: @bottom-height - @border-width;
+			line-height: @bottom-height - @border-width;
+			padding: 0 @menu-padding-md;
+			color: @menu-bottom-color;
+		}
+		&:hover//,&.bi-hover-jsOver
+		{
+			> :first-child { background-color: @menu-bottom-bg-hover; }
+		}
+		
+		> .bi-bottom-menu-highlight {
+			background-color: #eee;
+			color: @color1-base;
+		}
+	}
+	.bi-menu {
+		> * {
+			float: none;
+			> :first-child {
+				height: @menu-deep-height;
+				line-height: @menu-deep-height;
+				color: @menu-bottom-deep-color;
+			}
+			&:hover//, &.bi-hover-jsOver
+			{
+				> :first-child { background-color: @menu-bottom-deep-bg-hover; }
+			}
+		}
+		> :first-child > :first-child {
+			border-top-left-radius: @border-radius-md - @border-width;
+			border-top-right-radius: @border-radius-md - @border-width;
+		}
+		position: absolute;
+		bottom: 9999px;
+		width: @menu-deep-width;
+		box-shadow: @menu-bottom-shadow;
+		border-radius: @border-radius-md @border-radius-md 0 0;
+		border: @border-width solid @menu-bottom-border;
+		border-bottom: none;
+		background-color: @menu-bottom-deep-bg;
+		opacity: 0;
+		transition: opacity @menu-transition ease, bottom 0s ease @menu-transition;
+		
+		// Sub-sub-menu not implemented
+		.bi-menu-arrow > :first-child:after, .bi-menu { display: none; }
+	}
+	&.bi-hover-wrap > :hover, > .bi-hover-jsOver {
+		> .bi-menu {
+			bottom: @bottom-height;
+			opacity: 1;
+			transition: opacity @menu-transition ease;
+		}
+	}
+	> .bi-menu-breadcrumb > :first-child {
+		// In fact, the bottom menu is using the settings .biMenu({ breadcrumbDisabled: true });
+		// Thus, this rule is finally useless...
+		background-color: @menu-bottom-breadcrumb-color !important;
+	}
+	.bi-menu-arrow > :first-child:after { content: "\f106"; color: @menu-bottom-arrow-color; }
+}
+
+// Alternative link in the bottom layout (displayed at the right side)
+
+.bi-bottom-altlink {
+	float: right;
+	> * {
+		float: left;
+
+		// For simple link, put the content at this first level
+		height: @bottom-height - @border-width;
+		line-height: @bottom-height - @border-width;
+		padding: 0 @menu-padding-sm;
+		color: @color4-pale-darker !important;
+		text-decoration: none !important;
+		
+		> em {
+			// For bordered link, put the content at this second level
+			border: @border-width solid @color4-pale-darker;
+			border-radius: @border-radius-xs;
+			background-color: @color4-pale;
+			color: @color4-base;
+			padding: 1px 4px;
+			font-style: normal; // Remove default italic style...
+		}
+	
+	}
+}

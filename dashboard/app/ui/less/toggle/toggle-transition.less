@@ -1,0 +1,36 @@
+
+/* toggle-transition */
+
+.bi-top { transition: top @toggle-transition ease-in-out; }
+.bi-bottom { transition: bottom @toggle-transition ease-in-out; }
+.bi-middle { transition: top @toggle-transition ease-in-out, bottom @toggle-transition ease-in-out; }
+
+.bi-sidebar {
+	transition: box-shadow @toggle-transition ease-in-out;
+}
+.bi-main-fixed > .bi-sidebar {
+	transition: box-shadow @toggle-transition ease-in-out, left @toggle-transition ease-in-out;
+	box-shadow: 2px -2px 6px rgba(0,0,0,.4);
+}
+.bi-sidebar, .bi-hide-sidebar > .bi-sidebar {
+	box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.bi-toggle-trigger > * { transition: all @toggle-transition linear; }
+
+.bi-middle .bi-sidebar .bi-toggle-trigger > * {
+	transition: all 0s linear;
+}
+.bi-middle.bi-main-fixed .bi-sidebar .bi-toggle-trigger > * {
+	transition: all @toggle-transition linear;
+}
+
+.bi-wrap.bi-hide-top .bi-top .bi-toggle-trigger > *,
+.bi-wrap.bi-hide-bottom .bi-bottom .bi-toggle-trigger > *,
+.bi-middle.bi-hide-sidebar .bi-sidebar .bi-toggle-trigger > * {
+	transform: rotate(-180deg);
+}
+
+.bi-wrap-skipTransition {
+	.bi-top, .bi-bottom, .bi-middle, .bi-sidebar, .bi-toggle-trigger > * { transition: none !important; }
+}

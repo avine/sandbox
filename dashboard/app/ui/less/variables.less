@@ -1,0 +1,200 @@
+
+// ----- base -----
+
+@screen-desktop: 1280px;
+@screen-breakpoint: 980px;
+
+@line-height: 1.5em;
+
+@font-family: BiFontBase, Helvetica, Arial, sans-serif;
+
+@font-size-desktop: 12px; // when window > @screen-desktop
+@font-size: 12px;
+@font-size-mobile: 12px; // when window < @screen-breakpoint
+
+@font-size-smaller: .85em;
+@font-size-bigger: 1.2em;
+
+// color
+
+@color-default: #555;
+@color-x: 12%; // Delta of a value (of a color in the HSL color space)
+@color-l-max: 93%; // Max value of the lightness (of a color in the HSL color space) for pastel colors
+
+// Used for "main" contents (like form elements and more...)
+@color1-base: hsl(195, 98%, 48%);
+@color1-base-darker: darken(desaturate(@color1-base, @color-x), @color-x);
+@color1-pale: hsl(hue(@color1-base), saturation(@color1-base) - @color-x, @color-l-max);
+@color1-pale-darker: desaturate(darken(@color1-pale, @color-x), @color-x);
+
+// Used for "wrapper" contents (like the interface header and more...)
+@color2-base: hsl(202, 98%, 37%);
+@color2-base-darker: darken(desaturate(@color2-base, @color-x), @color-x);
+@color2-pale: hsl(hue(@color2-base), saturation(@color2-base) - @color-x, @color-l-max);
+@color2-pale-darker: desaturate(darken(@color2-pale, @color-x), @color-x);
+
+// Used for "side" contents (like the sidebar and more...)
+@color3-base: hsl(200, 18%, 26%);
+@color3-base-darker: darken(desaturate(@color3-base, @color-x), @color-x);
+@color3-pale: hsl(hue(@color3-base), saturation(@color3-base) - @color-x, @color-l-max);
+@color3-pale-darker: desaturate(darken(@color3-pale, @color-x), @color-x);
+
+// Used for "alternate" contents (like the main background, login form background, sub-menu and more...)
+@color4-base: hsl(16, 25%, 38%);
+@color4-base-darker: darken(desaturate(@color4-base, @color-x), @color-x);
+@color4-pale: hsl(hue(@color4-base), saturation(@color4-base) - @color-x, @color-l-max);
+@color4-pale-darker: desaturate(darken(@color4-pale, @color-x), @color-x);
+
+// border
+
+@border-width: 1px; // (Tip: You should care about: @border-width <= @border-radius-xs)
+@border-radius-xs: 3px; // x-small
+@border-radius-sm: 5px; // small
+@border-radius-md: 8px; // medium
+
+// ----- blur -----
+
+@blur-spacing: 30px;
+@blur-bg: rgba(0,0,0,.6);
+@blur-shadow: 0 0 (@blur-spacing / 2) @blur-bg;
+@blur-transition: .25s;
+
+// ----- router -----
+
+@router-bg: #eee;
+@router-container-bg: #fff;
+@router-container-shadow: 0 0 35px rgba(0,0,0,.15);
+@router-transition-opacity: .15s;
+@router-transition-slide: .3s;
+
+// ----- wrap -----
+
+@top-height: 36px; // 44px;
+@top-color: @color2-pale;
+@top-color-bg: @color2-base;
+@top-color-border: @color2-base-darker;
+
+@bottom-height: 36px; // 44px;
+@bottom-color: #000;
+@bottom-color-bg: #fff;
+@bottom-color-border: @color4-pale-darker;
+
+@head-height: 36px;
+@head-color: @color-default;
+@head-color-bg: @color2-pale;
+@head-color-border: @color4-pale-darker;
+
+@main-color-bg: @color4-pale;
+
+@sidebar-width-sm: 250px; // small
+@sidebar-width-md: 300px; // medium
+
+@toggle-width: 36px; // 44px;
+@toggle-height: 19px;
+@toggle-offset: 15px;
+@toggle-font-size: 14px;
+@toggle-transition: .25s;
+
+@grid-spacing: 20px;
+@grid-cell-spacing: 15px;
+@grid-cell-min-height: 400px; // when window < @screen-breakpoint
+@grid-cell-title-height: 26px;
+
+@standalone-shift: 0px; // Should match the box-shadow size of .bi-grid-cell
+
+// ----- menu -----
+
+@menu-padding-sm: 10px; // small
+@menu-padding-md: 15px; // medium
+@menu-deep-height: 36px;
+@menu-deep-width: 250px;
+@menu-transition: .25s;
+
+@menu-top-shadow: 0 2px 8px rgba(0,0,0,.2);
+@menu-top-border: @color4-pale-darker;
+@menu-top-color: @color1-pale;
+@menu-top-arrow-color: rgba(255,255,255,.4);
+@menu-top-bg-hover: rgba(0,0,0,.08);
+@menu-top-breadcrumb-color: rgba(0,0,0,.16);
+@menu-top-deep-bg: #fff;
+@menu-top-deep-color: @color4-base-darker;
+@menu-top-deep-arrow-color: rgba(0,0,0,.4);
+@menu-top-deep-bg-hover: fade(@color4-base, 8%);
+@menu-top-deep-breadcrumb-color: fade(@color4-base, 16%);
+
+@menu-bottom-shadow: 0 -2px 8px rgba(0,0,0,.2);
+@menu-bottom-border: @color4-pale-darker;
+@menu-bottom-color: @color4-base-darker;
+@menu-bottom-arrow-color: rgba(0,0,0,.4);
+@menu-bottom-bg-hover: fade(@color4-base, 12%);
+@menu-bottom-breadcrumb-color: fade(@color4-base, 12%);
+@menu-bottom-deep-bg: #fff;
+@menu-bottom-deep-color: @color4-base-darker;
+@menu-bottom-deep-bg-hover: fade(@color4-base, 12%);
+
+@menu-head-margin-top: 4px;
+@menu-head-shadow: 1px -1px 1px rgba(0,0,0,.04); // Tip: max outset top shadow <= @menu-head-margin-top
+@menu-head-color-hover: @color4-base;
+@menu-head-breadcrumb-color: @color4-base-darker;
+
+@menu-sidebar-max-height: auto; // 300px;
+@menu-sidebar-border: rgba(255,255,255,.15);
+@menu-sidebar-bg: rgba(0,0,0,.2);
+@menu-sidebar-deep-color: @color3-pale;
+@menu-sidebar-deep-bg-hover: rgba(0,0,0,.4);
+@menu-sidebar-deep-breadcrumb-color: rgba(0,0,0,.2);
+@menu-sidebar-arrow-color: rgba(255,255,255,.4);
+
+// ----- loader -----
+
+@loader-transition: .15s;
+@loader-progress-transition: .3s;
+@loader-progress-delay: 1s;
+
+// ----- modal -----
+
+@modal-min-width: 200px;
+@modal-padding: 15px;
+@modal-border-color: #bbb;
+@modal-bg: #fff;
+@modal-title-bg: #eee;
+@modal-title-height: 36px;
+
+// ----- progress -----
+
+@progress-border: #ccc;
+@progress-bg: #f7f7f7;
+@progress-transition-width: .3s;
+@progress-transition-color: .1s;
+
+// ----- form -----
+
+@form-margin: 10px;
+@form-padding-v: .25em;
+@form-padding-h: .5em;
+@form-line-height: 1.5em;
+@form-border-color: rgba(0,0,0, .15); // #d5d5d5;
+@form-bg-color: #fafafa;
+@form-bg-color-active: #fff;
+@form-color-disabled: #bbb;
+@form-transition: .15s;
+
+@form-tree-view-shift: 1.75em;
+@form-tree-view-delta: 2px;
+
+@form-tree-view-drop-down-max-height: 410px;
+@form-tree-view-drop-down-delay: .25s;
+
+// ----- message -----
+
+@message-tips: #999;
+@message-success: #5cb85c;
+@message-info: #5bc0de;
+@message-warning: #f0ad4e;
+@message-danger: #d9534f;
+
+// ----- notification -----
+
+@notification-close-size: 20px;
+@notification-width: 300px;
+@notification-width-mobile: 250px;

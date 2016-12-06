@@ -1,0 +1,52 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.thenDone</h1>
+
+<pre><code class="language-javascript">subCore.thenDone(mainCore);</code></pre>
+
+<p>Enregistre une fonction dans la pile de l'instance <code>subCore</code>, qui a pour effet d'invoquer la méthode <code>.done</code> de l'instance <code>mainCore</code>.
+	Typiquement, cette méthode permet d'exécuter une pile d'appels imbriquée avant de poursuivre l'exécution de la pile d'appels principale.
+	En d'autres termes, <code>.thenDone</code> invoque la méthode <code>.done</code> appartenant à autre contexte.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".thenDone", function (assert) {
+
+        var _testDone = assert.async(), _logs = [];
+
+        var mainCore = new Bi.Core().then(function () {
+
+            _logs.push('(1) main-1');
+
+            var subCore = new Bi.Core().then(function () {
+                _logs.push('(2) sub-1');
+                this.done();
+
+            }).then(function () {
+                _logs.push('(3) sub-2');
+                this.done();
+
+            }).thenDone(this); // this === mainCore
+
+        }).then(function () {
+            _logs.push('(4) main-2');
+
+            this.done();
+
+            assert.deepEqual(_logs, ['(1) main-1', '(2) sub-1', '(3) sub-2', '(4) main-2']);
+            _testDone();
+
+        });
+
+    });
+
+</script>

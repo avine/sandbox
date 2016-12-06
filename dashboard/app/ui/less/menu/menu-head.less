@@ -1,0 +1,74 @@
+
+/* menu-head */
+
+.bi-head {
+	box-shadow: @menu-head-shadow inset, 0 1px 0 rgba(255,255,255,.5) inset;
+	border-bottom-width: @border-width;
+	border-color: @head-color-border;
+	background-color: @head-color-bg;
+	text-align: left;
+}
+
+.bi-head-title { // On large screen, title appears here in .bi-head-title
+	position: absolute;
+	z-index: 1;
+	right: @toggle-width + 2 * @toggle-offset;
+	height: @head-height - 2 * @border-width;
+	line-height: @head-height - 2 * @border-width;
+	white-space: nowrap;
+}
+@media (max-width: (@screen-breakpoint - 1)) {
+	.bi-head { text-align: center; }
+	.bi-head-title { display: none; } // On small screen, title appears in .bi-nav-title
+}
+
+.bi-head .bi-menu {
+	padding-left: @toggle-height + @toggle-offset;
+	padding-right: @toggle-width + 2 * @toggle-offset;
+	padding-top: @menu-head-margin-top;
+	height: @head-height  - @menu-head-margin-top;
+	display: inline-block;
+	position: relative;
+	z-index: 2;
+	overflow: hidden;
+	color: @head-color;
+
+	> * {
+		float: left;
+		> :first-child {
+			display: block;
+			box-sizing: border-box;
+			border-radius: @border-radius-xs @border-radius-xs 0 0;
+			border: @border-width solid transparent;
+			border-bottom: none;
+			padding: 0 @menu-padding-sm;
+			height: @head-height - @menu-head-margin-top;
+			line-height: @head-height - @menu-head-margin-top;
+			color: inherit;
+		}
+	}
+	> .bi-hover-jsOut:hover {
+		> :first-child {
+			color: @menu-head-color-hover;
+		}
+	}
+	&.bi-hover-wrap > :hover, > .bi-menu-breadcrumb {
+		> :first-child {
+			box-shadow: @menu-head-shadow, 0 2px 2px rgba(255,255,255,.5) inset;
+			border-color: @head-color-border;
+			border-top-color: @menu-head-color-hover;
+			background-color: @main-color-bg;
+			color: @menu-head-breadcrumb-color !important;
+		}
+	}
+
+	.bi-menu { display: none; } // Sub-menu not allowed
+}
+
+.bi-hide-sidebar-trigger {
+	.bi-head .bi-menu { margin-left: @toggle-offset; }
+}
+.bi-hide-top-trigger {
+	.bi-head .bi-menu { margin-right: @toggle-offset; }
+	.bi-head-title { right: @toggle-offset; }
+}

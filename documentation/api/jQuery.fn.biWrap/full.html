@@ -1,0 +1,306 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biWrap - Full demo</h1>
+
+    <p>L'interface de l'application avec ses menus et la mise en page du contenu principal en "Grid".</p>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    a { color: red; }
+    #demo-container { margin:30px; height:500px; border:1px dashed red; }
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        $('.bi-wrap').biWrap();
+        $('.bi-nav-menu').biNavMenu();
+        $('#bi-menu-top').biMenu();
+        $('#bi-menu-sidebar').biMenu({ closeDelay: false, breadcrumbAlwaysVisible: true });
+        $('#bi-menu-head').biMenu();
+        $('#bi-menu-bottom').biMenu({ closeDelay: false });
+
+        var $navMenu = $('.bi-nav-menu');
+        $navMenu.on($.biPlugin.events('menu navMenu'), function (e) {
+            if ('menu' == e.type) {
+                $navMenu.delay(750).queue(function () {
+                    $navMenu.biNavMenu('close').dequeue();
+                });
+            } else {
+                $navMenu.clearQueue();
+            }
+        });
+
+        var $topTrigger = $('.bi-top .bi-toggle-trigger');
+        $topTrigger.on($.biPlugin.events('mousedown'), function () {
+            $navMenu.biNavMenu('close');
+        });
+
+    });
+</script>
+
+<div style="text-align:center;">
+    <a href="#" onclick="$('.bi-wrap').toggleClass('bi-standalone')">Toggle standalone</a>
+</div>
+
+<div id="demo-container">
+
+    <div class="bi-wrap bi-form">
+
+        <div class="bi-top">
+            <div class="bi-toggle-content">
+
+                <div class="bi-nav-wrap">
+
+                    <div class="bi-nav-menu">
+                        <div class="bi-nav-menu-trigger"><i class="fa fa-bars"></i></div>
+                        <div class="bi-nav-menu-target">
+
+                            <ul class="bi-menu bi-hover-wrap" id="bi-menu-top">
+                                <li><a href="#">Item 1</a></li>
+                                <li><span>Item 2</span>
+
+                                    <ul class="bi-menu bi-hover-wrap">
+                                        <li><a href="#">Item 2.1</a></li>
+                                        <li><a href="#">Item 2.2</a></li>
+                                        <li><a href="#">Item 2.3</a></li>
+                                    </ul>
+
+                                </li>
+                                <li><a href="#">Item 3</a></li>
+                                <li><span>Item 4</span>
+
+                                    <ul class="bi-menu bi-hover-wrap">
+                                        <li><a href="#">Item 4.1</a></li>
+                                        <li><a href="#">Item 4.2</a></li>
+                                        <li><span>Item 4.3</span>
+
+                                            <ul class="bi-menu bi-hover-wrap">
+                                                <li><a href="#">Item 4.3.1</a></li>
+                                                <li><a href="#">Item 4.3.2</a></li>
+                                                <li><a href="#">Item 4.3.3</a></li>
+                                            </ul>
+
+                                        </li>
+                                    </ul>
+
+                                </li>
+                                <li><a href="#">Item 5</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <div class="bi-nav-title">My dashboard</div>
+
+                    <div class="bi-nav-brand">BI 2.1</div>
+
+                </div>
+
+            </div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-up"></i></div>
+        </div>
+
+        <div class="bi-middle">
+
+            <div class="bi-sidebar">
+                <div class="bi-toggle-content">
+
+                    <ul class="bi-menu bi-hover-wrap" id="bi-menu-sidebar">
+                        <li><a href="#">Item 1</a></li>
+                        <li><span>Item 2</span>
+
+                            <ul class="bi-menu bi-hover-wrap">
+                                <li><a href="#">Item 2.1</a></li>
+                                <li><a href="#">Item 2.2</a></li>
+                                <li><a href="#">Item 2.3</a></li>
+                            </ul>
+
+                        </li>
+                        <li><a href="#">Item 3</a></li>
+                        <li><span>Item 4</span>
+
+                            <ul class="bi-menu bi-hover-wrap">
+                                <li><a href="#">Item 4.1</a></li>
+                                <li><a href="#">Item 4.2</a></li>
+                                <li><span>Item 4.3</span>
+
+                                    <ul class="bi-menu bi-hover-wrap">
+                                        <li><a href="#">Item 4.3.1</a></li>
+                                        <li><a href="#">Item 4.3.2</a></li>
+                                        <li><a href="#">Item 4.3.3</a></li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li><a href="#">Item 5</a></li>
+                    </ul>
+
+                    <br /><a href="#" class="bi-sidebar-switcher">Switch sidebar mode</a>
+
+                    <br /><a href="#" onclick="$('.bi-grid-cell').biLoader({ className: 'bi-loader-theme-grey-light'})">Loader...</a>
+                    <br /><a href="#" onclick="$('.bi-grid-cell').biLoader('complete')">Complete !</a>
+
+                </div>
+                <div class="bi-toggle-trigger"><i class="fa fa-chevron-left"></i></div>
+            </div>
+
+            <div class="bi-main">
+                <div class="bi-head">
+
+                    <div class="bi-head-title">My dashboard</div>
+
+                    <ul class="bi-menu bi-hover-wrap" id="bi-menu-head">
+                        <li><a href="#">Item 1</a></li>
+                        <li><a href="#">Item 2</a></li>
+                        <li><a href="#">Item 3</a></li>
+                        <li><a href="#">Item 4</a></li>
+                        <li><a href="#">Item 5</a></li>
+                    </ul>
+
+                </div><div class="bi-body">
+
+                    <div class="bi-grid-wrap">
+
+                        <div class="bi-grid bi-grid-w-40 bi-grid-h-100">
+
+                            <div class="bi-analysis-selector">
+                                <label for="bi-analysis-selector1">Choix</label>
+                                <select id="bi-analysis-selector1">
+                                    <option value="1">1.1</option>
+                                    <option value="2">1.2</option>
+                                </select>
+                            </div>
+
+                            <div class="bi-router" id="bi-analysis-output1">
+                                <div data-router-path="analysis-output1-1">
+                                    <div class="bi-grid-cell">
+                                        <div class="bi-grid-cell-title" data-biz-bind="title">1.1</div>
+                                        <div class="bi-grid-cell-content" data-biz-bind="content"></div>
+                                    </div>
+                                </div>
+                                <div data-router-path="analysis-output1-2">
+                                    <div class="bi-grid-cell">
+                                        <div class="bi-grid-cell-title" data-biz-bind="title">1.2</div>
+                                        <div class="bi-grid-cell-content" data-biz-bind="content"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                var $router = $('#bi-analysis-output1').biRouter();
+                                $('#bi-analysis-selector1').change(function () {
+                                    $router.biRouter('goTo', 'analysis-output1-' + $(this).val());
+                                });
+                            </script>
+
+                        </div><div class="bi-grid bi-grid-w-30 bi-grid-h-100">
+
+                            <div class="bi-grid bi-grid-h-50 bi-grid-w-100">
+
+                                <div class="bi-grid-cell">
+                                    <div class="bi-grid-cell-title">
+                                        2
+                                    </div><div class="bi-grid-cell-content">
+
+                                    </div>
+                                </div>
+
+                            </div><div class="bi-grid bi-grid-h-50 bi-grid-w-100">
+
+                                <div class="bi-grid-cell">
+                                    <div class="bi-grid-cell-title">
+                                        3
+                                    </div><div class="bi-grid-cell-content">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div><div class="bi-grid bi-grid-w-30 bi-grid-h-100">
+
+                            <div class="bi-grid bi-grid-h-30 bi-grid-w-100">
+
+                                <div class="bi-grid-cell">
+                                    <div class="bi-grid-cell-title">
+                                        4
+                                    </div><div class="bi-grid-cell-content">
+
+                                    </div>
+                                </div>
+
+                            </div><div class="bi-grid bi-grid-h-30 bi-grid-w-100">
+
+                                <div class="bi-grid-cell">
+                                    <div class="bi-grid-cell-title">
+                                        5
+                                    </div><div class="bi-grid-cell-content">
+
+                                    </div>
+                                </div>
+
+                            </div><div class="bi-grid bi-grid-h-40 bi-grid-w-100">
+
+                                <div class="bi-grid-cell">
+                                    <div class="bi-grid-cell-title">
+                                        6
+                                    </div><div class="bi-grid-cell-content">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bi-bottom">
+            <div class="bi-toggle-content">
+
+                <ul class="bi-menu bi-hover-wrap" id="bi-menu-bottom">
+                    <li><a href="javascript:void(0)" class="bi-sidebar-switcher"><i class="fa fa-columns"></i></a></li>
+                    <li><a href="javascript:void(0)"><i class="fa fa-refresh"></i></a></li>
+                    <li><a href="#">Item 2</a>
+
+                        <ul class="bi-menu bi-hover-wrap">
+                            <li><a href="#">Item 2.1</a></li>
+                            <li><a href="#">Item 2.2</a></li>
+                            <li><a href="#">Item 2.3</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Item 3</a></li>
+                    <li><a href="#">Item 4</a>
+
+                        <ul class="bi-menu bi-hover-wrap">
+                            <li><a href="#">Item 4.1</a></li>
+                            <li><a href="#">Item 4.2</a></li>
+                            <li><a href="#">Item 4.3</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Item 5</a></li>
+                </ul>
+
+            </div>
+            <div class="bi-toggle-trigger"><i class="fa fa-chevron-down"></i></div>
+        </div>
+
+    </div>
+
+</div>

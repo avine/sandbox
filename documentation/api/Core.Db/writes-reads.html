@@ -1,0 +1,46 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Db.writes,<br /> Bi.Core.Db.reads</h1>
+
+<pre><code class="language-javascript">var db = new Bi.Core.Db();</code></pre>
+
+<p>Crée une instance de Db.</p>
+
+<pre><code class="language-javascript">db.writes(queries[, dbName[, server]]);</code></pre>
+
+<p>
+    Exécute une ou plusieurs requêtes en écriture.
+</p><p>
+    Le paramètre <code>queries</code> renseigne sous forme de chaîne (si vous n'avez qu'une seule requête à éxécuter) ou de tableau de chaînes, les requêtes SQL à exécuter.
+</p><p>
+    Le paramètre optionnel <code>dbName</code> renseigne le nom de la base de données.
+    Par défaut, les requêtes sont exécutées sur la base de configuration, qui est toujours nommée <code>"olap"</code>.
+</p><p>
+    Le paramètre optionnel <code>server</code> dont les valeurs possibles sont <code>"local"</code> ou <code>"remote"</code>, renseigne la localisation de la base.
+    Par défaut, le serveur utilisé est celui qui est défini dynamiquement par la fonction <code>Bi.database.run.mode()</code>.
+</p><p class="bidoc-tip">
+    En pratique et pour des raisons de sécurité, une erreur est levée si vous demandez l'exécution d'une requête en écriture sur la base distante.
+    C'est une première couche de sécurité coté <em>front</em>. Côté <em>back</em>, nous supposons que l'utilisateur SQL exposé en front n'a qu'un accès en lecture.
+</p>
+
+<pre><code class="language-javascript">db.reads(queries[, dbName[, useCache]]);</code></pre>
+
+<p>
+    Exécute une ou plusieurs requêtes en lecture.
+</p><p>
+    Les paramètres <code>queries</code> et <code>dbName</code> fonctionnent à l'identique de la méthode <code>.writes</code>.<br />
+    Par contre, les requêtes en lecture sont toujours exécutées sur le serveur défini dynamiquement par la fonction <code>Bi.database.run.mode()</code>.
+</p><p>
+    Le paramètre boolean optionnel <code>useCache</code> renseigne si les résultats des requêtes doivent ou non être mis en cache.
+    Par défaut, les requêtes sont mises en cache.
+</p><p class="bidoc-tip">
+    La méthode <code>.reads</code> intègre un mécanisme permettant de rejouer automatiquement les requêtes à intervalles réguliers lorsque la connexion au serveur est perdue.
+</p>
+
+</div>
+
+<!-- bidoc-text -->
+

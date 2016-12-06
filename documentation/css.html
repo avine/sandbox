@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!--<html lang="en" manifest="../resources/manifest/default.appcache">-->
+<head>
+    <title>Bi Api documentation</title>
+
+    <!-- ======================================================
+         Copy/paste <head> content from "/dashboard/index.html"
+         (This documentation requires jQuery and FontAwesome)
+         ====================================================== -->
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="stylesheet" href="../dashboard/app/ui/css/bi.css" />
+    <link rel="stylesheet" href="../dashboard/plugins/font-awesome/css/font-awesome.min.css" />
+
+    <script src="../dashboard/plugins/jquery/jquery-2.1.4.min.js"></script>
+
+    <script src="../dashboard/app/bo/tool.js"></script>
+
+    <!-- ==================== END OF: Copy/paste ==================== -->
+
+    <!-- Define the Bi root directory (to set the constant Bi.tool.url.ROOT) -->
+    <script>Bi.tool.url.root('/documentation');</script>
+
+    <!-- PrismJS -->
+    <link rel="stylesheet" href="prism/prism.css" />
+    <script src="prism/prism.js" data-manual></script>
+
+    <!-- QUnit -->
+    <link rel="stylesheet" href="qunit/qunit-1.20.0.css" />
+    <script src="qunit/qunit-1.20.0.js"></script>
+
+    <!-- Doc helper -->
+    <link rel="stylesheet" href="helper/doc.css" />
+    <script src="helper/doc.js"></script>
+
+</head>
+<body class="bi-font">
+
+    <div id="bidoc-intro">
+
+        <h1><i class="fa fa-cog"></i> &nbsp; CSS</h1>
+
+        <p>Les feuilles de styles de l'application Bi sont écrites en <b>Less</b>.</p>
+        <p class="bidoc-tip">Les fichiers Less sont organisés dans le répertoire : <code>/dashboard/app/ui/less</code>.</p>
+
+        <p>Pour compiler les fichiers <code>Less</code>, nous avons utilisé le logiciel <a href="http://koala-app.com/" target="_blank">Koala</a>,
+            qui a l'avantage de proposer une option <code>Autoprefix</code> (ajout automatique des préfixes constructeur 
+            <code>-webkit-*</code>, <code>-moz*-</code>, <code>-ms-*</code>).</p>
+
+        <p>Le répertoire des feuilles de styles est : <code>/dashboard/app/ui/css</code>.<br />
+            Il contient uniquement 2 fichiers: la <b>feuille de styles compilée</b> <code>bi.css</code> et une <b>feuille de style minimaliste</b> <code>fullpage.css</code>.<br />
+        </p>
+
+        <p class="bidoc-tip"> 
+            N'éditez jamais la feuille de style compilée, mais compilez toujours le fichier Less source: <code>/dashboard/app/ui/less/bi.less</code>.
+        </p>
+
+        <p>
+            Si vous intégrez l'application Bi comme composant d'une page HTML plus globale alors utilisez uniquement la feuille de styles compilée.<br />
+            Si l'application Bi est affichée en "pleine page" alors ajoutez la feuille de style minimaliste <code>fullpage.css</code>.
+        </p>
+
+    </div>
+
+    <div id="bidoc-index">
+        <div id="bidoc-title">Bi Api documentation</div>
+
+        <div id="bidoc-content">
+
+            <ul>
+                <li><a href="index.html" class="bidoc-link-home">Accueil</a></li>
+                <li><a href="css.html" class="bidoc-link-current">Introduction</a></li>
+            </ul>
+
+            <ul>
+                <li><a href="api/css/color.html">Color</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+</body>
+</html>

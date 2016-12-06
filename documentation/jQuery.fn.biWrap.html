@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!--<html lang="en" manifest="../resources/manifest/default.appcache">-->
+<head>
+    <title>Bi Api documentation</title>
+
+    <!-- ======================================================
+         Copy/paste <head> content from "/dashboard/index.html"
+         (This documentation requires jQuery and FontAwesome)
+         ====================================================== -->
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="stylesheet" href="../dashboard/app/ui/css/bi.css" />
+    <link rel="stylesheet" href="../dashboard/plugins/font-awesome/css/font-awesome.min.css" />
+
+    <script src="../dashboard/plugins/jquery/jquery-2.1.4.min.js"></script>
+
+    <script src="../dashboard/app/ui/js/biPlugin.js"></script>
+    <script src="../dashboard/app/ui/js/biScreen.js"></script>
+    <script src="../dashboard/app/ui/js/biWrap.js"></script>
+    <script src="../dashboard/app/ui/js/biNavMenu.js"></script>
+    <script src="../dashboard/app/ui/js/biLoader.js"></script>
+    <script src="../dashboard/app/ui/js/biMenu.js"></script>
+    <script src="../dashboard/app/ui/js/biRouter.js"></script>
+
+    <!-- ==================== END OF: Copy/paste ==================== -->
+
+    <!-- PrismJS -->
+    <link rel="stylesheet" href="prism/prism.css" />
+    <script src="prism/prism.js" data-manual></script>
+
+    <!-- QUnit -->
+    <link rel="stylesheet" href="qunit/qunit-1.20.0.css" />
+    <script src="qunit/qunit-1.20.0.js"></script>
+
+    <!-- Doc helper -->
+    <link rel="stylesheet" href="helper/doc.css" />
+    <script src="helper/doc.js"></script>
+
+</head>
+<body class="bi-font">
+
+    <div id="bidoc-intro">
+
+        <h1><i class="fa fa-cog"></i> &nbsp; jQuery.fn.biWrap</h1>
+
+        <p>Interface utilisateur (UI) de l'application Bi.</p>
+
+<pre><code class="language-markup">&lt;div class="bi-wrap bi-font"&gt;
+    &lt;!-- Consulter la démo pour connaître le balisage attendu par le plugin --&gt;
+&lt;/div&gt;</code></pre>
+
+        <p>Les classes <code>.bi-wrap</code> et associées (<code>.bi-top</code>, <code>.bi-middle</code>, ...), définissent l'apparence de l'interface.</p>
+        <p class="bidoc-tip">La classe optionnelle <code>.bi-font</code> définie la police de caractères propre à l'application Bi. 
+            Si l'application Bi est inclus en tant que bloc dans la page HTML d'une autre application (comme le CRM par exemple) 
+            alors il peut être intéressant de ne pas ajouter cette classe pour profiter de la police de caractères de l'application globale.</p>
+
+<pre><code class="language-javascript">$(selector).biWrap({
+	hide: {
+		top: false,
+		bottom: false,
+		sidebar: false,
+		head: false
+	},
+	hideTrigger: {
+		top: false,
+		bottom: false,
+		sidebar: false
+	},
+	fixedMain: false
+});</code></pre>
+
+        <table>
+            <caption>Options</caption>
+            <tr>
+                <th>Nom</th>
+                <th>Valeurs</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>hide</code></td>
+                <td>object</td>
+                <td>Définie les régions de l'interface à ne pas afficher.</td>
+            </tr>
+            <tr>
+                <td><code>hideTrigger</code></td>
+                <td>object</td>
+                <td>Définie les régions de l'interface pour lesquelles le bouton afficher/masquer n'est pas disponible.</td>
+            </tr>
+            <tr>
+                <td><code>fixedMain</code></td>
+                <td>false (default), true</td>
+                <td>Détermine si le conteneur principal reste "fixe" même lorsque la panneau latéral est ouvert.<br />
+                    Dans ce cas, le panneau latéral s'ouvre en recouvrant<em>("overlay")</em> le contenu principal.</td>
+            </tr>
+        </table>
+
+        <table>
+            <caption>Méthodes</caption>
+            <tr>
+                <th>Nom</th>
+                <th>Paramètres</th>
+                <th>Retour</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>show</code></td>
+                <td>layout, trigger</td>
+                <td>jQuery instance</td>
+                <td>Si <code>trigger</code> n'est pas renseigné ou vaut <code>false</code> alors la méthode affiche la région correspondante au <code>layout</code>.
+                    Si <code>trigger</code> vaut <code>true</code> alors la méthode affiche le bouton afficher/masquer associé à la région.</td>
+            </tr>
+            <tr>
+                <td><code>hide</code></td>
+                <td>layout, trigger</td>
+                <td>jQuery instance</td>
+                <td>Idem que la méthode <code>show</code> mais cette fois pour masquer la région ou le bouton associé au <code>layout</code>.</td>
+            </tr>
+            <tr>
+                <td><code>toggle</code></td>
+                <td>layout, trigger</td>
+                <td>jQuery instance</td>
+                <td>Idem que les méthodes <code>hide</code> et <code>show</code> de manière alternée.</td>
+            </tr>
+            <tr>
+                <td><code>fixedMain</code></td>
+                <td>boolean</td>
+                <td>jQuery instance</td>
+                <td>Lorsque le conteneur principal est fixe, le panneau latéral s'ouvre en le recouvrant.<br />
+                    Sinon, la largeur du conteneur principal est réduite lorsque le panneau latéral est ouvert.</td>
+            </tr><tr>
+                <td><code>isFixedMain</code></td>
+                <td></td>
+                <td>boolean</td>
+                <td>Retourne <code>true</code> si le conteneur principal est fixe et <code>false</code> sinon.</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div id="bidoc-index">
+        <div id="bidoc-title">Bi Api documentation</div>
+
+        <div id="bidoc-content">
+
+            <ul>
+                <li><a href="index.html" class="bidoc-link-home">Accueil</a></li>
+                <li><a href="jQuery.fn.biWrap.html" class="bidoc-link-current">Introduction</a></li>
+            </ul>
+
+            <ul>
+                <li><a href="api/jQuery.fn.biWrap/demo.html">Demo</a></li>
+                <li><a href="api/jQuery.fn.biWrap/multi.html">Multi</a></li>
+                <li><a href="api/jQuery.fn.biWrap/standalone.html">Standalone</a></li>
+                <li><a href="api/jQuery.fn.biWrap/full.html">Full</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+</body>
+</html>

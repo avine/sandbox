@@ -1,0 +1,117 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.Translation</h1>
+
+<pre><code class="language-javascript">var translation = new Bi.Core.Translation();</code></pre>
+
+<p>Crée une instance de Translation.</p>
+
+<pre><code class="language-javascript">translation.add(culture, translation);</code></pre>
+<p>
+    Ajoute de nouvelles traductions au dictionnaire. Le paramètre <code>culture</code> peut être défini par son ID ou son NAME.
+    Le paramètre <code>translation</code> est un objet contenant une liste de Clé/Traduction.
+</p>
+
+<pre><code class="language-javascript">var cultureId = translation.cultureId([value]);</code></pre>
+<p>Retourne l'ID de la culture. Le paramètre optionnel <code>value</code>, qui peut être un ID ou un NAME, permet de changer de culture.</p>
+
+<pre><code class="language-javascript">var cultureName = translation.culture([value]);</code></pre>
+<p>Retourne le NAME de la culture. Le paramètre optionnel <code>value</code>, qui peut être un ID ou un NAME, permet de changer de culture.</p>
+
+<pre><code class="language-javascript">var word = translation.translate(key[, cultureId]);</code></pre>
+<p>Traduit la clé <code>key</code>. Le paramètre optionnel <code>cultureId</code> prend la culture courante comme valeur par défaut.</p>
+
+<pre><code class="language-javascript">var text = translation.replace(text[, cultureId]);</code></pre>
+<p>Traduit le texte <code>text</code>. Le paramètre optionnel <code>cultureId</code> prend la culture courante comme valeur par défaut.</p>
+
+<p class="bidoc-tip">A l'intérieur du texte, les clés sont identifiées par le pattern <code>{{MY_KEY}}</code>.</p>
+
+<p class="bidoc-tip">
+    La fonction <code>Bi.Core.Translation.requestedKeys()</code> permet de lister des demandes de traductions réussies et manquantes.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+    QUnit.test("Bi.Core.Translation", function (assert) {
+
+        var _testDone = assert.async();
+
+        // Emulate the data we can retrieve from the Repository for the Translation module.
+        // See in "/Models/Db.Repository.cs" the method "repositoryQueries" for details about the Repository queries...
+        Bi.Core.Repository.updateCache({
+            Translation: [{
+                // "select CultureId as ID, Culture from BiRepo_Culture" 
+                columns: ['ID', 'CULTURE'], data: [
+                    [1, 'fr-FR'], [2, 'en-US']
+                ]
+            }, {
+                //  "select TranslationKey as NAME, CultureId, Translation as VALUE from BiRepo_Translation"
+                columns: ['NAME', 'CULTUREID', 'VALUE'], data: [
+                    ['HELLO', 1, 'Bonjour'], ['ADMIN', 1, 'administrateur'],
+                    ['HELLO', 2, 'Hello'], ['ADMIN', 2, 'administrator']
+                ]
+            }]
+        });
+
+        // Instanciate Factory
+        var factory = new Bi.Core.Factory();
+
+        // Build the Repository and Translation modules
+        // In this way, the Factory instance is automatically retrieving 
+        // the configuration data for the Translation instance, by using the Repository instance...
+        factory.build(['Repository', 'Translation']).queue(function () {
+
+            // this === factory
+            var translation = this.instances.Translation;
+
+            /* --- Let's use the translation instance ! --- */
+
+            // Set culture by id or by name
+            var cultureName = translation.culture(1), // in fact the parameter is the culture id
+                cultureId = translation.cultureId('fr-FR'); // in fact the parameter is the culture name
+
+            // The point is that .culture() returns the culture NAME and .cultureId() returns the culture ID.
+            assert.ok('fr-FR' === cultureName && 1 === cultureId,
+                "Set culture by ID or by NAME");
+
+            // Check translation value
+            assert.equal(translation.translate('HELLO'), 'Bonjour',
+                "Translate in one culture");
+
+            // Change culture
+            translation.culture('en-US');
+
+            // Check translation value (notice that the input is trimed)
+            assert.equal(translation.translate('   HELLO   '), 'Hello',
+                "Translate in another culture");
+
+            // Add new translation for 'en-US'
+            translation.add(2, { 'SITE_NAME': 'Bi 2.0' });
+
+            // Check added translation value
+            assert.equal(translation.translate('SITE_NAME'), 'Bi 2.0',
+                "Add new translations");
+
+            // Replace keywords in string
+            // Notice that {{OUPS}} is simply not replaced...
+            assert.equal(
+                translation.replaceText('{{HELLO}} John. You have {{ADMIN}} level access {{OUPS}}.'),
+                'Hello John. You have administrator level access {{OUPS}}.',
+                "Find and replace keys in string");
+
+            // Open the browser console to inspect the list of requested keys during the application life
+            Bi.Core.Translation.requestedKeys();
+
+            _testDone();
+        });
+
+    });
+</script>

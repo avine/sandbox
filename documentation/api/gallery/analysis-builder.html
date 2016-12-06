@@ -1,0 +1,221 @@
+﻿
+<!-- bidoc-text -->
+
+<style>
+    /* Use "demo-" prefix for page-dependant styles */
+    #demo-data {
+        width: 100%;
+        height: 200px;
+    }
+</style>
+
+<div class="bi-form">
+
+    <div id="gallery-layout-sidebar">
+
+        <button class="gallery-popup-toggle gallery-button" data-role="data"><i class="fa fa-database"></i> Dataset</button>
+        
+        <label for="demo-type"><i class="fa fa-line-chart"></i> Display type</label><br />
+        <select id="demo-type" class="gallery-button"></select>
+
+        <hr />
+        <label for="gallery-attr"><i class="fa fa-cogs"></i> Attributes</label>
+        <div id="gallery-attr"></div>
+        <button id="demo-attr-add" class="gallery-button"><i class="fa fa-cog"></i> Add attribute</button>
+      
+        <hr />
+        <button id="demo-launch" class="gallery-button"><i class="fa fa-rocket"></i> Execute</button>
+        
+        <hr />
+        <label for="demo-save-title">Title</label><input id="demo-save-title" class="gallery-button" /><br />
+        <label for="demo-save-desc">Description</label><textarea id="demo-save-desc" class="gallery-button"></textarea><br />
+        
+        <p><i class="fa fa-info-circle"></i> Remember to <b>execute</b> before saving.</p>
+        <button id="demo-save" disabled><i class="fa fa-file-o"></i> Save</button>
+        <button id="demo-save-copy" disabled><i class="fa fa-files-o"></i> Save a copy</button>
+        <div id="demo-save-result"></div>
+
+    </div>
+
+    <div id="gallery-layout-main">
+
+        <div id="gallery-render-title"></div><!-- Only for the analysis, handle manually the title -->
+        <div id="gallery-render"></div>
+
+    </div>
+
+    <div id="gallery-layout-toolbox">
+
+        <a href="#" id="gallery-layout-toolbox-info"></a>
+        <!--<a id="gallery-layout-toolbox-switcher" href="#"><i class="fa fa-paint-brush"></i></a>-->
+
+    </div>
+    
+    <div class="gallery-popup" data-role="data">
+        <div>
+
+            <div>
+                <button id="demo-data-switcher"><i class="fa fa-table"></i> Preview</button>
+                <button id="demo-data-submit" class="gallery-popup-toggle" data-role="data" disabled><i class="fa fa-check"></i> Ok</button>
+            </div>
+
+            <div class="demo-data-switcher">
+                <label for="demo-data">Copy/paste data (csv)</label><br />
+                <textarea id="demo-data"></textarea><br />
+                <input type="checkbox" id="demo-data-sep" /><label for="demo-data-sep">Use semicolon for column separator (instead of tab)</label>
+            </div>
+
+            <div class="demo-data-switcher" data-role="result">
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    (function ($) {
+        "use strict";
+
+        // Gallery helper
+        var gallery = window.biDoc.gallery;
+
+        // Storage key for this page
+        var storageKey = 'analysisBuilder';
+
+        // handle popup
+        gallery.ui.popup('data', function (action) { });
+
+        // Data
+        var dataset = undefined;
+        var $dataSubmit = $('#demo-data-submit');
+        var $dataColSep = $('#demo-data-sep');
+        var $data = $('#demo-data').change(function () {
+            $dataSubmit.attr('disabled', 'disabled');
+        });
+        gallery.ui.switcher('demo-data-switcher', function (role) {
+            if ('result' != role) return;
+            var sep = $dataColSep.prop('checked') ? { col: ';' } : undefined;
+            dataset = gallery.convert.csv2Data($data.val(), sep);
+            if (dataset) {
+                $dataSubmit.attr('disabled', null);
+                $(this).html('');
+                gallery.bi.renderAnalysis(this, 'QueryResult', dataset); // Use the analysis render just to see the dataset...
+            } else {
+                $dataSubmit.attr('disabled', 'disabled');
+                $(this).html(gallery.ui.get$message('Invalid csv data'));
+            }
+        });
+
+        // Type options
+        var $type = $('#demo-type');
+        for (var type in Bi.Core.Analysis.display) if (!/^_/.exec(type)) { // By convention, a type prefixed by "_" is private...
+            $('<option>').val(type).text(type).appendTo($type);
+        }
+
+        // Attributes
+        $('#demo-attr-add').click(function (e) { gallery.bo.addAttribute(); });
+
+        // Launch result
+        var $render = $('#gallery-render');
+        function demoRender () {
+            if (!dataset) return $render.html(gallery.ui.get$message('Invalid csv data'));
+            $render.html(''); // Empty previous result
+            var type = $type.val(),
+                attributes = gallery.bo.getAttributes(),
+                sandbox = gallery.db.storage(storageKey),
+                sandboxHasId = sandbox && sandbox.Id;
+            try {
+                gallery.bi.renderAnalysis($render.get(0), type, dataset, attributes);
+                gallery.db.storage(storageKey, {
+                    "Category": 'analysis',
+                    "Type": type,
+                    "Data": { data: dataset, attributes: attributes }
+                });
+                $save.attr('disabled', null);
+                $saveCopy.attr('disabled', sandboxHasId ? null : 'disabled');
+
+            } catch (e) {
+                $render.html(gallery.ui.get$message(e));
+                $save.attr('disabled', 'disabled');
+                $saveCopy.attr('disabled', null);
+            }
+            // Hack: the title of the analysis is not handled by the analysis render function.
+            // For this reason, when the "Title" attribute is available, it is added tmanually.
+            $('#gallery-render-title').text(attributes.Title || '');
+        }
+        $('#demo-launch').click(demoRender);
+
+        // Render container width and height (simple info)
+        var $mainInfo = $('#gallery-layout-toolbox-info').click(function (e) {
+            e.preventDefault();
+            $render.toggleClass('gallery-render-alt');
+            updateLayoutMainInfo();
+        });
+        $(window).resize(updateLayoutMainInfo).trigger('resize');
+        function updateLayoutMainInfo() {
+            $mainInfo.html('<i class="fa fa-desktop"></i> ' +
+                $render.width() + 'px X ' + $render.height() + 'px');
+        }
+        
+        // Change the UI background color
+        $('#gallery-layout-toolbox-switcher').click(function (e) {
+            e.preventDefault();
+            $('#gallery-layout-main').toggleClass('gallery-layout-main-alt');
+        });
+
+        // Save item
+        var $save = $('#demo-save'),
+            $saveCopy = $('#demo-save-copy'),
+            $saveTitle = $('#demo-save-title'),
+            $saveDesc = $('#demo-save-desc'),
+            $saveResult = $('#demo-save-result');
+
+        $save.click(function () { saveItem('POST'); });
+        $saveCopy.click(function () { saveItem('PUT'); });
+
+        function saveItem(method) {
+            // Check sandbox title and description
+            var title = $saveTitle.val(), desc = $saveDesc.val();
+            if (!title) return $saveResult.html(gallery.ui.get$message('Title is missing!'));
+            // Get lastest sandbox to save
+            var sandbox = gallery.db.storage(storageKey);
+            // Update its title and description
+            sandbox.Title = title;
+            sandbox.Description = desc;
+            // Upload sandbox to remote database
+            $saveResult.html('');
+            gallery.db.upload(sandbox, method, function (sandbox, $message) {
+                // Set saved sandbox (in case of insert (method 'PUT') the sandbox.Id has been setted)
+                gallery.db.storage(storageKey, sandbox);
+                $saveResult.html($message);
+            });
+        }
+
+        // Retrieve item from storage
+        var sandbox = gallery.db.storage(storageKey);
+        if (sandbox) {
+            // Data
+            if (sandbox.Data) {
+                dataset = sandbox.Data.data;
+                $data.val(gallery.convert.data2Csv(dataset));
+            }
+            // Type
+            $type.val(sandbox.Type);
+            // Attributes
+            if (sandbox.Data) for (var name in sandbox.Data.attributes) gallery.bo.addAttribute(name, sandbox.Data.attributes[name]);
+            // Title and description
+            $saveTitle.val(sandbox.Title);
+            $saveDesc.val(sandbox.Description);
+            // When data comes from storage, we assumes it's validated...
+            if (sandbox.Data) {
+                $dataSubmit.attr('disabled', null);
+                demoRender();
+            }
+        }
+
+    })(jQuery);
+</script>
+
+<!-- bidoc-text -->

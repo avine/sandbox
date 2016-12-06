@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!--<html lang="en" manifest="../resources/manifest/default.appcache">-->
+<head>
+    <title>Bi Api documentation</title>
+
+    <!-- ======================================================
+         Copy/paste <head> content from "/dashboard/index.html"
+         (This documentation requires jQuery and FontAwesome)
+         ====================================================== -->
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="stylesheet" href="../dashboard/app/ui/css/bi.css" />
+    <link rel="stylesheet" href="../dashboard/plugins/font-awesome/css/font-awesome.min.css" />
+
+    <script src="../dashboard/plugins/jquery/jquery-2.1.4.min.js"></script>
+
+    <script src="../dashboard/app/ui/js/biPlugin.js"></script>
+    <script src="../dashboard/app/ui/js/biWrap.js"></script>
+    <script src="../dashboard/app/ui/js/biNavMenu.js"></script>
+    <script src="../dashboard/app/ui/js/biMenu.js"></script>
+
+    <!-- ==================== END OF: Copy/paste ==================== -->
+
+    <!-- PrismJS -->
+    <link rel="stylesheet" href="prism/prism.css" />
+    <script src="prism/prism.js" data-manual></script>
+
+    <!-- QUnit -->
+    <link rel="stylesheet" href="qunit/qunit-1.20.0.css" />
+    <script src="qunit/qunit-1.20.0.js"></script>
+
+    <!-- Doc helper -->
+    <link rel="stylesheet" href="helper/doc.css" />
+    <script src="helper/doc.js"></script>
+
+</head>
+<body class="bi-font">
+
+    <div id="bidoc-intro">
+
+        <h1><i class="fa fa-cog"></i> &nbsp; jQuery.fn.biMenu, jQuery.fn.biNavMenu</h1>
+        
+        <p>Gestion des menus de l'interface utilisateur.</p>
+
+<pre><code class="language-javascript">$(selector).biMenu({
+	closeDelay: 750, // Set false to disable this feature
+	breadcrumbDisabled: false, // "State less" behaviour
+	breadcrumbAlwaysVisible: false,
+	callback: function (e, details) { },
+	tags: ['ul', 'li']
+});</code></pre>
+
+        <p>Le plugin <code>biMenu</code> est conçu pour être utilisé avec le plugin <code>biWrap</code>.<br />
+            Vous pouvez "out-of-the-box" afficher des menus adaptés aux régions suivantes de l'interface :</p>
+        <ul>
+            <li><code>.bi-top</code> : Plusieurs sous-niveaux autorisés.</li>
+            <li><code>.bi-sidebar</code> : Plusieurs sous-niveaux autorisés.</li>
+            <li><code>.bi-bottom</code> : Un seul sous-niveau autorisé.</li>
+            <li><code>.bi-head</code> : Pas de sous-niveau autorisé.</li>
+        </ul>
+
+        <table>
+            <caption>Options</caption>
+            <tr>
+                <th>Nom</th>
+                <th>Valeurs</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>closeDelay</code></td>
+                <td>int (ms), false</td>
+                <td>Définie en ms le temps de latence avant la fermeture automatique des éléments ouvers du menu.</td>
+            </tr>
+            <tr>
+                <td><code>breadcrumbDisabled</code></td>
+                <td>false, true</td>
+                <td>Définie un menu sans état, à savoir qu'il n'y a pas d'éléments actifs.</td>
+            </tr>
+            <tr>
+                <td><code>breadcrumbAlwaysVisible</code></td>
+                <td>false, true</td>
+                <td>Empêche la fermeture des éléments actifs du menu.</td>
+            </tr>
+            <tr>
+                <td><code>callback</code></td>
+                <td>function</td>
+                <td>Fonction de rappel unique pour l'instance executée à chaque action sur le menu.</td>
+            </tr>
+            <tr>
+                <td><code>tags</code></td>
+                <td>[ParentNode, ChildNode]</td>
+                <td>Renseigne sous forme de tableau de chaînes les noms des balises <b>uniques</b> à utiliser pour générer le menu.</td>
+            </tr>
+        </table>
+
+        <table>
+            <caption>Méthodes</caption>
+            <tr>
+                <th>Nom</th>
+                <th>Paramètres</th>
+                <th>Retour</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>breadcrumb</code></td>
+                <td></td>
+                <td>object</td>
+                <td>Retourne un object indiquant les noeuds du DOM impliqués dans le fil d'ariane.</td>
+            </tr>
+            <tr>
+                <td><code>breadcrumbArray</code></td>
+                <td>sep</td>
+                <td>array, string</td>
+                <td>Retourne le fil d'ariane sous la forme d'un tableau de chaînes.
+                    Si le paramètre <code>sep</code> est renseigné alors la méthode retourne une chaîne.</td>
+            </tr>
+            <tr>
+                <td><code>close</code></td>
+                <td></td>
+                <td>jQuery object</td>
+                <td>Ferme les éléments ouverts du menu.</td>
+            </tr>
+            <tr>
+                <td><code>open</code></td>
+                <td>item</td>
+                <td>jQuery object</td>
+                <td>Ouvre un élément du menu.
+                    <code>item</code> peut être un noeud du DOM ou un entier correspondant à l'index de l'élément à ouvrir.</td>
+            </tr>
+            <tr>
+                <td><code>rebuild</code></td>
+                <td></td>
+                <td>jQuery object</td>
+                <td>Rafraîchie l'état du menu.</td>
+            </tr>
+            <tr>
+                <td><code>addItem</code></td>
+                <td>param, callback</td>
+                <td>DOM node</td>
+                <td>Ajoute un élément au menu configuré avec l'objet <code>param</code> et exécute la fonction <code>callback</code> à chaque action sur cet élément.
+                    <code>param</code> accepte les propriétés suivantes : <code>{ menu: DOM_NODE, content: DOM_NODE, attributes: {} }</code>.
+                    Si la propriété <code>menu</code> n'est pas renseigné, le nouvel élément est ajouté à la racine.</td>
+            </tr>
+            <tr>
+                <td><code>removeItem</code></td>
+                <td>item, menu</td>
+                <td>DOM node</td>
+                <td><code>item</code> peut être un noeud du DOM ou un entier correspondant à l'index de l'élément à retirer.
+                    <code>menu</code> renseigne le menu parent contenant l'élément à retirer.</td>
+            </tr>
+        </table>
+
+        <table>
+            <caption>Evénements</caption>
+            <tr>
+                <th>Nom</th>
+                <th>Details</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>menu.biEvent</code></td>
+                <td>{ item: DOM_NODE, previousItem: DOM_NODE }</td>
+                <td>L'événement est déclenché à chaque action sur le menu.</td>
+            </tr>
+        </table>
+
+        <hr />
+
+<pre><code class="language-javascript">$(selector).biNavMenu();</code></pre>
+
+        <p>Le plugin <code>biNavMenu</code> est conçu pour la région <code>.bi-top</code> uniquement.<br />
+            Il permet de rendre le menu de cette région rétractable sur les écrans "small" (dont la largeur est inférieure à <code>980px</code>).</p>
+
+    </div>
+
+    <div id="bidoc-index">
+        <div id="bidoc-title">Bi Api documentation</div>
+
+        <div id="bidoc-content">
+
+            <ul>
+                <li><a href="index.html" class="bidoc-link-home">Accueil</a></li>
+                <li><a href="jQuery.fn.biMenu.html" class="bidoc-link-current">Introduction</a></li>
+            </ul>
+
+            <ul>
+                <li><a href="api/jQuery.fn.biMenu/demo.html">.biMenu (intégré à .biWrap)</a></li>
+                <li><a href="api/jQuery.fn.biMenu/menu.html">.biMenu (personnalisation CSS)</a></li>
+                <li><a href="api/jQuery.fn.biMenu/navMenu.html">.biNavMenu (pour la région "top" uniquement)</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+</body>
+</html>

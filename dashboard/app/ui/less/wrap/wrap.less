@@ -1,0 +1,96 @@
+
+/* wrap */
+
+.bi-wrap { 
+	position: relative;
+	overflow: hidden;
+
+	// Fit its container which should have a defined height
+	width: 100%;
+	height: 100%;
+	min-height: 240px;
+
+	// Remove highlight when tapping links in mobile Safari
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+
+	// Usefull to hide the entire UI during its build...
+	opacity: 1; transition: opacity .25s ease;
+	&.bi-hide-wrap { opacity: 0; transition: none; }
+}
+
+// top, bottom and middle
+
+.bi-top, .bi-bottom, .bi-middle { position: absolute; width: 100%; }
+
+.bi-top { z-index: 3; height: @top-height; top: 0; }
+.bi-bottom { z-index: 2; height: @bottom-height; bottom: 0; }
+.bi-middle { z-index: 1; top: @top-height; bottom: @bottom-height; }
+
+.bi-hide-top {
+	> .bi-top { top: -@top-height; }
+	> .bi-middle { top: 0px; }
+}
+
+.bi-hide-bottom {
+	> .bi-bottom { bottom: -@bottom-height; }
+	> .bi-middle { bottom: 0px; }
+}
+
+// sidebar and main
+
+.bi-sidebar, .bi-main { position: absolute; height: 100%; }
+
+.bi-sidebar { z-index: 3; left: 0; width: @sidebar-width-md; }
+.bi-main { z-index: 2; left: @sidebar-width-md; right: 0; }
+.bi-main-hidden { z-index: 1; }
+
+.bi-hide-sidebar > .bi-sidebar { left: -@sidebar-width-md; }
+.bi-hide-sidebar, .bi-main-fixed { > .bi-main { left: 0; } }
+
+@media (max-width: (@screen-breakpoint - 1)) {
+	.bi-sidebar { width: @sidebar-width-sm; }
+	.bi-main { left: @sidebar-width-sm; }
+	.bi-hide-sidebar > .bi-sidebar { left: -@sidebar-width-sm; }
+
+	.bi-main-fixed {
+		.bi-sidebar { width: @sidebar-width-md; }
+		&.bi-hide-sidebar > .bi-sidebar { left: -@sidebar-width-md; }
+	}
+}
+
+// head and body
+
+.bi-head, .bi-body { position: absolute; width: 100%; }
+
+.bi-head {
+	z-index: 2;
+	top: 0;
+	height: @head-height;
+}
+.bi-body {
+	z-index: 1;
+	top: @head-height;
+	bottom: 0;
+	background-color: inherit;
+	.overflow-auto-scrolling;
+	
+	// Usually, you will use the class .bi-grid-wrap to organize the .bi-body contents with advanced layouts...
+	// But, if you simply need to add static content inside the .bi-body use the following class
+	> .bi-body-single-layout { padding: @grid-spacing; }
+}
+
+.bi-main.bi-hide-head {
+	.bi-head { top: -@head-height; }
+	.bi-body { top: 0; } // little buggy: the body does not move in this case...
+}
+
+// prepare the top, bottom, sidebar and head customizations (like adding borders to these layouts)
+
+.bi-top, .bi-bottom, .bi-sidebar, .bi-head {
+	box-sizing: border-box;
+	border: 0px solid #ccc; // (just a default color)
+	background-color: #fff; // (just a default color)
+}
+.bi-top { border-bottom-width: @border-width; }
+.bi-bottom { border-top-width: @border-width; }
+.bi-sidebar { border-right-width: @border-width; }

@@ -1,0 +1,74 @@
+
+/* table */
+
+// Display a nice <table> inside a grid-cell
+
+.bi-table {
+	overflow-x: auto;
+
+	table {
+		border-collapse: collapse;
+	}
+	caption, th, td {
+		white-space: nowrap;
+		text-align: left;
+		line-height: 1.5em;
+	}
+	caption {
+		border-bottom: 1px solid #ddd;
+		padding: .4em .6em;
+		font-size: 1.5em;
+		color: @color1-base-darker;
+	}
+	th, td {
+		border: 1px solid #ddd;
+		padding: .6em .9em;
+		font-size: 1em;
+	}
+	th {
+		box-shadow: 1px 1px #fafafa inset;
+		background: linear-gradient(top, #f7f7f7, #eee);
+	}
+	td {
+		border-right-color: #eee;
+		border-left-color: #eee;
+	}
+	tr {
+		background-color: #fff;
+		&:nth-child(2n+1) { background-color: #f7f7f7; }
+	}	
+	td {
+		transition: background-color .25s ease;
+	}
+	tr:hover td {
+		background-color: #ffffcc;
+	}
+
+	tr:first-child { th, td { border-top-width: 0 !important; } }
+	th, td { &:first-child { border-left-width: 0 !important; } }
+
+	tr:last-child { th, td { border-bottom-width: 0 !important; } }
+	th, td { &:last-child { border-right-width: 0 !important; } }
+
+	& + .bi-table {
+		table { border-top: 1px solid #ddd; }
+		caption { border-bottom: none; }
+	}
+
+	&.bi-table-bordered {
+		margin-bottom: 1.5em;
+		table { border: 1px solid #ddd; }
+		caption { border-bottom: none; }
+	}
+	&.bi-table-pre {
+		td { white-space: pre; }
+	}
+	&.bi-table-100pc {
+		table { min-width: 100%; }
+	}
+
+	& pre { font-family: inherit; font-size: 1em; color: inherit; }
+	& textarea { width: 100%; min-height: 300px; }
+
+	.bi-table-highlight { color: #5cb85c; }
+}

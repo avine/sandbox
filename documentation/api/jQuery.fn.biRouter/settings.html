@@ -1,0 +1,113 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+    <h1>jQuery.fn.biRouter - Options de base</h1>
+
+</div>
+
+<!-- bidoc-text -->
+
+<style>
+    #demo-pages {
+        height: 150px; /* Required: the router parent container must have a defined width */
+        margin: 20px 0;
+        padding: 20px;
+        background-color: rgba(0,0,255,.1);
+    }
+    #demo-nav { text-align: center; }
+    #demo-nav a { color: blue; }
+    #demo-nav a.demo-nav-active { color: red; }
+    #demo-sandbox { display: none; }
+    h3, p { text-align: center; }
+</style>
+
+<div id="demo-pages">
+    <div id="demo-router"></div>
+</div>
+
+<div id="demo-nav">
+    Pages:
+	<a href="#" data-page="page1">Page 1</a> &nbsp;|&nbsp;
+	<a href="#" data-page="page2">Page 2</a> &nbsp;|&nbsp;
+	<a href="#" data-page="page3">Page 3</a> &nbsp;|&nbsp;
+	<a href="#" data-page="page4">Page 4 (using the 'add' method)</a>
+    <br /><br /> Settings:
+	<a href="#" data-action="skipAnimation">skipAnimation</a> &nbsp;|&nbsp;
+    <a href="#" data-action="slide">slide</a> &nbsp;|&nbsp;
+    <a href="#" data-action="background">background</a> &nbsp;|&nbsp;
+    <a href="#" data-action="static">static</a>
+</div>
+
+<p id="demo-path"></p>
+
+<div id="demo-sandbox">
+    <h3>Page 3</h3>
+    <p>Sed do eiusmod tempor incididunt.</p>
+</div>
+
+<script>
+
+    // Watch the router navigation
+    var routerEvent = $.biPlugin.events('router'); // = "router.biEvent"
+    jQuery('body').on(routerEvent, function (e, details) {
+        jQuery('#demo-path').html(
+            'Navigate from <b>' + details.previous +
+            '</b> to <b>' + details.current + '</b>'
+        );
+    });
+
+    // Default settings
+    var settings = {
+        skipAnimation: false, // skip css animation (and keep only css transition)
+		slide: false,
+		background: false,
+		static: false // if 'static'=true then 'slide'=true will have no effect
+    };
+    // Init router
+	$router = jQuery('#demo-router').biRouter(settings);
+    // Add pages from DOM nodes or strings that represents HTML
+	$router.biRouter('add', 'page1', '<h3>Page 1</h3><p>Lorem ipsum dolor sit amet.</p>'/*, true */);
+	$router.biRouter('add', 'page2', '<h3>Page 2</h3><p>Consectetur adipiscing elit.</p>', false);
+	$router.biRouter('add', 'page3', jQuery('#demo-sandbox').children(), false);
+
+    // Handle navigation
+	jQuery('#demo-nav').click(function (e) {
+	    if (this === e.target) return;
+	    e.preventDefault();
+
+	    var $a = jQuery(e.target), data;
+	    if (data = $a.data('page')) {
+
+	        if ($router.biRouter('isPath', data)) {
+                // Go to existing page
+	            $router.biRouter('goTo', data);
+	        } else if ('page4' == data) {
+                // Add new page at any time
+	            $router.biRouter('add', 'page4', '<h3>Page 4</h3><p>Ut labore et dolore magna aliqua.</p>');
+	        }
+            // Update nav page
+            var currentPath = $router.biRouter('getPath');
+            jQuery(this).find('a[data-page]').each(function () {
+                data = jQuery(this).data('page');
+                jQuery(this)[data == currentPath ? 'addClass' : 'removeClass']('demo-nav-active');
+            });
+
+	    } else if (data = $a.data('action')) {
+
+            // Update settings
+	        settings[data] = !settings[data];
+            $router.biRouter(settings);
+            // Update nav action
+            jQuery(this).find('a[data-action]').each(function () {
+                data = jQuery(this).data('action');
+                jQuery(this)[settings[data] ? 'addClass' : 'removeClass']('demo-nav-active');
+            });
+
+	    }
+	});
+
+    // Open the browser console to see the plugin instance
+    $router.biRouter('debug');
+</script>

@@ -1,0 +1,131 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.then</h1>
+
+<pre><code class="language-javascript">.then(fn[, argsStack[, invoke]]);</code></pre>
+
+<p>Enregistre la fonction asynchrone <code>fn</code> dans la pile d'appels.
+	A l'intérieur de <code>fn</code>, <code>this</code> représente l'instance de la classe <code>Bi.Core</code>.
+	Pour être valide, <code>fn</code> doit respecter la contrainte de ne pas briser la chaine des appels, en invoquant toujours la méthode <code>.done</code> (ou équivalente) au moment qu'elle juge opportun.</p>
+
+<pre><code class="language-javascript">var core = new Bi.Core().then(function () {
+
+    // Faire quelque chose d'abord...
+
+    this.done(); // Informer l'instance core que le traitement courant est terminé
+
+}).then(function () {
+
+    // Faire quelque chose ensuite...
+
+    this.done();
+});
+</code></pre>
+
+<p>Chaînage des méthodes <code>.then</code>.</p>
+
+<hr />
+
+<p>Le paramètre <code>argsStack=[stack1, stack2, ..., stackN]</code> permet d'exécuter la fonction N fois, sur autant de jeux de paramètres.
+	Le paramètre <code>invoke</code> détermine la manière dont chaque jeu <code>stackN</code> est passé à la fonction <code>fn</code>, et vaut <code>"call"</code> (par défaut) ou <code>"apply"</code>.</p>
+<p>Par défaut, la fonction est exécutée N fois comme ceci: <code>fn.<b>call</b>(this, stackN)</code>, et <code>stackN</code> est donc passé en premier argument à la fonction.</p>
+<p>Si <code>invoke</code> vaut <code>"apply"</code> alors la fonction est exécutée N fois comme ceci: <code>fn.<b>apply</b>(this, stackN)</code>, et <code>stackN</code> se doit d'être un tableau d'arguments.</p>
+
+<hr />
+
+<p>La fonction <code>fn(result, done, fail)</code> enregistrée dans la pile, accepte 3 paramètres.
+	<code>result</code> est le résultat éventuellement transmis par la précédente fonction de rappel.
+	<code>done</code> et <code>fail</code> sont des fonctions qui invoquent respectivement <code>this.done()</code> et <code>this.fail()</code>.</p>
+<p class="bidoc-tip">Les paramètres <code>done</code> et <code>fail</code> ne sont pas disponibles, si le paramètre <code>invoke</code> vaut <code>"apply"</code>.</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test(".then", function (assert) {
+
+        var _testDone = assert.async();
+
+        var core = new Bi.Core().then(function () {
+
+            assert.ok(this === core, "Inside the callback, 'this' refers to the Bi.Core instance"); // this === core
+
+            // The method .done must be called inside the method .then when its process finished
+            this.done(999); // You can propagate a result to the next function in the stack
+
+        }).then(function (result, done, fail) {
+
+            assert.equal(result, 999, "Propagates last result");
+
+            assert.equal(result, this.lastResult, "Last result also available as this.lastResult");
+
+            setTimeout(function () {
+
+                done(result + 1); // Use done argument instead of this.done
+
+            }, 1);
+
+        }).then(function (result) {
+
+            assert.equal(result, 1000, "Can call this.done using the 'done' argument");
+
+            this.then(function (result) {
+
+                assert.ok('step1' == result, "Nested .then executed just after the current scope");
+
+                this.done('step2'); // step 2
+            });
+
+            this.done('step1'); // step 1
+
+        }).then(function (result) {
+
+            assert.ok('step2' == result, "Back to main stack execution...");
+
+            this.done(); // step 3...
+
+            _testDone();
+        });
+
+    });
+
+    QUnit.test(".then invoke fn.call(this, argsStack[i])", function (assert) {
+
+        var _testDone = assert.async();
+    
+        var core = new Bi.Core().then(function (param) {
+
+            assert.ok(true, "Invoke fn.call(this, " + param + ")");
+
+            this.done();
+
+        }, ["1", "2"]/*, 'call'*/);
+
+        core.then(function () { this.done(); _testDone(); });
+    
+    });
+
+    QUnit.test(".then invoke fn.apply(this, argsStack[i])", function (assert) {
+
+        var _testDone = assert.async();
+
+        var core = new Bi.Core().then(function (param1, param2) {
+
+            assert.ok(true, "Invoke fn.apply(this, " + param1 + ", " + param2 + ")");
+            
+            this.done();
+
+        }, [["1.1", "1.2"], ["2.1", "2.2"]], 'apply');
+        
+        core.then(function () { this.done(); _testDone(); });
+
+    });
+  
+</script>

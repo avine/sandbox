@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!--<html lang="en" manifest="../resources/manifest/default.appcache">-->
+<head>
+    <title>Bi Api documentation</title>
+
+    <!-- ======================================================
+         Copy/paste <head> content from "/dashboard/index.html"
+         (This documentation requires jQuery and FontAwesome)
+         ====================================================== -->
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link rel="stylesheet" href="../dashboard/app/ui/css/bi.css" />
+    <link rel="stylesheet" href="../dashboard/plugins/font-awesome/css/font-awesome.min.css" />
+
+    <script src="../dashboard/plugins/jquery/jquery-2.1.4.min.js"></script>
+
+    <!-- ==================== END OF: Copy/paste ==================== -->
+
+    <!-- PrismJS -->
+    <link rel="stylesheet" href="prism/prism.css" />
+    <script src="prism/prism.js" data-manual></script>
+
+    <!-- QUnit -->
+    <link rel="stylesheet" href="qunit/qunit-1.20.0.css" />
+    <script src="qunit/qunit-1.20.0.js"></script>
+
+    <!-- Doc helper -->
+    <link rel="stylesheet" href="helper/doc.css" />
+    <script src="helper/doc.js"></script>
+
+</head>
+<body class="bi-font">
+
+    <div id="bidoc-intro">
+
+        <h1><i class="fa fa-cog"></i> &nbsp; Bi Api documentation...</h1>
+
+        <br />
+
+        <p class="bidoc-tip">
+            Les composants <b>métiers</b> de l'application se trouvent dans le répertoire : <code>/dashboard/app/bo</code> (Business Object).<br />
+            Les composants <b>graphiques</b> de l'application se trouvent dans le répertoire : <code>/dashboard/app/ui</code> (User Interface).
+        </p>
+
+        <p class="bidoc-tip">
+            L'application fonctionne en mode SPA (Single Page Application).<br />
+            La page principale est la <b>vue dynamique</b> <code>/Views/Dashboards/Index.cshtml</code>, qui se base sur le template <code>/Views/Shared/_Layout.cshtml</code>.
+            Lorsque le site est déployé en mode "<b>release</b>", les scripts sont compressés en <b>Bundle</b>, et cela peut rendre difficile le debogage éventuel.
+            Si besoin, vous pouvez à tout moment consulter la <b>page statique</b> alternative à l'adresse <code>/dashboard/index.html</code>.
+            Notez que dans ce case, certains paramètres du <code>Web.config</code> n'auront pas d'effet (n'étant pris en charge que dans la vue dynamique).
+        </p>
+
+        <p class="bidoc-tip">
+            Pour étendre la documentation, consultez <a href="guideline.html">l'aide à la documentation</a>.
+        </p>
+
+        <p style="text-align:center;"><br /><i class="fa fa-line-chart" style="font-size:300px;color:#ddd;"></i><br /><br /></p>
+
+        <p>Voir le résultat final, avec l'application <a href="embedded.html">Bi embarquée</a> <i class="fa fa-smile-o"></i>.</p>
+
+    </div>
+
+    <div id="bidoc-index">
+        <div id="bidoc-title">Bi Api documentation</div>
+
+        <div id="bidoc-content">
+
+            <ul>
+                <li><a href="configuration.html"><i class="fa fa-cubes"></i>&nbsp; Configuration</a></li>
+            </ul>
+            
+            <h3>Bi basic components</h3>
+            <ul>
+                <li><a href="tool.html">Bi.tool</a></li>
+                <li><a href="database.html">Bi.database</a></li>
+                <li><a href="Core.html">Bi.Core</a></li>
+            </ul>
+
+            <h3>Bi.Core modules</h3>
+            <ul>
+                <li><a href="Core.Ping.html">Bi.Core.Ping</a></li>
+                <li><a href="Core.Repository.html">Bi.Core.Repository</a></li>
+                <li><a href="Core.Db.html">Bi.Core.Db</a></li>
+                <li><a href="Core.Factory.html">Bi.Core.Factory</a></li>
+                <li><a href="Core.Translation.html">Bi.Core.Translation</a></li>
+                <li><a href="Core.User.html">Bi.Core.User</a></li>
+                <li><a href="Core.Template.html">Bi.Core.Template</a></li>
+                <li><a href="Core.Router.html">Bi.Core.Router</a></li>
+                <li><a href="Core.Context.html">Bi.Core.Context</a></li>
+                <li><a href="Core.Dashboard.html">Bi.Core.Dashboard</a></li>
+                <li><a href="Core.Filter.html">Bi.Core.Filter</a></li>
+                <li><a href="Core.Analysis.html">Bi.Core.Analysis</a></li>
+                <li><a href="Core.Message.html">Bi.Core.Message</a></li>
+                <li><a href="Core.Notification.html">Bi.Core.Notification</a></li>
+                <li><a href="Core.Log.html">Bi.Core.Log</a></li>
+                <li><a href="Core.Synchro.html">Bi.Core.Synchro</a></li>
+            </ul>
+
+            <h3>Bi Css</h3>
+            <ul>
+                <li><a href="css.html">Introduction</a></li>
+            </ul>
+
+            <h3>Bi jQuery plugins</h3>
+            <ul>
+                <li><a href="jQuery.biPlugin.html">jQuery.biPlugin</a></li>
+                <li><a href="jQuery.fn.biScreen.html">jQuery.fn.biScreen</a></li>
+                <li><a href="jQuery.fn.biRouter.html">jQuery.fn.biRouter</a></li>
+                <li><a href="jQuery.fn.biWrap.html">jQuery.fn.biWrap</a></li>
+                <li><a href="jQuery.fn.biMenu.html">jQuery.fn.biMenu, jQuery.fn.biNavMenu</a></li>
+                <li><a href="jQuery.fn.biForm.html">jQuery.fn.biForm, jQuery.fn.biFormButtonGroup, jQuery.fn.biFormTreeView</a></li>
+            </ul>
+
+            <h3>Bi Gallery</h3>
+            <ul>
+                <li><a href="gallery.html">Filter &amp; Analysis</a></li>
+            </ul>
+
+        </div>
+    </div>
+
+</body>
+</html>

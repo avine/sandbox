@@ -1,0 +1,16 @@
+
+/* screen */
+
+// Handle the 'transitionend' event via JavaScript to detect the mediaQuery breakpoint
+
+.bi-screen {
+	transition: left .001s linear;
+	position: absolute;
+	left: -9999px;
+}
+
+@media (min-width: @screen-breakpoint) {
+	.bi-screen {
+		left: -9998px;
+	}
+}

@@ -1,0 +1,75 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.Core.module</h1>
+
+<pre><code class="language-javascript">.module(Name[, stopArgsPropagation]);</code></pre>
+
+<p>Crée un module enfant <code>Name</code> qui hérite des fonctionnalités de son parent <code>Core</code>.
+	La fonction retourne la classe enfant créée et l'expose également en tant que propriété de sa classe parent <code>Core[Name]</code>.
+	La classe enfant peut à son tour créer un sous-module <code>Core[Name].module(OtherName)</code> et ainsi de suite.</p>
+<p>Pour initialiser l'instance d'un module, il faut définir une méthode particulière comme suit <code>.extendProto('builder', function(){})</code>.
+	Si elle existe, cette méthode est invoquée automatiquement et recoit les arguments passés à l'instantiation.
+	Les arguments sont également propagés au <code>'builder'</code> du module parent, à moins que le paramètre <code>stopArgsPropagation</code> soit renseigné à <code>true</code>.</p>
+<p>L'utilisation combinée des fonctions <code>.module</code>, <code>.extendAsync</code>, <code>.extendProto</code> et <code>.extendStatic</code>
+	permet de développer des modules de manière très souple et robuste.</p>
+
+<p class="bidoc-tip">
+    La liste des modules disponible est listée dans la propriété <code>Bi.Core.module.list</code>.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    QUnit.test("module", function (assert) {
+
+        // Create a module inherited from Core
+        Bi.Core.module('Sub1');
+        // Create a module inherited from Sub1
+        Bi.Core.Sub1.module('Sub2', true); // Sub2 stop propagate arguments to Sub1 builder
+        // Create a module inherited from Sub2
+        Bi.Core.Sub1.Sub2.module('Sub3');
+
+        // Create Bi.Core.Sub1.prototype.buildCoreSub1
+        Bi.Core.Sub1.extendProto('builder', function (arg) { this.SUB1 = arg; });
+        // Create Bi.Core.Sub1.Sub2.prototype.buildCoreSub1Sub2
+        Bi.Core.Sub1.Sub2.extendProto('builder', function (arg) { this.SUB2 = arg; });
+        // Create Bi.Core.Sub1.Sub2.Sub3.prototype.buildCoreSub1Sub2Sub3
+        Bi.Core.Sub1.Sub2.Sub3.extendProto('builder', function (arg) { this.SUB3 = arg; });
+
+        // Instantiate the new modules
+        var s1 = new Bi.Core.Sub1('arg1'),
+            s2 = new Bi.Core.Sub1.Sub2('arg2'),
+            s3 = new Bi.Core.Sub1.Sub2.Sub3('arg3');
+
+        assert.ok(
+            'Sub1' == s1.constructor.moduleName &&
+            'Core.Sub1' == s1.constructor.modulePath &&
+            'arg1' == s1.SUB1
+
+        , "Create module");
+
+        assert.ok(
+            'Sub2' == s2.constructor.moduleName &&
+            'Core.Sub1.Sub2' == s2.constructor.modulePath &&
+            'arg2' == s2.SUB2 && undefined == s2.SUB1
+
+        , "Create sub-module and stopArgsPropagation");
+
+        assert.ok(
+            'Sub3' == s3.constructor.moduleName &&
+            'Core.Sub1.Sub2.Sub3' == s3.constructor.modulePath &&
+            'arg3' == s3.SUB3 && 'arg3' == s3.SUB2 && undefined == s3.SUB1
+
+        , "Create deep-module and DON'T stopArgsPropagation");
+
+    });
+
+</script>

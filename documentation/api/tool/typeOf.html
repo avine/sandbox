@@ -1,0 +1,82 @@
+﻿
+<!-- bidoc-text -->
+
+<div class="bidoc-text">
+
+<h1>Bi.tool.typeOf</h1>
+
+<p>Teste et détermine le type d'une variable Javascript.</p>
+
+<pre><code class="language-javascript">Bi.tool.typeOf(data[, type]);</code></pre>
+
+<p>
+    Retourne le type de la variable <code>data</code> sous forme de chaîne en minuscules, par exemple: <code>"string"</code>.
+</p>
+
+<p>
+    Si le paramètre <code>type</code> est renseigné, alors la fonction retourne un booléan.<br />
+    <code>type</code> peut-être une chaîne ou un tableau de chaînes.<br />
+    La fonction retourne <code>true</code> si le type de <code>data</code> correspond à l'un des <code>type</code> attendus et <code>false</code> sinon.
+</p>
+
+<pre><code class="language-javascript">Bi.tool.is.boolean(data);<br />
+Bi.tool.is.number(data);<br />
+Bi.tool.is.string(data);<br />
+Bi.tool.is.array(data);<br />
+Bi.tool.is.object(data);<br />
+Bi.tool.is.function(data);</code></pre>
+
+<p>
+   Retourne <code>true</code> si <code>data</code> correspond au type attendu et <code>false</code> sinon.
+</p>
+
+</div>
+
+<div id="qunit"></div>
+
+<!-- bidoc-text -->
+
+<script>
+
+    var tool = Bi.tool;
+
+    QUnit.test("Bi.tool.typeOf(data)", function (assert) {
+
+        assert.propEqual(tool.typeOf(true), "boolean", "check boolean (literal)");
+        assert.propEqual(tool.typeOf(new Boolean(true)), "boolean", "check boolean (constructor)");
+
+        assert.propEqual(tool.typeOf(1), "number", "check number (literal)");
+        assert.propEqual(tool.typeOf(new Number(1)), "number", "check number (constructor)");
+
+        assert.propEqual(tool.typeOf("hello"), "string", "check string (literal)");
+        assert.propEqual(tool.typeOf(new String("hello")), "string", "check string (constructor)");
+
+        assert.propEqual(tool.typeOf([]), "array", "check array (literal)");
+        assert.propEqual(tool.typeOf(new Array()), "array", "check array (constructor)");
+
+        assert.propEqual(tool.typeOf({}), "object", "check object (literal)");
+        assert.propEqual(tool.typeOf(new Object()), "object", "check object (constructor)");
+
+        assert.propEqual(tool.typeOf(function () { }), "function", "check function (literal)");
+        assert.propEqual(tool.typeOf(new Function()), "function", "check function (constructor)");
+
+    });
+
+    QUnit.test("Bi.tool.typeOf(data, type)", function (assert) {
+
+        assert.propEqual(tool.typeOf("hello", "string"), true, "Using string to fill type. Founded!");
+        assert.propEqual(tool.typeOf("hello", "boolean"), false, "Using string to fill type. Not found...");
+
+        assert.propEqual(tool.typeOf("hello", ["string", "boolean"]), true, "Using array to fill type. Founded!");
+        assert.propEqual(tool.typeOf("hello", ["array", "boolean"]), false, "Using array to fill type. Not found...");
+
+    });
+
+    QUnit.test("Bi.tool.is.*(data)", function (assert) {
+
+        assert.propEqual(tool.is.string("hello"), true, "Using literal");
+        assert.propEqual(tool.is.string(new String("hello")), true, "Using constructor");
+
+    });
+
+</script>
